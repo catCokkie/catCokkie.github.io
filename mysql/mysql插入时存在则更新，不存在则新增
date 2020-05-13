@@ -1,0 +1,8 @@
+```sql
+insert into **_TABLE_** ()  
+values()  
+()
+on duplicate key update 
+conclume=values(conclume)
+```
+

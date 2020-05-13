@@ -1,0 +1,7 @@
+```sql
+select column_1,column_2,column_3 from table_1,  
+(select column_1,max(column_2) as maxcol2 from table_1 group by column_1)as t  
+where table_1.column_1=t.column_1 and table_1.column_2=t.maxcol2
+
+```
+mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据

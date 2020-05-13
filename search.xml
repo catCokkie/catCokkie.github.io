@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>MarkDown语法</title>
+    <url>/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
+<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
+<p>-–或***</p>
+<hr>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
+]]></content>
+  </entry>
+  <entry>
+    <title>网络架构问题定位</title>
+    <url>/2020/04/14/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/</url>
+    <content><![CDATA[<p>1.浏览器日志显示请求响应时间6s,后台日志记录显示3s<br>查看网络中间件日志，如tomcat/nginx等</p>
+]]></content>
+      <categories>
+        <category>问题调试</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>开发环境搭建</title>
+    <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>#开发环境搭建</p>
+<ol>
+<li>配置清单<ul>
+<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
+<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
+<li>oracle(超级麻烦，客户端使用plsql)</li>
+<li>neo4j(nosql的一种，图数据库)</li>
+<li>mangodb(分布式文件存储)</li>
+<li>redis(缓存)  </li>
+</ul>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>定时任务</title>
+    <url>/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<hr>
+<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<hr>
+<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
+<p>3: spring提供的注解</p>
+<p>{秒} {分} {时} {日期} {月} {星期}</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4：quartz框架<br>maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2020/04/14/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>1: 后台运行进程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nohup ******* &amp;</span><br></pre></td></tr></table></figure>
+
+<p>2: 查看运行进程<br>当前用户的当前会话的进程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jobs</span><br></pre></td></tr></table></figure>
+<p>查看指定相关的进程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ps -ef|grep java&#x2F;&#x2F;mysql</span><br></pre></td></tr></table></figure>
+
+<p>3; 终止指定进程  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kill 进程号</span><br></pre></td></tr></table></figure>
+<h3 id="编辑文件相关"><a href="#编辑文件相关" class="headerlink" title="编辑文件相关"></a>编辑文件相关</h3><h4 id="vi"><a href="#vi" class="headerlink" title="vi"></a>vi</h4><p>输入模式<br>通过输入vi的插入命令（i）、附加命令（a）、打开命令（o）、替换命令（s）、修改命令(c）或取代命令（r）可以从命令方式进入输入方式。在输入方式下，从键盘上输入的所有字符都被插入到正在编辑的缓冲区中，被当做该文件的正文。进入输入方式后，输入的可见字符都在屏幕上显示出来，而编辑命令不再起作用，仅作为普通字母出现。例如，在命令方式下输入字母i，进到输入方式，然后再输入i，就在屏幕上相应光标处添加一个字母i。</p>
+<p>命令模式<br>esc 后可以输入命令如:  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">:wq 保存</span><br><span class="line">:q! 不保存退出</span><br></pre></td></tr></table></figure>
+<h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><p>文件操作</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat file 查看指定文件</span><br><span class="line">cat &gt; file 创建文件</span><br></pre></td></tr></table></figure>
+<p>ctrl+d 退出 只能创建新文件，不能重名</p>
+<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><p>#####从第n行开始显示某文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">more +n file</span><br></pre></td></tr></table></figure>
+<p>#####定义屏幕大小为n行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">more -n file</span><br></pre></td></tr></table></figure>
+<p>#####+/pattern 在每个档案中按正则搜索 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">more +/pattern file</span><br></pre></td></tr></table></figure>
+<p>#####grep<br>搜索，除了搜索进程之外，也能搜索文件、文件夹内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">grep pateern file 根据正则搜索指定文件</span><br><span class="line">grep -rin pattern path 在目录下搜索指定内容，显示文件及内容的对应行数</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>婚纱摄影根据服装分类思路</title>
+    <url>/2020/04/14/%E5%A9%9A%E7%BA%B1%E6%91%84%E5%BD%B1%E6%A0%B9%E6%8D%AE%E6%9C%8D%E8%A3%85%E5%88%86%E7%B1%BB%E6%80%9D%E8%B7%AF/</url>
+    <content><![CDATA[<p>1： 根据拍摄风格，配色等 直接进行knn聚类<br>2： 人脸识别后作为依据定位衣服位置，然后对衣服进行聚类</p>
+]]></content>
+      <categories>
+        <category>ML</category>
+      </categories>
+      <tags>
+        <tag>思路</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>快乐工具</title>
+    <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<ol>
+<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
+<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
+<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
+<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>metabase</title>
+    <url>/2020/04/14/metabase/</url>
+    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>volatile关键字使用总结</title>
+    <url>/2020/05/13/volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Hadoop简介</title>
+    <url>/2020/04/15/Hadoop%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<hr>
+<p> title: hadoop简介<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: hadoop</p>
+<hr>
+<p> 1: 什么是hadoop<br> 一个分布式系统的基础架构，成本低，高效，高可靠，高容错，高拓展，与spark最大的区别在于分别是面向磁盘和面向内存，总的来说spark的计算能力更强<br> 2: hadoop 核心二组件  </p>
+<ul>
+<li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成  </li>
+</ul>
+<p>MapReduce </p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mybatis - plus 常用注解</title>
+    <url>/2020/04/14/Mybatis%20-%20plus%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="TableId注解（id）"><a href="#TableId注解（id）" class="headerlink" title="TableId注解（id）"></a>TableId注解（id）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@KeySequence</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">entity</span></span>&#123;</span><br><span class="line">    <span class="meta">@TableId</span>(value=<span class="string">"id"</span> type=<span class="string">"IdType.AUTO"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　type 属性：<br>　　　　AUTO：自增（这里的自增设置在mysql数据库中也要同步设置主键为自增，否则会报错）<br>　　　　NONE：该类型为未设置主键类型<br>　　　　INPUT：手动录入<br>　　　　ID_WORKER：默认主键类型，全局唯一ID，Long类型的主键<br>　　　　UUID：自动生成uuid 插入<br>　　　　ID_WORKER_STR：字符串全局唯一ID  </p>
+<h3 id="TableField注解（自动填充）"><a href="#TableField注解（自动填充）" class="headerlink" title="TableField注解（自动填充）"></a>TableField注解（自动填充）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT)</span><br><span class="line"><span class="keyword">private</span> Date createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT_UPDATE)</span><br><span class="line"><span class="keyword">private</span> Date updateTime;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ML_lab</title>
+    <url>/2020/04/14/git%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>计划搞一个</p>
+]]></content>
+      <categories>
+        <category>ML_lab</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>java基础</title>
+    <url>/2020/04/14/java%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<p>###接口和抽象类之间的区别<br>####接口<br>在JAVA编程语言中是一个抽象类型，主要是抽象方法的集合，接口中的变量定义必须为public static final类型。接口通常以interface来声明。<br>####抽象类<br>如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就可以认为是抽象类。。抽象类除了不能实例化对象之外，类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。由于抽象类不能实例化对象，所以抽象类必须被继承，才能被使用。<br>####接口和抽象类之间的区别</p>
+<ol>
+<li>类可以实现多个接口，但只能继承一个抽象类</li>
+<li>接口中主要包含的是静态成员变量以及接口方法，抽象类中可以定义普通的成员变量<br>####什么时候使用接口，什么时候使用抽象类<br>抽象类的核心用处在于实现面向对象编程的核心原则（ocp:Open-Close-principle）<br>java本身是单继承，多实现<br>单继承的优点在于，方便兼容，便于垃圾回收，便于使用（很多基础方法都包含在object类中）<br>###方法的重载与重写<br>重载的核心在于同一个类中，传参不同，实现不同的逻辑<br>重写则是子类对于父类的方法的重新实现，传入传出不变，但核心逻辑重新实现</li>
+<li>传出参数在java7 以上可以类型不同，但需要时父类传出参数的子类参数</li>
+<li>被重写的方法必须是子类可修改并可访问的<br>###transient关键字<br>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。注意，本地变量是不能被transient关键字修饰的。变量如果是用户自定义类变量，则该类需要实现Serializable接口。<br>被transient关键字修饰的变量不再能被序列化，一个静态变量不管是否被transient修饰，均不能被序列化。<br>###多线程</li>
+<li>继承thread类<br>必须重写run方法，本身thread类是继承runab</li>
+<li>实现runable接口</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>jvm性能调优</title>
+    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>token,cookie,session,jwt区别</title>
+    <url>/2020/04/14/token,cookie,session,jwt%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>####token,cookie,session,jwt区别<br>1: cookie<br>浏览器中永久持有的一个数据，由服务器生成发给浏览器，浏览器以kv的格式存储起来，浏览器本地做了一些限制来防止cookie被篡改，由于是存放在本地的，所以浏览器本身对于每个域下cookie的数量有一定的限制。<br>2: session<br>会话，服务器用session来区分进行会话的用户，客户端每次发送请求时都会带有这个身份标示，客户端有多重存储方式，但一般默认采用cookie的方式。<br>服务器端session是临时存储在服务器上的，用户离开后自动销毁，相对cookie更加安全，但是一个缺点是占用服务器的资源，另一个是如果服务器的处理端做了负载均衡，操作分配到不同的服务器上时可能会session丢失<br>3: token  </p>
+<ul>
+<li>无状态，可拓展  </li>
+<li>支持移动设备  </li>
+<li>跨程序调用</li>
+<li>安全  </li>
+<li>基于token的验证流程如下：<br>用户通过用户名和密码发送请求<br>服务器验证<br>通过后返回签名token<br>客户段存储token，每次发送请求包含token<br>服务端验证token<br>4: jwt<br>json web token,将用户信息加密到token中，服务器端不保存任何客户信息，服务器端通过秘钥验证token的合法性</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ml开源项目实践</title>
+    <url>/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>网络协议相关</title>
+    <url>/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<hr>
+<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
+<hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>网络架构问题定位</title>
+    <url>/2020/04/14/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+  </entry>
+</search>

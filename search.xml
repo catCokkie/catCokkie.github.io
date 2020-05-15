@@ -1,71 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>MarkDown语法</title>
-    <url>/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
-<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
-<p>-–或***</p>
-<hr>
-<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
-]]></content>
+    <title>volatile关键字使用总结</title>
+    <url>/2020/05/13/volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>网络架构问题定位</title>
-    <url>/2020/04/14/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/</url>
-    <content><![CDATA[<p>1.浏览器日志显示请求响应时间6s,后台日志记录显示3s<br>查看网络中间件日志，如tomcat/nginx等</p>
-]]></content>
-      <categories>
-        <category>问题调试</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>开发环境搭建</title>
-    <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<p>#开发环境搭建</p>
-<ol>
-<li>配置清单<ul>
-<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
-<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
-<li>oracle(超级麻烦，客户端使用plsql)</li>
-<li>neo4j(nosql的一种，图数据库)</li>
-<li>mangodb(分布式文件存储)</li>
-<li>redis(缓存)  </li>
-</ul>
-</li>
-<li></li>
-</ol>
-]]></content>
-      <categories>
-        <category>环境搭建</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>定时任务</title>
-    <url>/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <title>Hadoop简介</title>
+    <url>/2020/04/15/Hadoop%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<hr>
-<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<p> title: hadoop简介<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: hadoop</p>
 <hr>
-<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
-<p>3: spring提供的注解</p>
-<p>{秒} {分} {时} {日期} {月} {星期}</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4：quartz框架<br>maven依赖：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
+<p> 1: 什么是hadoop<br> 一个分布式系统的基础架构，成本低，高效，高可靠，高容错，高拓展，与spark最大的区别在于分别是面向磁盘和面向内存，总的来说spark的计算能力更强<br> 2: hadoop 核心二组件  </p>
+<ul>
+<li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成  </li>
+</ul>
+<p>MapReduce </p>
 ]]></content>
   </entry>
   <entry>
@@ -101,56 +51,17 @@
       </categories>
   </entry>
   <entry>
-    <title>婚纱摄影根据服装分类思路</title>
-    <url>/2020/04/14/%E5%A9%9A%E7%BA%B1%E6%91%84%E5%BD%B1%E6%A0%B9%E6%8D%AE%E6%9C%8D%E8%A3%85%E5%88%86%E7%B1%BB%E6%80%9D%E8%B7%AF/</url>
-    <content><![CDATA[<p>1： 根据拍摄风格，配色等 直接进行knn聚类<br>2： 人脸识别后作为依据定位衣服位置，然后对衣服进行聚类</p>
-]]></content>
-      <categories>
-        <category>ML</category>
-      </categories>
-      <tags>
-        <tag>思路</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>快乐工具</title>
-    <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<ol>
-<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
-<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
-<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
-<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
-</ol>
-]]></content>
-      <categories>
-        <category>开原项目及其他小工具</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>metabase</title>
-    <url>/2020/04/14/metabase/</url>
-    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
-]]></content>
-      <categories>
-        <category>开原项目及其他小工具</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>volatile关键字使用总结</title>
-    <url>/2020/05/13/volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Hadoop简介</title>
-    <url>/2020/04/15/Hadoop%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<hr>
-<p> title: hadoop简介<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: hadoop</p>
+    <title>MarkDown语法</title>
+    <url>/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
+<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
+<p>-–或***</p>
 <hr>
-<p> 1: 什么是hadoop<br> 一个分布式系统的基础架构，成本低，高效，高可靠，高容错，高拓展，与spark最大的区别在于分别是面向磁盘和面向内存，总的来说spark的计算能力更强<br> 2: hadoop 核心二组件  </p>
-<ul>
-<li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成  </li>
-</ul>
-<p>MapReduce </p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
 ]]></content>
   </entry>
   <entry>
@@ -163,6 +74,57 @@
       <categories>
         <category>Mybatis</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Mybatis与Hibernate对比</title>
+    <url>/2020/04/14/Mybatis%E4%B8%8EHibernate%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<p>###hibernate的优缺点<br>####优点</p>
+<ol>
+<li>全自动，完全通过对象关系模型来操作数据库，使用完整的javabean映射来生成sql</li>
+<li>开发速度快，简单需求无需手写sql</li>
+<li>拥有二级缓存（不太好用），可以使用三方缓存</li>
+<li>由于全自动，所以对象关系不依赖数据库，数据库移植成本低</li>
+<li>日志系统非常的健全，涉及广泛，包括sql记录、关系异常、优化警告、缓存提示、脏数据警告等</li>
+<li>由于完全面向对象，通过O/R mapping可以方便快捷的实现复杂的级联删除、更新等操作<br>####缺点</li>
+<li>缓存机制的使用限制很多，使用不当不仅效率不会得到提升，还会有脏读幻读的问题</li>
+<li>如何设计O/R mapping ,在性能和对象模型之间平衡需要技巧和经验</li>
+<li>绝大多数情况下sql是自动生成自动装配的，无法直接维护，hql的功能无法完全取代原生sql，尽管支持原生sql,但操作模式与orm不同<br>###mybatis的优缺点<br>####优点</li>
+<li>半自动自动封装查询返回的对象，完美延续sql使用经验，几乎没有上手难度</li>
+<li>sql和代码解耦，单独由xml维护</li>
+<li>速度比hibernate快</li>
+<li>通过xml标签实现对象关系维护，动态sql,数据库字段映射等操作（讲道理这不算啥优点）<br>####缺点</li>
+<li>sql依赖数据库，迁移成本巨大</li>
+<li>xml中id必须唯一，所以DAO方法不支持重载</li>
+<li>实现本质完全依赖sql,开发过程缓慢</li>
+<li>完全不支持级联更新，级联删除</li>
+<li>日志，约等于没有</li>
+<li>动态sql调试十分笨重，标签功能比较简单，可读性比较差</li>
+<li>DAO层比较简单，组装对象的工作量比较大</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java插件</category>
+      </categories>
+      <tags>
+        <tag>Mybatis,Hibernate;数据库;java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mybatis配置及使用</title>
+    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
+<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
+<ol>
+<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
+<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+      <tags>
+        <tag>Mybatis,Hibernate</tag>
+      </tags>
   </entry>
   <entry>
     <title>ML_lab</title>
@@ -199,6 +161,53 @@
       </categories>
   </entry>
   <entry>
+    <title>metabase</title>
+    <url>/2020/04/14/metabase/</url>
+    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>nginx</title>
+    <url>/2020/04/14/nginx/</url>
+    <content><![CDATA[<p>1: nginx命令<br>默认进入sbin目录下执行nginx命令<br>nginx -s reload<br>nginx -c 指定配置文件路径</p>
+<p>2: nginx配置文件  </p>
+<ul>
+<li><p>基础配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log logs/error.log notice;</span><br><span class="line">pid logs/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line"> </span><br><span class="line">events&#123;</span><br><span class="line">use epoll;</span><br><span class="line">worker_connections 65536;</span><br></pre></td></tr></table></figure>
+<p>user是个主模块指令，指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。<br>worker_processes是个主模块指令，指定了Nginx要开启的进程数。每个Nginx进程平均耗费10M~12M内存。建议指定和CPU的数量一致即可。<br>error_log是个主模块指令，用来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。<br>pid是个主模块指令，用来指定进程pid的存储文件位置。<br>worker_rlimit_nofile用于绑定worker进程和CPU， Linux内核2.4以上可用。<br>events事件指令是设定Nginx的工作模式及连接数上限：<br>use是个事件模块指令，用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中。对于Linux系统，epoll工作模式是首选。<br>worker_connections也是个事件模块指令，用于定义Nginx每个进程的最大连接数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_client=worker_processes*worker_connections。<br>在作为反向代理时，max_clients变为：max_clients = worker_processes * worker_connections/4。<br>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效</p>
+</li>
+<li><p>http配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">include conf&#x2F;mime.types;</span><br><span class="line">default_type application&#x2F;octet-stream;</span><br><span class="line">log_format main &#39;$remote_addr - $remote_user [$time_local] &#39;</span><br><span class="line">&#39;&quot;$request&quot; $status $bytes_sent &#39;</span><br><span class="line">&#39;&quot;$http_referer&quot; &quot;$http_user_agent&quot; &#39;</span><br><span class="line">&#39;&quot;$gzip_ratio&quot;&#39;;</span><br><span class="line">log_format download &#39;$remote_addr - $remote_user [$time_local] &#39;</span><br><span class="line">&#39;&quot;$request&quot; $status $bytes_sent &#39;</span><br><span class="line">&#39;&quot;$http_referer&quot; &quot;$http_user_agent&quot; &#39;</span><br><span class="line">&#39;&quot;$http_range&quot; &quot;$sent_http_content_range&quot;&#39;;</span><br><span class="line">client_max_body_size 20m;</span><br><span class="line">client_header_buffer_size 32K;</span><br><span class="line">large_client_header_buffers 4 32k;</span><br><span class="line">Sendfile on;</span><br><span class="line">tcp_nopush on;</span><br><span class="line">tcp_nodelay on;</span><br><span class="line">keepalive_timeout 60;</span><br><span class="line">client_header_timeout 10;</span><br><span class="line">client_body_timeout 10;</span><br><span class="line">send_timeout 10;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>负载均衡配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream cszhi.com&#123;</span><br><span class="line">ip_hash;</span><br><span class="line">server 192.168.8.11:80;</span><br><span class="line">server 192.168.8.12:80 down;</span><br><span class="line">server 192.168.8.13:8009 max_fails&#x3D;3 fail_timeout&#x3D;20s;</span><br><span class="line">server 192.168.8.146:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Nginx的负载均衡模块目前支持4种调度算法，下面进行分别介绍，其中后两项属于第三方的调度方法。</p>
+</li>
+</ul>
+<p>轮询（默认）：每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响<br>Weight：指定轮询权值，Weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下；<br>ip_hash：每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题；<br>fair：比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块；<br>url_hash：按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx 的hash软件包。<br>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：<br>down：表示当前的server暂时不参与负载均衡；<br>backup：预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻；<br>max_fails：允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误；<br>fail_timeout：在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。<br>注意，当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</p>
+<ul>
+<li>虚拟主机配置  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">listen 80;</span><br><span class="line">server_name 192.168.8.18 cszhi.com;</span><br><span class="line">index index.html index.htm index.php;</span><br><span class="line">root &#x2F;wwwroot&#x2F;www.cszhi.com</span><br><span class="line">charset gb2312;</span><br><span class="line">access_log logs&#x2F;www.ixdba.net.access.log main;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+可以写到另一个文件，然后再include进来<br>listen用于指定虚拟主机的服务端口<br>server_name用来指定IP地址或者域名，多个域名之间用空格分开<br>index用于设定访问的默认首页地址，root指令用于指定虚拟主机的网页根目录，这个目录可以是相对路径，也可以是绝对路径。Charset用于 设置网页的默认编码格式。access_log用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</li>
+<li>location 配置<br>配置文件中最核心的部分，对于路径既支持正则，也支持条件匹配<br>匹配优先级：<br>(location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location <del>,</del>* 正则顺序) &gt; (location 部分起始路径) &gt; (/)  </li>
+</ul>
+]]></content>
+      <categories>
+        <category>中间件使用</category>
+      </categories>
+      <tags>
+        <tag>思路</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ml开源项目实践</title>
+    <url>/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>token,cookie,session,jwt区别</title>
     <url>/2020/04/14/token,cookie,session,jwt%E5%8C%BA%E5%88%AB/</url>
     <content><![CDATA[<p>####token,cookie,session,jwt区别<br>1: cookie<br>浏览器中永久持有的一个数据，由服务器生成发给浏览器，浏览器以kv的格式存储起来，浏览器本地做了一些限制来防止cookie被篡改，由于是存放在本地的，所以浏览器本身对于每个域下cookie的数量有一定的限制。<br>2: session<br>会话，服务器用session来区分进行会话的用户，客户端每次发送请求时都会带有这个身份标示，客户端有多重存储方式，但一般默认采用cookie的方式。<br>服务器端session是临时存储在服务器上的，用户离开后自动销毁，相对cookie更加安全，但是一个缺点是占用服务器的资源，另一个是如果服务器的处理端做了负载均衡，操作分配到不同的服务器上时可能会session丢失<br>3: token  </p>
@@ -215,10 +224,74 @@
       </categories>
   </entry>
   <entry>
-    <title>ml开源项目实践</title>
-    <url>/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
+    <title>什么是卷积</title>
+    <url>/2020/04/14/%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%B7%E7%A7%AF/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>ml</category>
+      </categories>
+      <tags>
+        <tag>ml</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>定时任务</title>
+    <url>/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<hr>
+<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<hr>
+<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
+<p>3: spring提供的注解</p>
+<p>{秒} {分} {时} {日期} {月} {星期}</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4：quartz框架<br>maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>开发环境搭建</title>
+    <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>#开发环境搭建</p>
+<ol>
+<li>配置清单<ul>
+<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
+<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
+<li>oracle(超级麻烦，客户端使用plsql)</li>
+<li>neo4j(nosql的一种，图数据库)</li>
+<li>mangodb(分布式文件存储)</li>
+<li>redis(缓存)  </li>
+</ul>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>快乐工具</title>
+    <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<ol>
+<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
+<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
+<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
+<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
   </entry>
   <entry>
     <title>网络协议相关</title>
@@ -227,6 +300,15 @@
 <p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
 <hr>
 ]]></content>
+  </entry>
+  <entry>
+    <title>网络架构问题定位</title>
+    <url>/2020/04/14/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/</url>
+    <content><![CDATA[<p>1.浏览器日志显示请求响应时间6s,后台日志记录显示3s<br>查看网络中间件日志，如tomcat/nginx等</p>
+]]></content>
+      <categories>
+        <category>问题调试</category>
+      </categories>
   </entry>
   <entry>
     <title>网络架构问题定位</title>

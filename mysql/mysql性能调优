@@ -1,3 +1,9 @@
+---
+title: mysql性能调优
+date: 2020-04-14 14:31:35
+tags: 
+categories: mysql
+---
 ##mysql性能优化思路及方法
 ###思路
 1. 选择合适的引擎  

@@ -1,3 +1,9 @@
+---
+title: mysql插入时存在则更新，不存在则新增
+date: 2020-04-14 14:31:35
+tags: mysql
+categories: mysql
+---
 ```sql
 insert into **_TABLE_** ()  
 values()  

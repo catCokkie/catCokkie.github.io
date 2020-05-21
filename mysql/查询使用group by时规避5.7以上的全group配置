@@ -1,3 +1,9 @@
+---
+title: 查询使用group by时规避5.7以上的全group配置
+date: 2020-04-14 14:31:35
+tags: Mybatis,Hibernate
+categories: mysql
+---
 ```sql
 select column_1,column_2,column_3 from table_1,  
 (select column_1,max(column_2) as maxcol2 from table_1 group by column_1)as t  

@@ -160,6 +160,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/25/mysql%E5%BC%95%E6%93%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/mysql%E5%BC%95%E6%93%8E/" class="post-title-link" itemprop="url">mysql引擎</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-25 14:31:35 / 修改时间：14:58:19" itemprop="dateCreated datePublished" datetime="2020-05-25T14:31:35+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>###MyISAM<br>####优势：<br>访问速度快<br>####适用场景<br>对事物完整性没有要求，以select/insert为主的应用<br>####特点</p>
+<ul>
+<li>不支持事务，也不支持外键</li>
+<li>63位的大文件支持</li>
+<li>混合插入更新删除操作时，动态尺寸产生的碎片更小</li>
+<li>默认最大索引数是64，可以重新编译来更改，每个索引的最大列数是18</li>
+<li>最大的键长度是1000字节，也可以重新编译来更改</li>
+<li>blob text类型的列可以作为索引</li>
+<li>索引列中允许出现null</li>
+<li>每个字列可以有不同的字符集<br>###Innodb<br>####优势：<br>支持外键，提供了提交，回滚，崩溃恢复的事务安全<br>####适用场景<br>对事物完整性有要求<br>####特点</li>
+<li>自动增长列必须是索引</li>
+<li>支持了外键</li>
+<li>存储数据和索引可以共享表空间存储，也可以独占表空间</li>
+<li>处理巨大量数据的最大性能设计，cpu使用效率是最高的<br>###memory<br>####优势<br>速度快吧，毕竟是内存+hash<br>####适用场景<br>内容变化不频繁的代码表，作为统计操作的中间结果表，便于利用它速率快的优势高效的对中间结果进分析<br>####特点</li>
+<li>每个表可以有32个索引，每个索引16列</li>
+<li>执行hash-btree索引，配合内存形成巨快的执行效率</li>
+<li>在一个表中，可以有多个键值</li>
+<li>不支持bolb和text</li>
+<li>这张表在所有的客户端中共享<br>###Merge<br>一组结构完全相同的MyISAM,本质上是个集合</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/21/java11%E7%9B%B8%E5%AF%B9%E4%BA%8Ejava8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -229,74 +316,6 @@
 <li>给Optional类增加了stream()方法<br>算是对于流式编程的增强吧<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Optional.of(<span class="string">"Hello openJDK11"</span>).stream()</span><br><span class="line">        .flatMap(s -&gt; Arrays.stream(s.split(<span class="string">" "</span>)))</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
 ###String增强<br>增加了。。。。一堆不是非常关键的糖类方法<br>###InputStream增强<br>和string增强不同，增加了一个核心方法transferTo，直接将输入流传到输出流<br>###模块式开发，交互式编程，单文件源码的直接执行<br>一句话理解这个，就是开始支持类似于python的脚本<br>###支持Unicode10<br>一句话理解：支持了更多的乱七八糟的字符，包括56个新的emoji<br>###新的加密算法<br>RFC7539中指定的ChaCha20和Poly1305两种加密算法，代替RC4。<br>RFC7748定义的密钥协商方案更高效，更安全，JDK增加了两个新的接口XECPublicKey和XECPrivateKey。<br>###<br>参考链接：<br><a href="https://segmentfault.com/a/1190000022654702" target="_blank" rel="noopener">https://segmentfault.com/a/1190000022654702</a></li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/19/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/19/test/" class="post-title-link" itemprop="url">test</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-19 14:56:28 / 修改时间：14:58:51" itemprop="dateCreated datePublished" datetime="2020-05-19T14:56:28+08:00">2020-05-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/test/" itemprop="url" rel="index"><span itemprop="name">test</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>123</p>
 
       
     </div>
@@ -716,6 +735,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/git%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%B0%83%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/git%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%B0%83%E8%AF%95/" class="post-title-link" itemprop="url">git相关问题调试</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-06 09:17:03" itemprop="dateModified" datetime="2020-05-06T09:17:03+08:00">2020-05-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>push 失败定位思路:<br>首先在idea中查看terminal中的报错信息，根据报错信息提示内容进行定位<br>另外在链接其他的私有云、仓库、版本管理时，可以注意是否提供错误码或指南<br>（有的会对commit有要求，未符合对应的格式的会被私人订制的仓库拒绝）  </li>
+<li>可以通过查看windows凭据来更改git相关账号的鉴权</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Mybatis%E4%B8%8EHibernate%E5%AF%B9%E6%AF%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -808,85 +904,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Mybatis配置及使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-14 09:14:02" itemprop="dateModified" datetime="2020-05-14T09:14:02+08:00">2020-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mybatis/" itemprop="url" rel="index"><span itemprop="name">Mybatis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>###mybatis的特点（和hibernate对比）</p>
-<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
-<ol>
-<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
-<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -956,20 +973,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

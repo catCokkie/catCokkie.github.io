@@ -483,87 +483,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/sql%E6%95%B4%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/sql%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">sql整理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 10:34:57" itemprop="dateModified" datetime="2020-05-25T10:34:57+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>###mysql插入时存在则更新，不存在则新增</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
-<p>###max的另一种写法<br>当然最后的limit可以按照需求去修改</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>###判断字段非空或不是空字符串</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
-<p>###根据条件不同更新字段成不同的值</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/token,cookie,session,jwt%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -645,7 +564,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/sql%E6%95%B4%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -659,7 +578,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/" class="post-title-link" itemprop="url">web项目登录验证</a>
+            <a href="/2020/04/14/sql%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">sql整理</a>
         </h2>
 
         <div class="post-meta">
@@ -676,7 +595,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 15:40:21" itemprop="dateModified" datetime="2020-05-25T15:40:21+08:00">2020-05-25</time>
+                <time title="修改时间：2020-05-26 09:22:04" itemprop="dateModified" datetime="2020-05-26T09:22:04+08:00">2020-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -684,7 +603,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">web知识</span></a>
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
                 </span>
             </span>
 
@@ -699,10 +618,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
-<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
-<li>体积小</li>
-</ol>
+          <h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
+<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="判断字段非空或不是空字符串"><a href="#判断字段非空或不是空字符串" class="headerlink" title="判断字段非空或不是空字符串"></a>判断字段非空或不是空字符串</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
+<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -779,6 +699,83 @@
           <h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
 <h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
 <h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/" class="post-title-link" itemprop="url">web项目登录验证</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-25 15:40:21" itemprop="dateModified" datetime="2020-05-25T15:40:21+08:00">2020-05-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">web知识</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
+<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
+<li>体积小</li>
+</ol>
+
       
     </div>
 

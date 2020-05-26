@@ -110,6 +110,23 @@
       </tags>
   </entry>
   <entry>
+    <title>Mybatis配置及使用</title>
+    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
+<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
+<ol>
+<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
+<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+      <tags>
+        <tag>Mybatis,Hibernate</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>excel相关</title>
     <url>/2020/04/14/excel%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<p>1： csv文件被excel打开并编辑后可能会分隔符改变，最骚的是excel读取不到自己改了啥</p>
@@ -138,23 +155,6 @@
       <categories>
         <category>ML_lab</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Mybatis配置及使用</title>
-    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
-<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
-<ol>
-<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
-<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Mybatis</category>
-      </categories>
-      <tags>
-        <tag>Mybatis,Hibernate</tag>
-      </tags>
   </entry>
   <entry>
     <title>java11相对于java8的新特性</title>
@@ -260,14 +260,6 @@
       </categories>
   </entry>
   <entry>
-    <title>jvm性能调优</title>
-    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Linux常用命令</title>
     <url>/2020/04/14/kafka%E5%8A%9F%E8%83%BD%E6%B8%85%E5%8D%95/</url>
     <content><![CDATA[<table>
@@ -305,6 +297,14 @@
       </categories>
   </entry>
   <entry>
+    <title>jvm性能调优</title>
+    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>metabase</title>
     <url>/2020/04/14/metabase/</url>
     <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
@@ -322,8 +322,9 @@
   <entry>
     <title>mysql引擎</title>
     <url>/2020/05/25/mysql%E5%BC%95%E6%93%8E/</url>
-    <content><![CDATA[<p>###MyISAM<br>####优势：<br>访问速度快<br>####适用场景<br>对事物完整性没有要求，以select/insert为主的应用<br>####特点</p>
-<ul>
+    <content><![CDATA[<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><h4 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h4><p>访问速度快</p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>对事物完整性没有要求，以select/insert为主的应用</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
 <li>不支持事务，也不支持外键</li>
 <li>63位的大文件支持</li>
 <li>混合插入更新删除操作时，动态尺寸产生的碎片更小</li>
@@ -331,16 +332,16 @@
 <li>最大的键长度是1000字节，也可以重新编译来更改</li>
 <li>blob text类型的列可以作为索引</li>
 <li>索引列中允许出现null</li>
-<li>每个字列可以有不同的字符集<br>###Innodb<br>####优势：<br>支持外键，提供了提交，回滚，崩溃恢复的事务安全<br>####适用场景<br>对事物完整性有要求<br>####特点</li>
+<li>每个字列可以有不同的字符集<h3 id="Innodb"><a href="#Innodb" class="headerlink" title="Innodb"></a>Innodb</h3><h4 id="优势：-1"><a href="#优势：-1" class="headerlink" title="优势："></a>优势：</h4>支持外键，提供了提交，回滚，崩溃恢复的事务安全<h4 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h4>对事物完整性有要求<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4></li>
 <li>自动增长列必须是索引</li>
 <li>支持了外键</li>
 <li>存储数据和索引可以共享表空间存储，也可以独占表空间</li>
-<li>处理巨大量数据的最大性能设计，cpu使用效率是最高的<br>###memory<br>####优势<br>速度快吧，毕竟是内存+hash<br>####适用场景<br>内容变化不频繁的代码表，作为统计操作的中间结果表，便于利用它速率快的优势高效的对中间结果进分析<br>####特点</li>
+<li>处理巨大量数据的最大性能设计，cpu使用效率是最高的<h3 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h3><h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4>速度快吧，毕竟是内存+hash<h4 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h4>内容变化不频繁的代码表，作为统计操作的中间结果表，便于利用它速率快的优势高效的对中间结果进分析<h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4></li>
 <li>每个表可以有32个索引，每个索引16列</li>
 <li>执行hash-btree索引，配合内存形成巨快的执行效率</li>
 <li>在一个表中，可以有多个键值</li>
 <li>不支持bolb和text</li>
-<li>这张表在所有的客户端中共享<br>###Merge<br>一组结构完全相同的MyISAM,本质上是个集合</li>
+<li>这张表在所有的客户端中共享<h3 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h3>一组结构完全相同的MyISAM,本质上是个集合</li>
 </ul>
 ]]></content>
       <categories>
@@ -413,25 +414,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sql整理</title>
-    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<p>###mysql插入时存在则更新，不存在则新增</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
-<p>###max的另一种写法<br>当然最后的limit可以按照需求去修改</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>###判断字段非空或不是空字符串</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
-<p>###根据条件不同更新字段成不同的值</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>token,cookie,session,jwt区别</title>
     <url>/2020/04/14/token,cookie,session,jwt%E5%8C%BA%E5%88%AB/</url>
     <content><![CDATA[<p>####token,cookie,session,jwt区别<br>1: cookie<br>浏览器中永久持有的一个数据，由服务器生成发给浏览器，浏览器以kv的格式存储起来，浏览器本地做了一些限制来防止cookie被篡改，由于是存放在本地的，所以浏览器本身对于每个域下cookie的数量有一定的限制。<br>2: session<br>会话，服务器用session来区分进行会话的用户，客户端每次发送请求时都会带有这个身份标示，客户端有多重存储方式，但一般默认采用cookie的方式。<br>服务器端session是临时存储在服务器上的，用户离开后自动销毁，相对cookie更加安全，但是一个缺点是占用服务器的资源，另一个是如果服务器的处理端做了负载均衡，操作分配到不同的服务器上时可能会session丢失<br>3: token  </p>
@@ -448,16 +430,20 @@
       </categories>
   </entry>
   <entry>
-    <title>web项目登录验证</title>
-    <url>/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
-<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
-<li>体积小</li>
-</ol>
+    <title>sql整理</title>
+    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
+<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="判断字段非空或不是空字符串"><a href="#判断字段非空或不是空字符串" class="headerlink" title="判断字段非空或不是空字符串"></a>判断字段非空或不是空字符串</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
+<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>web知识</category>
+        <category>mysql</category>
       </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>别再问我什么是Hashmap</title>
@@ -470,25 +456,15 @@
       </categories>
   </entry>
   <entry>
-    <title>开发环境搭建</title>
-    <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h1 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h1><ol>
-<li>配置清单<ul>
-<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
-<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
-<li>oracle(超级麻烦，客户端使用plsql)</li>
-<li>neo4j(nosql的一种，图数据库)</li>
-<li>mangodb(分布式文件存储)</li>
-<li>redis(缓存)  </li>
-</ul>
-</li>
-<li></li>
+    <title>web项目登录验证</title>
+    <url>/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
+<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
+<li>体积小</li>
 </ol>
 ]]></content>
       <categories>
-        <category>环境搭建</category>
+        <category>web知识</category>
       </categories>
   </entry>
   <entry>
@@ -514,6 +490,28 @@
 ]]></content>
   </entry>
   <entry>
+    <title>开发环境搭建</title>
+    <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h1 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h1><ol>
+<li>配置清单<ul>
+<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
+<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
+<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
+<li>oracle(超级麻烦，客户端使用plsql)</li>
+<li>neo4j(nosql的一种，图数据库)</li>
+<li>mangodb(分布式文件存储)</li>
+<li>redis(缓存)  </li>
+</ul>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>环境搭建</category>
+      </categories>
+  </entry>
+  <entry>
     <title>快乐工具</title>
     <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<ol>
@@ -526,6 +524,19 @@
       <categories>
         <category>开原项目及其他小工具</category>
       </categories>
+  </entry>
+  <entry>
+    <title>查询使用group by时规避5.7以上的全group配置</title>
+    <url>/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> column_1,column_2,column_3 <span class="keyword">from</span> table_1,  </span><br><span class="line">(<span class="keyword">select</span> column_1,<span class="keyword">max</span>(column_2) <span class="keyword">as</span> maxcol2 <span class="keyword">from</span> table_1 <span class="keyword">group</span> <span class="keyword">by</span> column_1)<span class="keyword">as</span> t  </span><br><span class="line"><span class="keyword">where</span> table_1.column_1=t.column_1 <span class="keyword">and</span> table_1.column_2=t.maxcol2</span><br></pre></td></tr></table></figure>
+<p>mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>Mybatis;Hibernate</tag>
+      </tags>
   </entry>
   <entry>
     <title>Mybatis配置及使用</title>
@@ -567,18 +578,5 @@
       <categories>
         <category>mysql</category>
       </categories>
-  </entry>
-  <entry>
-    <title>查询使用group by时规避5.7以上的全group配置</title>
-    <url>/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> column_1,column_2,column_3 <span class="keyword">from</span> table_1,  </span><br><span class="line">(<span class="keyword">select</span> column_1,<span class="keyword">max</span>(column_2) <span class="keyword">as</span> maxcol2 <span class="keyword">from</span> table_1 <span class="keyword">group</span> <span class="keyword">by</span> column_1)<span class="keyword">as</span> t  </span><br><span class="line"><span class="keyword">where</span> table_1.column_1=t.column_1 <span class="keyword">and</span> table_1.column_2=t.maxcol2</span><br></pre></td></tr></table></figure>
-<p>mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>Mybatis;Hibernate</tag>
-      </tags>
   </entry>
 </search>

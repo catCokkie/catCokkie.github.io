@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="###Optional ###Stream####流的特点  流中不存储元素 流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变 流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到####流的工作流 流的启动 链式调用 产生结果（终止流）1234int i&#x3D; ArrayList&lt;String&gt;().stream()                .fi">
+  <meta name="description" content="OptionalStream流的特点 流中不存储元素 流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变 流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到流的工作流 流的启动 链式调用 产生结果（终止流）1234int i&#x3D; ArrayList&lt;String&gt;().stream()                .filter(w -&gt; w.g">
 <meta property="og:type" content="website">
 <meta property="og:title" content="java8新特性">
 <meta property="og:url" content="http://yoursite.com/java/java8%E6%96%B0%E7%89%B9%E6%80%A7.html">
 <meta property="og:site_name" content="你才有猫饼呢">
-<meta property="og:description" content="###Optional ###Stream####流的特点  流中不存储元素 流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变 流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到####流的工作流 流的启动 链式调用 产生结果（终止流）1234int i&#x3D; ArrayList&lt;String&gt;().stream()                .fi">
+<meta property="og:description" content="OptionalStream流的特点 流中不存储元素 流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变 流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到流的工作流 流的启动 链式调用 产生结果（终止流）1234int i&#x3D; ArrayList&lt;String&gt;().stream()                .filter(w -&gt; w.g">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-14T06:31:35.000Z">
-<meta property="article:modified_time" content="2020-05-21T01:49:08.387Z">
+<meta property="article:modified_time" content="2020-05-25T07:37:18.648Z">
 <meta property="article:author" content="猫饼">
 <meta name="twitter:card" content="summary">
 
@@ -133,11 +133,6 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
-        <li class="menu-item menu-item-test">
-
-    <a href="/test/" rel="section"><i class="fa-th fa-fw"></i>test</a>
-
-  </li>
   </ul>
 </nav>
 
@@ -184,16 +179,14 @@
       
       
       <div class="post-body">
-          <p>###Optional</p>
-<p>###Stream<br>####流的特点</p>
-<ol>
+          <h3 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h3><h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><h4 id="流的特点"><a href="#流的特点" class="headerlink" title="流的特点"></a>流的特点</h4><ol>
 <li>流中不存储元素</li>
 <li>流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变</li>
-<li>流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到<br>####流的工作流</li>
+<li>流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到<h4 id="流的工作流"><a href="#流的工作流" class="headerlink" title="流的工作流"></a>流的工作流</h4></li>
 <li>流的启动</li>
 <li>链式调用</li>
 <li>产生结果（终止流）<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i= ArrayList&lt;String&gt;().stream()</span><br><span class="line">                .filter(w -&gt; w.getColor() == RED)</span><br><span class="line">                .mapToInt(w -&gt; w.getWeight())</span><br><span class="line">                .sum();</span><br></pre></td></tr></table></figure>
-####流的转换</li>
+<h4 id="流的转换"><a href="#流的转换" class="headerlink" title="流的转换"></a>流的转换</h4></li>
 <li>filter()筛选<br>对流进行过滤，通常流中元素会减少，按照（）中的lambda筛选返回true的元素</li>
 <li>map()映射<br>对流中的每个对象执行lamdba,每个输入对应一个输出</li>
 <li>flatMap()平铺映射<br>每个输入对应一个flat输出</li>
@@ -202,7 +195,7 @@
 <li>limit<br>限制返回的个数</li>
 <li>skip<br>跳过前n个</li>
 <li>concat<br>拼接流  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list &#x3D; Arrays.asList(&quot;a&quot;, &quot;ab&quot;, &quot;ba&quot;, &quot;c&quot;);</span><br><span class="line">List&lt;String&gt; list1 &#x3D; Arrays.asList(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;);</span><br><span class="line">Stream.concat(list.stream(), list1.stream())</span><br><span class="line">        .skip(2).limit(2)</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-####关于流操作的结果收集</li>
+<h4 id="关于流操作的结果收集"><a href="#关于流操作的结果收集" class="headerlink" title="关于流操作的结果收集"></a>关于流操作的结果收集</h4></li>
 <li>foreach()遍历流</li>
 <li>peek(x-&gt;method())对每一个x执行method并返回流</li>
 <li>toArray()<br>无参数的toArray() 返回Object[]<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = Arrays.asList(<span class="string">"a"</span>, <span class="string">"a"</span>, <span class="string">"ab"</span>, <span class="string">"ba"</span>, <span class="string">"c"</span>).stream()</span><br><span class="line">           .filter(x -&gt; x.length() &gt; <span class="number">1</span>)</span><br><span class="line">           .toArray(String[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure></li>
@@ -279,6 +272,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Optional"><span class="nav-number">1.</span> <span class="nav-text">Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream"><span class="nav-number">2.</span> <span class="nav-text">Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流的特点"><span class="nav-number">2.1.</span> <span class="nav-text">流的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流的工作流"><span class="nav-number">2.2.</span> <span class="nav-text">流的工作流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流的转换"><span class="nav-number">2.3.</span> <span class="nav-text">流的转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于流操作的结果收集"><span class="nav-number">2.4.</span> <span class="nav-text">关于流操作的结果收集</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -292,7 +286,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

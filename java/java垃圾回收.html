@@ -28,7 +28,7 @@
 <meta property="og:description" content="java垃圾回收什么是垃圾通常来讲就是没有被引用而且短时间内不会再被引用到的对象，java判断是否是垃圾主要是两种算法  引用计数在对象的头部分配一个空间来保存这个对象被引用的次数，有新增的引用就+1，释放了引用就-1，为null&#x2F;0时就是回收对象缺陷是互相引用的对象无法释放 可达性分析从gc root 开始进行依赖搜索，标记出u哦又不能从root开始到达的对象，然后清理这些对象可作为gc roo">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-22T06:31:35.000Z">
-<meta property="article:modified_time" content="2020-05-26T07:29:22.938Z">
+<meta property="article:modified_time" content="2020-06-03T07:22:06.792Z">
 <meta property="article:author" content="猫饼">
 <meta name="twitter:card" content="summary">
 
@@ -192,7 +192,8 @@
 </ul>
 <ol>
 <li>标记清除<br>最基础的垃圾回收算法，分为两部分，先标记内存中那些对象属于垃圾，然后直接清理释放<br>缺点是会造成内存碎片，不利于后续大对象的分配</li>
-<li>复制算法<br>内存分成两块，每次清理时都将存活的对象复制到另一半上<br>缺点可用内存减半<br>3， 标记整理<br>标记清除的优化，在标记后对所有存活的对象都向一端移动，然后释放掉所有边界之外的对象<br>缺点是要整理移动几乎所有的对象，效率较为低下  <h3 id="内存模型以及回收策略"><a href="#内存模型以及回收策略" class="headerlink" title="内存模型以及回收策略"></a>内存模型以及回收策略</h3>虽然垃圾回收的主要场所是在java的堆中，但是为了把这个东西从头到尾的说清楚，这里我们先从java的内存管理说起<br>除了方法区和堆这两个部分中的数据是线程共享的之外，java内存中的其他部分都是线程私有的数据  <h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4></li>
+<li>复制算法<br>内存分成两块，每次清理时都将存活的对象复制到另一半上<br>缺点可用内存减半  </li>
+<li>标记整理<br>标记清除的优化，在标记后对所有存活的对象都向一端移动，然后释放掉所有边界之外的对象<br>缺点是要整理移动几乎所有的对象，效率较为低下  <h3 id="内存模型以及回收策略"><a href="#内存模型以及回收策略" class="headerlink" title="内存模型以及回收策略"></a>内存模型以及回收策略</h3>虽然垃圾回收的主要场所是在java的堆中，但是为了把这个东西从头到尾的说清楚，这里我们先从java的内存管理说起<br>除了方法区和堆这两个部分中的数据是线程共享的之外，java内存中的其他部分都是线程私有的数据  <h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4>描述的是java方法执行的内存模型，java中每个方法执行的同时都会创建一个栈帧（Stack Frame）用于存储方法执行时需要的内部资源，包括但不限于局部变量表、操作数栈、动态链接、方法出口等乱七八糟的信息。方法从调用直至完成的过程，在内存中对应一个栈帧从入栈到出栈的过程。方法执行完成时，该栈帧就会弹出栈帧的元素作为这个方法的返回值，并释放栈帧，Java栈的栈顶的栈帧就是当前正在执行的活动栈，也就是当前正在执行的方法，调试的过程中也是靠这个部分区定位执行的状态。方法的调用过程也是由栈帧切换来产生结果。<br>一般java内存中最受关注的两部分就是堆和栈，其中栈就是指这里的虚拟机栈。  <h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4>和上面的虚拟机栈非常相似吧，只不过虚拟机栈为执行java方法服务，本地方法栈为虚拟机栈服务  <h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4>占地面积非常小，主要是记录线程的状态，为线程的状态切换做服务<h4 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h4>jvm管理中消耗最大的一部分，垃圾回收的主要发生地，最关注的堆和栈中的堆，是所有线程共享的<br>一般可以分为新生代（垃圾回收的主要位置）和老年代（一般是默认16次新生代回收未回收掉的）<br>再细一点就是：eden,from/to survivor (8:1:1)<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4>也是各个线程共享的部分，存储已经被虚拟机加载了的元数据，包括不限于已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据<br>也称为非堆，一般来讲gc不会发生在这个位置，当方法区无法满足分配要求时，会报错oom<br>java7及以前，这个部分也被称为永久带（因为基本不发生gc么），实际上是Hotspot使用永久代的方法实现了方法去<br>java8之后，移除了永久代的实现，改为使用元空间来代替  <h4 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h4>运行时常量池是方法区的一部分，用于存放编译期的各种字面量和引用<h4 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h4>堆外内存，也有可能发生oom,比较直接的使用就是在nio中，和这部分有关的调用通常都有有.close操作<h4 id="从gc角度来看java堆、非堆"><a href="#从gc角度来看java堆、非堆" class="headerlink" title="从gc角度来看java堆、非堆"></a>从gc角度来看java堆、非堆</h4>堆和非堆（方法区）都是java内存管理中线程共享的内存区域，其中方法区的实现在jdk1.8之后转换为通过元空间的方式来实现<br>元空间有以下的特色：<br>首先Full gc的时候不再扫面元空间的的对象<br>但是如果gc发现了元空间中出现了失活的类加载器，则会对整个元空间进行回收<br>堆中年轻代的eden区是minor gc的主要发生区域，也是整个gc 过程中主要回收的区域，回收后eden区会被清空，但仍存货的对象会放入from区，如果from空间不足则放入old<br>survivor是eden和old之间的缓冲，不过大对象是不经过缓冲直接进入old，在survivor主要使用的是复制<br>而old区则占领了2/3的堆，只有在major GC的时候才会发生清理，同时要注意这里是一个stop the world的操作<br>内存越大stw的时间就越长，所以要注意内存开销和stw开销的均衡  </li>
 </ol>
 
       </div>
@@ -255,7 +256,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java垃圾回收"><span class="nav-number">1.</span> <span class="nav-text">java垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是垃圾"><span class="nav-number">1.1.</span> <span class="nav-text">什么是垃圾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java回收垃圾的算法"><span class="nav-number">1.2.</span> <span class="nav-text">java回收垃圾的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存模型以及回收策略"><span class="nav-number">1.3.</span> <span class="nav-text">内存模型以及回收策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机栈"><span class="nav-number">1.3.1.</span> <span class="nav-text">虚拟机栈</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java垃圾回收"><span class="nav-number">1.</span> <span class="nav-text">java垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是垃圾"><span class="nav-number">1.1.</span> <span class="nav-text">什么是垃圾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java回收垃圾的算法"><span class="nav-number">1.2.</span> <span class="nav-text">java回收垃圾的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存模型以及回收策略"><span class="nav-number">1.3.</span> <span class="nav-text">内存模型以及回收策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机栈"><span class="nav-number">1.3.1.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地方法栈"><span class="nav-number">1.3.2.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#程序计数器"><span class="nav-number">1.3.3.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java堆"><span class="nav-number">1.3.4.</span> <span class="nav-text">java堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区"><span class="nav-number">1.3.5.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行时常量池"><span class="nav-number">1.3.6.</span> <span class="nav-text">运行时常量池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接内存"><span class="nav-number">1.3.7.</span> <span class="nav-text">直接内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从gc角度来看java堆、非堆"><span class="nav-number">1.3.8.</span> <span class="nav-text">从gc角度来看java堆、非堆</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -269,14 +270,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

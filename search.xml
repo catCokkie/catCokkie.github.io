@@ -6,6 +6,23 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>Linux常用命令</title>
+    <url>/2020/04/14/Eureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</url>
+    <content><![CDATA[<p>###什么是Eureka<br>Eureka是一个基于rest服务的，服务注册与发现的组件，用来管理为服务的各个组件<br>###Eureka的两个重要组成部件<br>####Eureka Server：注册中心服务端<br>注册中心服务端主要对外提供了三个功能：<br>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>提供注册表<br>服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<br>同步状态<br>Eureka Client 通过注册、心跳机制和 Eureka Server 同步当前客户端的状态。<br>Eureka Client：注册中心客户端<br>Eureka Client 是一个 Java 客户端，用于简化与 Eureka Server 的交互。Eureka Client 会拉取、更新和缓存 Eureka Server 中的信息。因此当所有的 Eureka Server 节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者，但是当服务有更改的时候会出现信息不一致。<br>Register: 服务注册<br>服务的提供者，将自身注册到注册中心，服务提供者也是一个 Eureka Client。当 Eureka Client 向 Eureka Server 注册时，它提供自身的元数据，比如 IP 地址、端口，运行状况指示符 URL，主页等。<br>Renew: 服务续约<br>Eureka Client 会每隔 30 秒发送一次心跳来续约。 通过续约来告知 Eureka Server 该 Eureka Client 运行正常，没有出现问题。 默认情况下，如果 Eureka Server 在 90 秒内没有收到 Eureka Client 的续约，Server 端会将实例从其注册表中删除，此时间可配置，一般情况不建议更改。<br>Eviction: 服务注销<br>当client不在有心跳时，server会自动将服务实例从服务注册列表中删除<br>cancle： 服务下线<br>client在关闭时向server发送请求，发送请求后，server中将服务从服务列表中删除，这里是一个需要调用接口的操作  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DiscoveryManager.getInstance().shutdownComponent()；</span><br></pre></td></tr></table></figure>
+<p>getregisty:获取注册表信息<br>####注册中心的缓存机制<br>eureka使用一个Map来保存所有的服务以及相关的映射  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt; registry</span><br><span class="line">            = <span class="keyword">new</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>服务注册时，会将服务的相关信息写入到registry中<br>服务从治理中心拉取服务列表信息时，不会从registry中直接获取，而是从responseCache中拉取，这样的设计结构能够从一定程度上支持高并发<br>而cache本身也分成两部分，一个是ReadWriteMap,一个是ReadOnlyMap,这里实现了一个二级缓存的结构，读写map是和registry实时同步，但readonly表是通过定时任务做同步的<br>####服务注册的细节</p>
+<ol>
+<li>客户端做了啥<br>服务启动后，会启动一个线程来执行注册信息，当服务信息变更时，也会将变更后的信息重新注册，同时发起一个定时任务来定期注册</li>
+<li>服务端做了啥<br>首先会将进行注册以及相应的二级缓存，其次会将这个注册信息添加到一个最近变更序列中<br>之所以要额外维护一个最近变更序列，是为了方便服务增量的更新服务列表的信息<br>然后会把注册的信息同步到其他的eureka节点<br>####服务续约的细节<br>前面说到服务启动之后会有一个定时任务生成，这里就相当于一个心跳线程，定时去续约任务<br>####服务注销的细节<br>服务手动停止时会向服务治理中心发送一个服务取消的请求<br>服务中心收到这个请求后会：<br>从registry中删除对应的服务信息<br>使readwritemap中对应的缓存信息失效<br>将服务取消的信息加入到最近变更序列中    </li>
+</ol>
+]]></content>
+      <categories>
+        <category>中间件使用</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Hadoop简介</title>
     <url>/2020/04/15/Hadoop%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<hr>
@@ -13,9 +30,9 @@
 <hr>
 <p> 1: 什么是hadoop<br> 一个分布式系统的基础架构，成本低，高效，高可靠，高容错，高拓展，与spark最大的区别在于分别是面向磁盘和面向内存，总的来说spark的计算能力更强<br> 2: hadoop 核心二组件  </p>
 <ul>
-<li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成  </li>
+<li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成<br>hdfs为海量数据提供了存储</li>
+<li>MapReduce<br>mapreduce是一个计算框架 为海量数据计算提供了支撑</li>
 </ul>
-<p>MapReduce </p>
 ]]></content>
   </entry>
   <entry>
@@ -76,6 +93,23 @@
       </categories>
   </entry>
   <entry>
+    <title>Mybatis配置及使用</title>
+    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
+<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
+<ol>
+<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
+<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+      <tags>
+        <tag>Mybatis,Hibernate</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mybatis与Hibernate对比</title>
     <url>/2020/04/14/Mybatis%E4%B8%8EHibernate%E5%AF%B9%E6%AF%94/</url>
     <content><![CDATA[<p>###hibernate的优缺点<br>####优点</p>
@@ -110,23 +144,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mybatis配置及使用</title>
-    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
-<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
-<ol>
-<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
-<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Mybatis</category>
-      </categories>
-      <tags>
-        <tag>Mybatis,Hibernate</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>excel相关</title>
     <url>/2020/04/14/excel%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<p>1： csv文件被excel打开并编辑后可能会分隔符改变，最骚的是excel读取不到自己改了啥</p>
@@ -145,15 +162,6 @@
 ]]></content>
       <categories>
         <category>git</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>ML_lab</title>
-    <url>/2020/04/14/git%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<p>计划搞一个</p>
-]]></content>
-      <categories>
-        <category>ML_lab</category>
       </categories>
   </entry>
   <entry>
@@ -183,6 +191,15 @@
 ]]></content>
       <categories>
         <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ML_lab</title>
+    <url>/2020/04/14/git%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>计划搞一个</p>
+]]></content>
+      <categories>
+        <category>ML_lab</category>
       </categories>
   </entry>
   <entry>
@@ -242,6 +259,14 @@
       </categories>
   </entry>
   <entry>
+    <title>jvm性能调优</title>
+    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>java基础</title>
     <url>/2020/04/14/java%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h3 id="接口和抽象类之间的区别"><a href="#接口和抽象类之间的区别" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h3><h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>在JAVA编程语言中是一个抽象类型，主要是抽象方法的集合，接口中的变量定义必须为public static final类型。接口通常以interface来声明。</p>
@@ -250,13 +275,22 @@
 <li>类可以实现多个接口，但只能继承一个抽象类</li>
 <li>接口中主要包含的是静态成员变量以及接口方法，抽象类中可以定义普通的成员变量<h4 id="什么时候使用接口，什么时候使用抽象类"><a href="#什么时候使用接口，什么时候使用抽象类" class="headerlink" title="什么时候使用接口，什么时候使用抽象类"></a>什么时候使用接口，什么时候使用抽象类</h4>抽象类的核心用处在于实现面向对象编程的核心原则（ocp:Open-Close-principle）<br>java本身是单继承，多实现<br>单继承的优点在于，方便兼容，便于垃圾回收，便于使用（很多基础方法都包含在object类中）<h3 id="方法的重载与重写"><a href="#方法的重载与重写" class="headerlink" title="方法的重载与重写"></a>方法的重载与重写</h3>重载的核心在于同一个类中，传参不同，实现不同的逻辑<br>重写则是子类对于父类的方法的重新实现，传入传出不变，但核心逻辑重新实现</li>
 <li>传出参数在java7 以上可以类型不同，但需要时父类传出参数的子类参数</li>
-<li>被重写的方法必须是子类可修改并可访问的<h3 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h3>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。注意，本地变量是不能被transient关键字修饰的。变量如果是用户自定义类变量，则该类需要实现Serializable接口。<br>被transient关键字修饰的变量不再能被序列化，一个静态变量不管是否被transient修饰，均不能被序列化。  <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3></li>
+<li>被重写的方法必须是子类可修改并可访问的<h3 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h3>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。不管是否被transient修饰，均不能被序列化。  <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3></li>
 <li>继承thread类<br>必须重写run方法，本身thread类是继承runab</li>
 <li>实现runable接口</li>
 </ol>
 ]]></content>
       <categories>
         <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>metabase</title>
+    <url>/2020/04/14/metabase/</url>
+    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
       </categories>
   </entry>
   <entry>
@@ -297,27 +331,28 @@
       </categories>
   </entry>
   <entry>
-    <title>jvm性能调优</title>
-    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>metabase</title>
-    <url>/2020/04/14/metabase/</url>
-    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
-]]></content>
-      <categories>
-        <category>开原项目及其他小工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>ml开源项目实践</title>
     <url>/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/</url>
     <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>mysql性能调优</title>
+    <url>/2020/04/14/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<h2 id="mysql性能优化思路及方法"><a href="#mysql性能优化思路及方法" class="headerlink" title="mysql性能优化思路及方法"></a>mysql性能优化思路及方法</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<li>选择合适的引擎  </li>
+<li>正确的配置数据库</li>
+<li>SQL 语句优化</li>
+<li>表结构优化</li>
+<li>索引使用及优化</li>
+<li>排序优化</li>
+<li>读写事务分离</li>
+<li>硬件升级，分布式或者提升配置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
   </entry>
   <entry>
     <title>mysql引擎</title>
@@ -343,25 +378,6 @@
 <li>不支持bolb和text</li>
 <li>这张表在所有的客户端中共享<h3 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h3>一组结构完全相同的MyISAM,本质上是个集合</li>
 </ul>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>mysql性能调优</title>
-    <url>/2020/04/14/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<p>##mysql性能优化思路及方法<br>###思路</p>
-<ol>
-<li>选择合适的引擎  </li>
-<li>正确的配置数据库</li>
-<li>SQL 语句优化</li>
-<li>表结构优化</li>
-<li>索引使用及优化</li>
-<li>排序优化</li>
-<li>读写事务分离</li>
-<li>硬件升级，分布式或者提升配置</li>
-</ol>
 ]]></content>
       <categories>
         <category>mysql</category>
@@ -400,6 +416,22 @@
       </tags>
   </entry>
   <entry>
+    <title>sql整理</title>
+    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
+<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="判断字段非空或不是空字符串"><a href="#判断字段非空或不是空字符串" class="headerlink" title="判断字段非空或不是空字符串"></a>判断字段非空或不是空字符串</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
+<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>spring相关问题</title>
     <url>/2020/04/14/spring%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<ol>
@@ -427,32 +459,6 @@
 ]]></content>
       <categories>
         <category>web知识</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>sql整理</title>
-    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
-<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h3 id="判断字段非空或不是空字符串"><a href="#判断字段非空或不是空字符串" class="headerlink" title="判断字段非空或不是空字符串"></a>判断字段非空或不是空字符串</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
-<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>别再问我什么是Hashmap</title>
-    <url>/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/</url>
-    <content><![CDATA[<h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
-<h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
-<h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>]]></content>
-      <categories>
-        <category>java</category>
       </categories>
   </entry>
   <entry>
@@ -490,6 +496,16 @@
 ]]></content>
   </entry>
   <entry>
+    <title>别再问我什么是Hashmap</title>
+    <url>/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/</url>
+    <content><![CDATA[<h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
+<h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
+<h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>开发环境搭建</title>
     <url>/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h1 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h1><ol>
@@ -512,17 +528,107 @@
       </categories>
   </entry>
   <entry>
-    <title>快乐工具</title>
-    <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<ol>
-<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
-<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
-<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
-<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
+    <title>微服务及常用组件</title>
+    <url>/2020/06/24/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8F%8A%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="什么是微服务的理念"><a href="#什么是微服务的理念" class="headerlink" title="什么是微服务的理念"></a>什么是微服务的理念</h3><h3 id="微服务常用的功能及相关组件"><a href="#微服务常用的功能及相关组件" class="headerlink" title="微服务常用的功能及相关组件"></a>微服务常用的功能及相关组件</h3><h4 id="监控-发现故障的征兆"><a href="#监控-发现故障的征兆" class="headerlink" title="监控 发现故障的征兆"></a>监控 发现故障的征兆</h4><p>通常来讲基于微服务架构构建的服务会有几十个甚至上百个细粒度服务组成，此外，整个系统内的事务通常是异步的，传统的apm监控产品可能无法满足多个并发服务的分布式应用<br>不过apm本身也是比较成熟的技术领域了，相关的公司以及产品非常的多样化，这里就不一一赘述了<br>通常来讲一个apm工具会有自动发现拓扑、相互依赖关系，分布式追踪，拓扑可视化，组件、系统的健康预测，交互可视化，应用程序分析，历史重播等功能  </p>
+<h4 id="链路追踪-定位问题"><a href="#链路追踪-定位问题" class="headerlink" title="链路追踪 定位问题"></a>链路追踪 定位问题</h4><ul>
+<li>明确业务<br>一般场景下，微服务中很难直观的了解系统运行，业务的流程，通过链路追踪可以搞清楚服务间的调用关系，方便理解系统业务  </li>
+<li>分析耗时<br>链路追踪的基本功能，追踪并统计服务间的调用耗时  </li>
+<li>可视化错误<br>如果服务在链路调用中发生错误，可以直观的显示查看，定位到被调用服务的接口，及时排除服务报错的原因  </li>
+<li>优化链路<br>显示完整的调用链路，根据业务分析调用链路的合理性，可读性，健壮性，是否链路过长，有没有可以优化的点<br>或者业务场景比较复杂时可能出现数据中心分布在不同的地域，服务间链路调用通信可能会出现跨地域，导致调用延迟高，不符合设计要求  </li>
+<li>生成网络拓扑<br>根据链路追踪的信息，生成系统的网络拓扑图<h4 id="分析问题-日志分析"><a href="#分析问题-日志分析" class="headerlink" title="分析问题 日志分析"></a>分析问题 日志分析</h4>因为微服务间互相隔离，不共享公共数据库以及日志文件，随着微服务数量的增加，以及持续继承云部署，手动进行日志分析不太现实<br>一般通用的会使用ELK(K)：  </li>
+<li>Elastic search 是一种基于Json的分布式搜索分析引擎，提供水平可拓展性，高可靠，易管理  </li>
+<li>Log stash 一个动态数据收集管道，可拓展的插件生态系统，和e有强大的协同作用  </li>
+<li>kibana 通过ui提供可视化  </li>
+<li>kfaka 数据量大的时候可能使用消息对垒来进行管理<br>通过l 设置过滤条件来对日只进行收集处理，并将处理后的内容发送到e,最后通过k来进行查看和分析  <h4 id="网关-服务治理"><a href="#网关-服务治理" class="headerlink" title="网关 服务治理"></a>网关 服务治理</h4></li>
+</ul>
+<ol>
+<li>api网关：作为一个api架构，用来保护、增强和控制对于api服务的访问<ul>
+<li>处于应用程序或服务调用之前，用来管理授权，访问控制，流量控制，rest api本手受api网关的保护和治理，不对外部暴露，隐藏在api网关之后的业务系统就可以专注于创建和管理服务，而对于策略性的基础设施不做管控  </li>
+<li>本身就是一些基础设施功能，类似于aop的横切，将系统功能中的一些通用功能，例如鉴权，路由，日志分析等抽取到api网关统一管理  </li>
+</ul>
+</li>
+<li>api网关的四大职能：  <ul>
+<li>业务聚合：作为所有后端业务的聚合点，所有的业务服务都可以在这里被调用</li>
+<li>中介策略：实现安全，验证，路由，过滤，控流，缓存等中介策略，以及其他必要的中介处理</li>
+<li>请求接入，作为所有api接口服务请求的接入点，管理所有的接入请求</li>
+<li>统一管理：提供配置管理工具，管理所有的api服务的生命周期以及相应的中介策略</li>
+</ul>
+</li>
+<li>api网关的重要关注点<ul>
+<li>高可用，非常重要，因为网关是一个统筹的架构，所以高可用性必须要得到满足</li>
+<li>高性能，节约设备成本，提高吞吐能力</li>
+<li>开发维护应尽可能简单</li>
+<li>方便灵活可继承安全，验证，过滤，聚合，限流，监控等各种策略</li>
+</ul>
+</li>
+<li>一般分为流量网关，业务网关</li>
+<li>常见的开源网关<br>一般来讲现在市场上使用比较多主要是OpenResty,Kong,Zuul/Zuul2,Spring CLoud Gateway  <ul>
+<li>四大开源框架对比如下：  <table>
+<thead>
+<tr>
+<th>网关</th>
+<th>限流</th>
+<th>鉴权</th>
+<th>监控</th>
+<th>易用性</th>
+<th>可维护性</th>
+<th>成熟度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SGW</td>
+<td>可通过IP,用户，集群</td>
+<td>稍微长一点的文本</td>
+<td>SGW</td>
+<td>中等文本</td>
+<td>稍微长一点的文本</td>
+<td>稍微长一点的文本</td>
+</tr>
+<tr>
+<td>Zuul2.X</td>
+<td>集群，单服务， 也能通过filter</td>
+<td>filter</td>
+<td>filter</td>
+<td>不咋地</td>
+<td>比较糟糕</td>
+<td>资料少</td>
+</tr>
+<tr>
+<td>Kong</td>
+<td>策略种类非常多，可以再源码的基础上开发</td>
+<td>非常多</td>
+<td>上报datadog,记录请求数量，请求数据量，应答数据量</td>
+<td>简单易用，但需要lua脚本开发</td>
+<td>维护lua库</td>
+<td>比较成熟</td>
+</tr>
+<tr>
+<td>OpenResty</td>
+<td>lua开发</td>
+<td>lua开发</td>
+<td>需要开发</td>
+<td>lua</td>
+<td>lua</td>
+<td>比较成熟</td>
+</tr>
+</tbody></table>
+</li>
+<li>性能对比如下<br>sgw~Zuul2&lt;&lt;OpenResty&lt;kong&lt;&lt;Direct<br>前两个差不多40%<br>后两个差不多60%<br>zuul2在高并发下可能出错  </li>
+<li>网关如何保证高可用<br>作为一个微服务网关系统，因为所有的流量都经过网关，网关必须成为一个高可用的中间件服务，<h4 id="服务注册-动态扩容"><a href="#服务注册-动态扩容" class="headerlink" title="服务注册 动态扩容"></a>服务注册 动态扩容</h4><h4 id="熔断器-服务限流"><a href="#熔断器-服务限流" class="headerlink" title="熔断器 服务限流"></a>熔断器 服务限流</h4><h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><h4 id="微服务使用中应该注意的问题"><a href="#微服务使用中应该注意的问题" class="headerlink" title="微服务使用中应该注意的问题"></a>微服务使用中应该注意的问题</h4></li>
+</ul>
+</li>
 </ol>
+<ul>
+<li>服务如何拆分</li>
+<li>事务的最终一致性</li>
+<li>性能及容量预估  </li>
+<li>分布式日志维护</li>
+<li>线上应急措施</li>
+</ul>
 ]]></content>
       <categories>
-        <category>开原项目及其他小工具</category>
+        <category>微服务</category>
       </categories>
   </entry>
   <entry>
@@ -539,6 +645,20 @@
       </tags>
   </entry>
   <entry>
+    <title>快乐工具</title>
+    <url>/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<ol>
+<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
+<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
+<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
+<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Mybatis配置及使用</title>
     <url>/2020/04/14/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="如何消息去重"><a href="#如何消息去重" class="headerlink" title="如何消息去重"></a>如何消息去重</h3><p>一般在消费端对消息进行去重处理，通常每消费一条消息，就将消息的业务id存入第三方工具中，比如redis，当消费端新获取到一条消息时在redis中查找对应的id是否存在，最后根据业务需要定期清空</p>
@@ -548,11 +668,14 @@
       </categories>
   </entry>
   <entry>
-    <title>网络协议相关</title>
-    <url>/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/</url>
+    <title>红黑树，b树，b+树等</title>
+    <url>/2020/05/22/%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8Cb%E6%A0%91%EF%BC%8Cb+%E6%A0%91%E7%AD%89/</url>
     <content><![CDATA[<hr>
-<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
+<p> title: 红黑树，b树，b+树等<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 算法与数据结构</p>
 <hr>
+<p> 1: 平衡二叉树<br> 树高差只有1的二叉树，插入删除导致不满足平衡的时候就会触发旋转，所以不适用插入删除非常频繁的场景</p>
+<p> 2: 红黑树<br> 近似平衡的二叉树，通过对任何一条从根到叶子的简单路径上各个节点的颜色进行约束，确保没有一条路径会比其他路径长2倍，<br> 因而是近似平衡的。所以相对于严格要求平衡的AVL树来说，它的旋转保持平衡次数较少。<br> 所以对于增删频次比较高的情况下红黑树表现比二叉树好。查找复杂度log2n<br> （现在部分场景使用跳表来替换红黑树）<br> (跳表就是多层链表，底层数据，其余层做索引，查找，时间复杂度logn，空间复杂度2n)</p>
+<p> 3: b(+树)<br> 多路查找树，b+树的区别在于b+树的数据都是保存在叶子节点的，查找时间复杂度logn</p>
 ]]></content>
   </entry>
   <entry>
@@ -563,6 +686,14 @@
       <categories>
         <category>问题调试</category>
       </categories>
+  </entry>
+  <entry>
+    <title>网络协议相关</title>
+    <url>/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<hr>
+<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
+<hr>
+]]></content>
   </entry>
   <entry>
     <title>触发器的坑</title>

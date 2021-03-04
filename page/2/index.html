@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/20/%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" class="post-title-link" itemprop="url">定时任务</a>
+            <a href="/2020/07/20/%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/" class="post-title-link" itemprop="url">接口的幂等性</a>
         </h2>
 
         <div class="post-meta">
@@ -179,14 +179,430 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-14 15:07:35" itemprop="dateCreated datePublished" datetime="2020-04-14T15:07:35+08:00">2020-04-14</time>
+              <time title="创建时间：2020-07-20 14:31:35" itemprop="dateCreated datePublished" datetime="2020-07-20T14:31:35+08:00">2020-07-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-20 11:39:46" itemprop="dateModified" datetime="2020-05-20T11:39:46+08:00">2020-05-20</time>
+                <time title="修改时间：2020-07-21 15:37:16" itemprop="dateModified" datetime="2020-07-21T15:37:16+08:00">2020-07-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>###什么是幂等性<br>当用户对同一个操作请求了一次或者多次，最终的结果影视一致的，并不会因为多次请求而产生副作用</p>
+<ul>
+<li>查询和删除<br>查询具有天然的幂等性，在数据不变的情况下，相同查询条件的返回本身是一样的，删除同样是天然幂等的，删除一次和删除多次的逻辑结果通常来讲都是一样的，并不会因为删除多次或者查询多次而有数据上的改变</li>
+<li>新增和修改<br>如果不进行幂等性的处理，新增和修改通常来讲可能会出现问题，执行多次新增可能会产生多条重复数据，执行多次修改，如果是原基础上数值的迭代计算，就会出现例如重复扣费等问题<br>###保证幂等性的解决方案</li>
+<li>唯一索引 使用不是很多 对数据库不拆分有绑定需求<br>使用唯一索引，可以有效的防止新增脏数据，不过无法应用在分库分表的场景</li>
+<li>悲观锁 使用要额外注意<br>获取数据的时候使用锁，但是要注意where条件中的字段必须是主键或者有索引，否则会导致锁全表<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">form</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">col</span>=<span class="string">"xxx"</span><span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure></li>
+<li>分布式锁 使用比较多<br>在业务执行插入或者更新时，首先要获取锁，同一时间只能有一个线程获得锁</li>
+<li>全局唯一id 使用比较多<br>每次请求都生成一个全局唯一id,接口调用的时候携带这个id,而接口调用的时候携带这个id,而业务操作方在执行前先校验这个id是否在本地已存在，如果不存在则执行后记录，存在则不再执行<br>许多分布式架构中，生成全局唯一的id都会作为一个基础服务，当然这个微服务的可靠性要求非常高，也可以设计一个全局唯一的id生成算法</li>
+<li>数据版本号 比较常用<br>版本号，本质上算是乐观锁的一种，数据修改时根据版本号判断数据是否发生过修改</li>
+<li>业务状态<br>业务进行流转时通过业务状态来辅助校验修改的数据</li>
+<li>去重表<br>如果业务有唯一标示的情况下，也可以通过数据库维护标示来防止重复操作</li>
+<li>没有同源限制，客户段可以和人衣服武器通信<br>###WebSocket是什么样的协议，具体有什么样的优点<br>WebSocket是持久化的协议，与http1.0的非持久化和http1.1的伪持久化不同</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/24/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8F%8A%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/24/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8F%8A%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">微服务及常用组件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-24 14:31:35" itemprop="dateCreated datePublished" datetime="2020-06-24T14:31:35+08:00">2020-06-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-06 17:17:27" itemprop="dateModified" datetime="2020-07-06T17:17:27+08:00">2020-07-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="什么是微服务的理念"><a href="#什么是微服务的理念" class="headerlink" title="什么是微服务的理念"></a>什么是微服务的理念</h3><h3 id="微服务常用的功能及相关组件"><a href="#微服务常用的功能及相关组件" class="headerlink" title="微服务常用的功能及相关组件"></a>微服务常用的功能及相关组件</h3><h4 id="监控-发现故障的征兆"><a href="#监控-发现故障的征兆" class="headerlink" title="监控 发现故障的征兆"></a>监控 发现故障的征兆</h4><p>通常来讲基于微服务架构构建的服务会有几十个甚至上百个细粒度服务组成，此外，整个系统内的事务通常是异步的，传统的apm监控产品可能无法满足多个并发服务的分布式应用<br>不过apm本身也是比较成熟的技术领域了，相关的公司以及产品非常的多样化，这里就不一一赘述了<br>通常来讲一个apm工具会有自动发现拓扑、相互依赖关系，分布式追踪，拓扑可视化，组件、系统的健康预测，交互可视化，应用程序分析，历史重播等功能  </p>
+<h4 id="链路追踪-定位问题"><a href="#链路追踪-定位问题" class="headerlink" title="链路追踪 定位问题"></a>链路追踪 定位问题</h4><ul>
+<li>明确业务<br>一般场景下，微服务中很难直观的了解系统运行，业务的流程，通过链路追踪可以搞清楚服务间的调用关系，方便理解系统业务  </li>
+<li>分析耗时<br>链路追踪的基本功能，追踪并统计服务间的调用耗时  </li>
+<li>可视化错误<br>如果服务在链路调用中发生错误，可以直观的显示查看，定位到被调用服务的接口，及时排除服务报错的原因  </li>
+<li>优化链路<br>显示完整的调用链路，根据业务分析调用链路的合理性，可读性，健壮性，是否链路过长，有没有可以优化的点<br>或者业务场景比较复杂时可能出现数据中心分布在不同的地域，服务间链路调用通信可能会出现跨地域，导致调用延迟高，不符合设计要求  </li>
+<li>生成网络拓扑<br>根据链路追踪的信息，生成系统的网络拓扑图<h4 id="分析问题-日志分析"><a href="#分析问题-日志分析" class="headerlink" title="分析问题 日志分析"></a>分析问题 日志分析</h4>因为微服务间互相隔离，不共享公共数据库以及日志文件，随着微服务数量的增加，以及持续继承云部署，手动进行日志分析不太现实<br>一般通用的会使用ELK(K)：  </li>
+<li>Elastic search 是一种基于Json的分布式搜索分析引擎，提供水平可拓展性，高可靠，易管理  </li>
+<li>Log stash 一个动态数据收集管道，可拓展的插件生态系统，和e有强大的协同作用  </li>
+<li>kibana 通过ui提供可视化  </li>
+<li>kfaka 数据量大的时候可能使用消息对垒来进行管理<br>通过l 设置过滤条件来对日只进行收集处理，并将处理后的内容发送到e,最后通过k来进行查看和分析  <h4 id="网关-服务治理"><a href="#网关-服务治理" class="headerlink" title="网关 服务治理"></a>网关 服务治理</h4></li>
+</ul>
+<ol>
+<li>api网关：作为一个api架构，用来保护、增强和控制对于api服务的访问<ul>
+<li>处于应用程序或服务调用之前，用来管理授权，访问控制，流量控制，rest api本手受api网关的保护和治理，不对外部暴露，隐藏在api网关之后的业务系统就可以专注于创建和管理服务，而对于策略性的基础设施不做管控  </li>
+<li>本身就是一些基础设施功能，类似于aop的横切，将系统功能中的一些通用功能，例如鉴权，路由，日志分析等抽取到api网关统一管理  </li>
+</ul>
+</li>
+<li>api网关的四大职能：  <ul>
+<li>业务聚合：作为所有后端业务的聚合点，所有的业务服务都可以在这里被调用</li>
+<li>中介策略：实现安全，验证，路由，过滤，控流，缓存等中介策略，以及其他必要的中介处理</li>
+<li>请求接入，作为所有api接口服务请求的接入点，管理所有的接入请求</li>
+<li>统一管理：提供配置管理工具，管理所有的api服务的生命周期以及相应的中介策略</li>
+</ul>
+</li>
+<li>api网关的重要关注点<ul>
+<li>高可用，非常重要，因为网关是一个统筹的架构，所以高可用性必须要得到满足</li>
+<li>高性能，节约设备成本，提高吞吐能力</li>
+<li>开发维护应尽可能简单</li>
+<li>方便灵活可继承安全，验证，过滤，聚合，限流，监控等各种策略</li>
+</ul>
+</li>
+<li>一般分为流量网关，业务网关</li>
+<li>常见的开源网关<br>一般来讲现在市场上使用比较多主要是OpenResty,Kong,Zuul/Zuul2,Spring CLoud Gateway  <ul>
+<li>四大开源框架对比如下：  <table>
+<thead>
+<tr>
+<th>网关</th>
+<th>限流</th>
+<th>鉴权</th>
+<th>监控</th>
+<th>易用性</th>
+<th>可维护性</th>
+<th>成熟度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SGW</td>
+<td>可通过IP,用户，集群</td>
+<td>稍微长一点的文本</td>
+<td>SGW</td>
+<td>中等文本</td>
+<td>稍微长一点的文本</td>
+<td>稍微长一点的文本</td>
+</tr>
+<tr>
+<td>Zuul2.X</td>
+<td>集群，单服务， 也能通过filter</td>
+<td>filter</td>
+<td>filter</td>
+<td>不咋地</td>
+<td>比较糟糕</td>
+<td>资料少</td>
+</tr>
+<tr>
+<td>Kong</td>
+<td>策略种类非常多，可以再源码的基础上开发</td>
+<td>非常多</td>
+<td>上报datadog,记录请求数量，请求数据量，应答数据量</td>
+<td>简单易用，但需要lua脚本开发</td>
+<td>维护lua库</td>
+<td>比较成熟</td>
+</tr>
+<tr>
+<td>OpenResty</td>
+<td>lua开发</td>
+<td>lua开发</td>
+<td>需要开发</td>
+<td>lua</td>
+<td>lua</td>
+<td>比较成熟</td>
+</tr>
+</tbody></table>
+</li>
+<li>性能对比如下<br>sgw~Zuul2&lt;&lt;OpenResty&lt;kong&lt;&lt;Direct<br>前两个差不多40%<br>后两个差不多60%<br>zuul2在高并发下可能出错  </li>
+<li>网关如何保证高可用<br>作为一个微服务网关系统，因为所有的流量都经过网关，网关必须成为一个高可用的中间件服务，<h4 id="服务注册-动态扩容"><a href="#服务注册-动态扩容" class="headerlink" title="服务注册 动态扩容"></a>服务注册 动态扩容</h4><h4 id="熔断器-服务限流"><a href="#熔断器-服务限流" class="headerlink" title="熔断器 服务限流"></a>熔断器 服务限流</h4><h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><h4 id="微服务使用中应该注意的问题"><a href="#微服务使用中应该注意的问题" class="headerlink" title="微服务使用中应该注意的问题"></a>微服务使用中应该注意的问题</h4></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>服务如何拆分</li>
+<li>事务的最终一致性</li>
+<li>性能及容量预估  </li>
+<li>分布式日志维护</li>
+<li>线上应急措施</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/25/mysql%E5%BC%95%E6%93%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/mysql%E5%BC%95%E6%93%8E/" class="post-title-link" itemprop="url">mysql引擎</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-25 14:31:35" itemprop="dateCreated datePublished" datetime="2020-05-25T14:31:35+08:00">2020-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-26 09:36:54" itemprop="dateModified" datetime="2020-05-26T09:36:54+08:00">2020-05-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><h4 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h4><p>访问速度快</p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>对事物完整性没有要求，以select/insert为主的应用</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>不支持事务，也不支持外键</li>
+<li>63位的大文件支持</li>
+<li>混合插入更新删除操作时，动态尺寸产生的碎片更小</li>
+<li>默认最大索引数是64，可以重新编译来更改，每个索引的最大列数是18</li>
+<li>最大的键长度是1000字节，也可以重新编译来更改</li>
+<li>blob text类型的列可以作为索引</li>
+<li>索引列中允许出现null</li>
+<li>每个字列可以有不同的字符集<h3 id="Innodb"><a href="#Innodb" class="headerlink" title="Innodb"></a>Innodb</h3><h4 id="优势：-1"><a href="#优势：-1" class="headerlink" title="优势："></a>优势：</h4>支持外键，提供了提交，回滚，崩溃恢复的事务安全<h4 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h4>对事物完整性有要求<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4></li>
+<li>自动增长列必须是索引</li>
+<li>支持了外键</li>
+<li>存储数据和索引可以共享表空间存储，也可以独占表空间</li>
+<li>处理巨大量数据的最大性能设计，cpu使用效率是最高的<h3 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h3><h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4>速度快吧，毕竟是内存+hash<h4 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h4>内容变化不频繁的代码表，作为统计操作的中间结果表，便于利用它速率快的优势高效的对中间结果进分析<h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4></li>
+<li>每个表可以有32个索引，每个索引16列</li>
+<li>执行hash-btree索引，配合内存形成巨快的执行效率</li>
+<li>在一个表中，可以有多个键值</li>
+<li>不支持bolb和text</li>
+<li>这张表在所有的客户端中共享<h3 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h3>一组结构完全相同的MyISAM,本质上是个集合</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/22/java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">java(8)内存管理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-22 14:31:35 / 修改时间：11:11:29" itemprop="dateCreated datePublished" datetime="2020-05-22T14:31:35+08:00">2020-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8Cb%E6%A0%91%EF%BC%8Cb+%E6%A0%91%E7%AD%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/22/%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8Cb%E6%A0%91%EF%BC%8Cb+%E6%A0%91%E7%AD%89/" class="post-title-link" itemprop="url">红黑树，b树，b+树等</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-22 09:50:35" itemprop="dateCreated datePublished" datetime="2020-05-22T09:50:35+08:00">2020-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-20 10:34:30" itemprop="dateModified" datetime="2020-07-20T10:34:30+08:00">2020-07-20</time>
               </span>
 
           
@@ -201,22 +617,11 @@
 
       
           <hr>
-<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<p> title: 红黑树，b树，b+树等<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 算法与数据结构</p>
 <hr>
-<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
-<p>3: spring提供的注解</p>
-<p>{秒} {分} {时} {日期} {月} {星期}</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4：quartz框架<br>maven依赖：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
+<p> 1: 平衡二叉树<br> 树高差只有1的二叉树，插入删除导致不满足平衡的时候就会触发旋转，所以不适用插入删除非常频繁的场景</p>
+<p> 2: 红黑树<br> 近似平衡的二叉树，通过对任何一条从根到叶子的简单路径上各个节点的颜色进行约束，确保没有一条路径会比其他路径长2倍，<br> 因而是近似平衡的。所以相对于严格要求平衡的AVL树来说，它的旋转保持平衡次数较少。<br> 所以对于增删频次比较高的情况下红黑树表现比二叉树好。查找复杂度log2n<br> （现在部分场景使用跳表来替换红黑树）<br> (跳表就是多层链表，底层数据，其余层做索引，查找，时间复杂度logn，空间复杂度2n)</p>
+<p> 3: b(+树)<br> 多路查找树，b+树的区别在于b+树的数据都是保存在叶子节点的，查找时间复杂度logn</p>
 
       
     </div>
@@ -236,7 +641,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Eureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/21/java%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +655,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/Eureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="post-title-link" itemprop="url">Linux常用命令</a>
+            <a href="/2020/05/21/java%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">java代码优化</a>
         </h2>
 
         <div class="post-meta">
@@ -260,669 +665,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+              <time title="创建时间：2020-05-21 14:31:35" itemprop="dateCreated datePublished" datetime="2020-05-21T14:31:35+08:00">2020-05-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-19 16:40:44" itemprop="dateModified" datetime="2020-06-19T16:40:44+08:00">2020-06-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">中间件使用</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>###什么是Eureka<br>Eureka是一个基于rest服务的，服务注册与发现的组件，用来管理为服务的各个组件<br>###Eureka的两个重要组成部件<br>####Eureka Server：注册中心服务端<br>注册中心服务端主要对外提供了三个功能：<br>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>提供注册表<br>服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<br>同步状态<br>Eureka Client 通过注册、心跳机制和 Eureka Server 同步当前客户端的状态。<br>Eureka Client：注册中心客户端<br>Eureka Client 是一个 Java 客户端，用于简化与 Eureka Server 的交互。Eureka Client 会拉取、更新和缓存 Eureka Server 中的信息。因此当所有的 Eureka Server 节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者，但是当服务有更改的时候会出现信息不一致。<br>Register: 服务注册<br>服务的提供者，将自身注册到注册中心，服务提供者也是一个 Eureka Client。当 Eureka Client 向 Eureka Server 注册时，它提供自身的元数据，比如 IP 地址、端口，运行状况指示符 URL，主页等。<br>Renew: 服务续约<br>Eureka Client 会每隔 30 秒发送一次心跳来续约。 通过续约来告知 Eureka Server 该 Eureka Client 运行正常，没有出现问题。 默认情况下，如果 Eureka Server 在 90 秒内没有收到 Eureka Client 的续约，Server 端会将实例从其注册表中删除，此时间可配置，一般情况不建议更改。<br>Eviction: 服务注销<br>当client不在有心跳时，server会自动将服务实例从服务注册列表中删除<br>cancle： 服务下线<br>client在关闭时向server发送请求，发送请求后，server中将服务从服务列表中删除，这里是一个需要调用接口的操作  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DiscoveryManager.getInstance().shutdownComponent()；</span><br></pre></td></tr></table></figure>
-<p>getregisty:获取注册表信息<br>####注册中心的缓存机制<br>eureka使用一个Map来保存所有的服务以及相关的映射  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt; registry</span><br><span class="line">            = <span class="keyword">new</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure>
-<p>服务注册时，会将服务的相关信息写入到registry中<br>服务从治理中心拉取服务列表信息时，不会从registry中直接获取，而是从responseCache中拉取，这样的设计结构能够从一定程度上支持高并发<br>而cache本身也分成两部分，一个是ReadWriteMap,一个是ReadOnlyMap,这里实现了一个二级缓存的结构，读写map是和registry实时同步，但readonly表是通过定时任务做同步的<br>####服务注册的细节</p>
-<ol>
-<li>客户端做了啥<br>服务启动后，会启动一个线程来执行注册信息，当服务信息变更时，也会将变更后的信息重新注册，同时发起一个定时任务来定期注册</li>
-<li>服务端做了啥<br>首先会将进行注册以及相应的二级缓存，其次会将这个注册信息添加到一个最近变更序列中<br>之所以要额外维护一个最近变更序列，是为了方便服务增量的更新服务列表的信息<br>然后会把注册的信息同步到其他的eureka节点<br>####服务续约的细节<br>前面说到服务启动之后会有一个定时任务生成，这里就相当于一个心跳线程，定时去续约任务<br>####服务注销的细节<br>服务手动停止时会向服务治理中心发送一个服务取消的请求<br>服务中心收到这个请求后会：<br>从registry中删除对应的服务信息<br>使readwritemap中对应的缓存信息失效<br>将服务取消的信息加入到最近变更序列中    </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">Linux常用命令</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-07 09:45:27" itemprop="dateModified" datetime="2020-05-07T09:45:27+08:00">2020-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1: 后台运行进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ******* &amp;</span><br></pre></td></tr></table></figure>
-
-<p>2: 查看运行进程<br>当前用户的当前会话的进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jobs</span><br></pre></td></tr></table></figure>
-<p>查看指定相关的进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep java&#x2F;&#x2F;mysql</span><br></pre></td></tr></table></figure>
-
-<p>3; 终止指定进程  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill 进程号</span><br></pre></td></tr></table></figure>
-<h3 id="编辑文件相关"><a href="#编辑文件相关" class="headerlink" title="编辑文件相关"></a>编辑文件相关</h3><h4 id="vi"><a href="#vi" class="headerlink" title="vi"></a>vi</h4><p>输入模式<br>通过输入vi的插入命令（i）、附加命令（a）、打开命令（o）、替换命令（s）、修改命令(c）或取代命令（r）可以从命令方式进入输入方式。在输入方式下，从键盘上输入的所有字符都被插入到正在编辑的缓冲区中，被当做该文件的正文。进入输入方式后，输入的可见字符都在屏幕上显示出来，而编辑命令不再起作用，仅作为普通字母出现。例如，在命令方式下输入字母i，进到输入方式，然后再输入i，就在屏幕上相应光标处添加一个字母i。</p>
-<p>命令模式<br>esc 后可以输入命令如:  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:wq 保存</span><br><span class="line">:q! 不保存退出</span><br></pre></td></tr></table></figure>
-<h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><p>文件操作</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat file 查看指定文件</span><br><span class="line">cat &gt; file 创建文件</span><br></pre></td></tr></table></figure>
-<p>ctrl+d 退出 只能创建新文件，不能重名</p>
-<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><p>#####从第n行开始显示某文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more +n file</span><br></pre></td></tr></table></figure>
-<p>#####定义屏幕大小为n行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more -n file</span><br></pre></td></tr></table></figure>
-<p>#####+/pattern 在每个档案中按正则搜索 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more +/pattern file</span><br></pre></td></tr></table></figure>
-<p>#####grep<br>搜索，除了搜索进程之外，也能搜索文件、文件夹内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep pateern file 根据正则搜索指定文件</span><br><span class="line">grep -rin pattern path 在目录下搜索指定内容，显示文件及内容的对应行数</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Mybatis%20-%20plus%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/Mybatis%20-%20plus%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Mybatis - plus 常用注解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-14 09:14:02" itemprop="dateModified" datetime="2020-05-14T09:14:02+08:00">2020-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mybatis/" itemprop="url" rel="index"><span itemprop="name">Mybatis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="TableId注解（id）"><a href="#TableId注解（id）" class="headerlink" title="TableId注解（id）"></a>TableId注解（id）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@KeySequence</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">entity</span></span>&#123;</span><br><span class="line">    <span class="meta">@TableId</span>(value=<span class="string">"id"</span> type=<span class="string">"IdType.AUTO"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>　type 属性：<br>　　　　AUTO：自增（这里的自增设置在mysql数据库中也要同步设置主键为自增，否则会报错）<br>　　　　NONE：该类型为未设置主键类型<br>　　　　INPUT：手动录入<br>　　　　ID_WORKER：默认主键类型，全局唯一ID，Long类型的主键<br>　　　　UUID：自动生成uuid 插入<br>　　　　ID_WORKER_STR：字符串全局唯一ID  </p>
-<h3 id="TableField注解（自动填充）"><a href="#TableField注解（自动填充）" class="headerlink" title="TableField注解（自动填充）"></a>TableField注解（自动填充）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT)</span><br><span class="line"><span class="keyword">private</span> Date createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT_UPDATE)</span><br><span class="line"><span class="keyword">private</span> Date updateTime;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Mybatis配置及使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-14 09:14:02" itemprop="dateModified" datetime="2020-05-14T09:14:02+08:00">2020-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mybatis/" itemprop="url" rel="index"><span itemprop="name">Mybatis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>###mybatis的特点（和hibernate对比）</p>
-<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
-<ol>
-<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
-<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/Mybatis%E4%B8%8EHibernate%E5%AF%B9%E6%AF%94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/Mybatis%E4%B8%8EHibernate%E5%AF%B9%E6%AF%94/" class="post-title-link" itemprop="url">Mybatis与Hibernate对比</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-15 15:41:13" itemprop="dateModified" datetime="2020-05-15T15:41:13+08:00">2020-05-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">java插件</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>###hibernate的优缺点<br>####优点</p>
-<ol>
-<li>全自动，完全通过对象关系模型来操作数据库，使用完整的javabean映射来生成sql</li>
-<li>开发速度快，简单需求无需手写sql</li>
-<li>拥有二级缓存（不太好用），可以使用三方缓存</li>
-<li>由于全自动，所以对象关系不依赖数据库，数据库移植成本低</li>
-<li>日志系统非常的健全，涉及广泛，包括sql记录、关系异常、优化警告、缓存提示、脏数据警告等</li>
-<li>由于完全面向对象，通过O/R mapping可以方便快捷的实现复杂的级联删除、更新等操作<br>####缺点</li>
-<li>缓存机制的使用限制很多，使用不当不仅效率不会得到提升，还会有脏读幻读的问题</li>
-<li>如何设计O/R mapping ,在性能和对象模型之间平衡需要技巧和经验</li>
-<li>绝大多数情况下sql是自动生成自动装配的，无法直接维护，hql的功能无法完全取代原生sql，尽管支持原生sql,但操作模式与orm不同<br>###mybatis的优缺点<br>####优点</li>
-<li>半自动自动封装查询返回的对象，完美延续sql使用经验，几乎没有上手难度</li>
-<li>sql和代码解耦，单独由xml维护</li>
-<li>速度比hibernate快</li>
-<li>通过xml标签实现对象关系维护，动态sql,数据库字段映射等操作（讲道理这不算啥优点）<br>####缺点</li>
-<li>sql依赖数据库，迁移成本巨大</li>
-<li>xml中id必须唯一，所以DAO方法不支持重载</li>
-<li>实现本质完全依赖sql,开发过程缓慢</li>
-<li>完全不支持级联更新，级联删除</li>
-<li>日志，约等于没有</li>
-<li>动态sql调试十分笨重，标签功能比较简单，可读性比较差</li>
-<li>DAO层比较简单，组装对象的工作量比较大</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/excel%E7%9B%B8%E5%85%B3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/excel%E7%9B%B8%E5%85%B3/" class="post-title-link" itemprop="url">excel相关</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-19 14:39:12" itemprop="dateModified" datetime="2020-05-19T14:39:12+08:00">2020-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%B6%E4%BB%96%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E5%A5%87%E5%A6%99%E5%A4%A7%E5%9D%91/" itemprop="url" rel="index"><span itemprop="name">其他情况下的奇妙大坑</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1： csv文件被excel打开并编辑后可能会分隔符改变，最骚的是excel读取不到自己改了啥</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/git%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%B0%83%E8%AF%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/git%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%B0%83%E8%AF%95/" class="post-title-link" itemprop="url">git相关问题调试</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-06 09:17:03" itemprop="dateModified" datetime="2020-05-06T09:17:03+08:00">2020-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>push 失败定位思路:<br>首先在idea中查看terminal中的报错信息，根据报错信息提示内容进行定位<br>另外在链接其他的私有云、仓库、版本管理时，可以注意是否提供错误码或指南<br>（有的会对commit有要求，未符合对应的格式的会被私人订制的仓库拒绝）  </li>
-<li>可以通过查看windows凭据来更改git相关账号的鉴权</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/git%E9%A1%B9%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/git%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">ML_lab</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-16 17:05:29" itemprop="dateModified" datetime="2020-04-16T17:05:29+08:00">2020-04-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ML-lab/" itemprop="url" rel="index"><span itemprop="name">ML_lab</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计划搞一个</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/java8%E6%96%B0%E7%89%B9%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/java8%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">java8新特性</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 15:37:18" itemprop="dateModified" datetime="2020-05-25T15:37:18+08:00">2020-05-25</time>
+                <time title="修改时间：2021-02-23 15:12:25" itemprop="dateModified" datetime="2021-02-23T15:12:25+08:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -945,38 +695,304 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h3><h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><h4 id="流的特点"><a href="#流的特点" class="headerlink" title="流的特点"></a>流的特点</h4><ol>
-<li>流中不存储元素</li>
-<li>流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变</li>
-<li>流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到<h4 id="流的工作流"><a href="#流的工作流" class="headerlink" title="流的工作流"></a>流的工作流</h4></li>
-<li>流的启动</li>
-<li>链式调用</li>
-<li>产生结果（终止流）<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i= ArrayList&lt;String&gt;().stream()</span><br><span class="line">                .filter(w -&gt; w.getColor() == RED)</span><br><span class="line">                .mapToInt(w -&gt; w.getWeight())</span><br><span class="line">                .sum();</span><br></pre></td></tr></table></figure>
-<h4 id="流的转换"><a href="#流的转换" class="headerlink" title="流的转换"></a>流的转换</h4></li>
-<li>filter()筛选<br>对流进行过滤，通常流中元素会减少，按照（）中的lambda筛选返回true的元素</li>
-<li>map()映射<br>对流中的每个对象执行lamdba,每个输入对应一个输出</li>
-<li>flatMap()平铺映射<br>每个输入对应一个flat输出</li>
-<li>distinc()去重</li>
-<li>sort 排序<br>sort()中可以传参Comparator.comparing()<br>####流的拓展和拼接</li>
-<li>limit<br>限制返回的个数</li>
-<li>skip<br>跳过前n个</li>
-<li>concat<br>拼接流  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list &#x3D; Arrays.asList(&quot;a&quot;, &quot;ab&quot;, &quot;ba&quot;, &quot;c&quot;);</span><br><span class="line">List&lt;String&gt; list1 &#x3D; Arrays.asList(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;);</span><br><span class="line">Stream.concat(list.stream(), list1.stream())</span><br><span class="line">        .skip(2).limit(2)</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-<h4 id="关于流操作的结果收集"><a href="#关于流操作的结果收集" class="headerlink" title="关于流操作的结果收集"></a>关于流操作的结果收集</h4></li>
-<li>foreach()遍历流</li>
-<li>peek(x-&gt;method())对每一个x执行method并返回流</li>
-<li>toArray()<br>无参数的toArray() 返回Object[]<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = Arrays.asList(<span class="string">"a"</span>, <span class="string">"a"</span>, <span class="string">"ab"</span>, <span class="string">"ba"</span>, <span class="string">"c"</span>).stream()</span><br><span class="line">           .filter(x -&gt; x.length() &gt; <span class="number">1</span>)</span><br><span class="line">           .toArray(String[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure></li>
-<li>collect<br>collect(Collectors.toList()):list类型<br>collect(Collectors.toSet()):set类型<br>collect(Collectors.toCollection(TreeSet::new));TreeSet类型<br>collect(Collectors.joining())将stream中所有的string拼接成一条<br>collect(Collectors.joining(“,”))以,为分隔符拼接<br>IntSummaryStatistics collect(Collectors.summarizingInt(String::length)):将stream转为可计算的数字类型<br>可选方法：<br>getMax()<br>getAverage()<br>getCount()<br>getMin()<br>getSum()</li>
-<li>Match()<br>stream一共有三种match  </li>
-</ol>
-<ul>
-<li>allMatch()</li>
-<li>anyMatch()</li>
-<li>noneMatch()</li>
+          <p>###　尽量指定类、方法的ｆｉｎａｌ修饰符<br>带有final的类是不可派生的，java编译器会寻找内联所有的final犯法，内联对于java运行效率有很大的提升  </p>
+<h3 id="尽量重用对象"><a href="#尽量重用对象" class="headerlink" title="尽量重用对象"></a>尽量重用对象</h3><p>String对象的使用，出现字符串拼接的操作时应该使用StringBuilder、StringBUffer代替，使用原生string，虚拟机需要额外的开心来生成回收对象</p>
+<h3 id="尽可能使用局部变量"><a href="#尽可能使用局部变量" class="headerlink" title="尽可能使用局部变量"></a>尽可能使用局部变量</h3><p>调用方法时传递的参数以及调用中创建的临时变量都保存在栈中，速度较快，其他变量，如静态变量，实例变量等，都在堆中创建爱你，速度较慢，另外，栈中创建的对象随着方法的运行结束就自动销毁了，不需要额外的垃圾回收</p>
+<h3 id="及时关闭流"><a href="#及时关闭流" class="headerlink" title="及时关闭流"></a>及时关闭流</h3><p>java编程中对于各种连接和流操作应务必小心，这些大对象操作占用的系统开销比较大，稍有不慎就会有严重的问题</p>
+<h3 id="尽量减少对变量的重复计算"><a href="#尽量减少对变量的重复计算" class="headerlink" title="尽量减少对变量的重复计算"></a>尽量减少对变量的重复计算</h3><p>对方法的调用也是有开销的***<br>比如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;list.size();i++)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>建议替换成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; <span class="keyword">int</span> length = list.size();i&lt;length;i++)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在list的size比较大的时候就可以减少list.size调用的开销</p>
+<h3 id="尽量使用懒加载的策略"><a href="#尽量使用懒加载的策略" class="headerlink" title="尽量使用懒加载的策略"></a>尽量使用懒加载的策略</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span>(i==<span class="number">1</span>)&#123;</span><br><span class="line">list.add(str);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>建议修改为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span>(i==<span class="number">1</span>)&#123;</span><br><span class="line">String str = <span class="string">''</span>;</span><br><span class="line">list.add(str);  </span><br><span class="line">&#125;         </span><br><span class="line">```   </span><br><span class="line">### 慎用异常</span><br><span class="line">异常对性能不利，抛出异常首先要创建一个新的对象，Throwable接口的构造函数调用了fillInStackTrace的本地同步方法  </span><br><span class="line">这个方法需要检查堆栈，收集调用跟跟踪信息，当异常抛出时，java虚拟机就必须调成调用堆栈，来在处理过程中创建一个新的对象，异常只能用于处理错误，不应利用错误来控制程序流程</span><br><span class="line">### 不要再循环中使用try-catch,应该把放在循环的最外面</span><br><span class="line">除非迫不得已，否则在循环中<span class="keyword">try</span>-<span class="keyword">catch</span>非常的印度</span><br><span class="line">### 如果能估计到待添加的内容长度，在底层以数组来实现的集合，工具类等应制定出示长度  </span><br><span class="line">比如ArrayList、LinkedList、StringBuilder、StringBuffer、HashMap、HashSet</span><br><span class="line">任何一个底层以数组实现的类都在达到最大容量的时候会扩容，扩容的时候需要全量执行复制</span><br><span class="line">### 复制大量数据的时候用System.arraycopy</span><br><span class="line">### 乘除能使用位操作时能尽量使用位操作</span><br><span class="line">### 循环内不要不断的创建爱你对象引用  </span><br><span class="line">```java</span><br><span class="line">fori&#123;</span><br><span class="line">Object j =<span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个循环中有i个新对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object j = <span class="keyword">null</span>;</span><br><span class="line">fori&#123;</span><br><span class="line">j =<span class="keyword">new</span> Object;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基于效率和类型检查的考虑，应间可能使用array-无法确定数组大小时才使用arrayList"><a href="#基于效率和类型检查的考虑，应间可能使用array-无法确定数组大小时才使用arrayList" class="headerlink" title="基于效率和类型检查的考虑，应间可能使用array,无法确定数组大小时才使用arrayList"></a>基于效率和类型检查的考虑，应间可能使用array,无法确定数组大小时才使用arrayList</h3><h3 id="不需要考虑线程同步的情况下-应尽量使用HashMap-ArrayList-StringBuilder"><a href="#不需要考虑线程同步的情况下-应尽量使用HashMap-ArrayList-StringBuilder" class="headerlink" title="不需要考虑线程同步的情况下 应尽量使用HashMap,ArrayList,StringBuilder"></a>不需要考虑线程同步的情况下 应尽量使用HashMap,ArrayList,StringBuilder</h3><h3 id="不要将数组声明成public-static-final"><a href="#不要将数组声明成public-static-final" class="headerlink" title="不要将数组声明成public static final"></a>不要将数组声明成public static final</h3><p>因为这毫无意义，而且还导致了数组可能被外部程序改变   </p>
+<h3 id="尽量在合适的地方使用单例"><a href="#尽量在合适的地方使用单例" class="headerlink" title="尽量在合适的地方使用单例"></a>尽量在合适的地方使用单例</h3><p>主要适用于以下三个方面：<br>（1）控制资源的使用，通过线程同步来控制资源的并发访问<br>（2） 控制实例的产生，减少系统的资源开销<br>（3）控制数据的共享，在不直接关联的情况下，让多个不相关的实例进行通信</p>
+<h3 id="及时清理不再需要的会话"><a href="#及时清理不再需要的会话" class="headerlink" title="及时清理不再需要的会话"></a>及时清理不再需要的会话</h3><p>为了清除不在活动的会话，许多应用服务器都有默认的会话超时时间，服务器序列化过多的会话到磁盘的开销很大，所以要及时清理不需要的会话</p>
+<h3 id="实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach"><a href="#实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach" class="headerlink" title="实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach"></a>实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach</h3><h3 id="使用同步块代替同步方法"><a href="#使用同步块代替同步方法" class="headerlink" title="使用同步块代替同步方法"></a>使用同步块代替同步方法</h3><h3 id="尽量避免随意使用静态变量"><a href="#尽量避免随意使用静态变量" class="headerlink" title="尽量避免随意使用静态变量"></a>尽量避免随意使用静态变量</h3><p>静态变量通常不会被gc回收</p>
+<h3 id="不要创建一些不使用的对象，不要导入一些不使用的类"><a href="#不要创建一些不使用的对象，不要导入一些不使用的类" class="headerlink" title="不要创建一些不使用的对象，不要导入一些不使用的类"></a>不要创建一些不使用的对象，不要导入一些不使用的类</h3><h3 id="虽然反射非常的好用，但是为了效率应尽量避免使用"><a href="#虽然反射非常的好用，但是为了效率应尽量避免使用" class="headerlink" title="虽然反射非常的好用，但是为了效率应尽量避免使用"></a>虽然反射非常的好用，但是为了效率应尽量避免使用</h3><p>如果一定要使用的话，可以在将需要反射加载的类在项目启动的时候通过反射实例化一个对象放入内存</p>
+<h3 id="使用带缓冲的输入输出流进行IO操作"><a href="#使用带缓冲的输入输出流进行IO操作" class="headerlink" title="使用带缓冲的输入输出流进行IO操作"></a>使用带缓冲的输入输出流进行IO操作</h3><p>带缓冲的输入输出流，即BufferedReader，BufferedWriter,BUfferedInputStream,BufferedOutputStream,等可以极大的提升IO效率</p>
+<h3 id="顺序插入和随机访问比较多的场景使用ArrayList-元素删除和中间插入比较多的场景使用LinkedList"><a href="#顺序插入和随机访问比较多的场景使用ArrayList-元素删除和中间插入比较多的场景使用LinkedList" class="headerlink" title="顺序插入和随机访问比较多的场景使用ArrayList,元素删除和中间插入比较多的场景使用LinkedList"></a>顺序插入和随机访问比较多的场景使用ArrayList,元素删除和中间插入比较多的场景使用LinkedList</h3><h3 id="public方法中尽量不要有太多的形参"><a href="#public方法中尽量不要有太多的形参" class="headerlink" title="public方法中尽量不要有太多的形参"></a>public方法中尽量不要有太多的形参</h3><h3 id="把一个基本类型转为字符串，-toString是最快的，String-valueOf次之，数据-“”最慢"><a href="#把一个基本类型转为字符串，-toString是最快的，String-valueOf次之，数据-“”最慢" class="headerlink" title="把一个基本类型转为字符串，.toString是最快的，String.valueOf次之，数据+“”最慢"></a>把一个基本类型转为字符串，.toString是最快的，String.valueOf次之，数据+“”最慢</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/21/java11%E7%9B%B8%E5%AF%B9%E4%BA%8Ejava8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/21/java11%E7%9B%B8%E5%AF%B9%E4%BA%8Ejava8%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">java11相对于java8的新特性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-21 14:31:35" itemprop="dateCreated datePublished" datetime="2020-05-21T14:31:35+08:00">2020-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-20 10:01:29" itemprop="dateModified" datetime="2020-11-20T10:01:29+08:00">2020-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="新的语法特性汇总"><a href="#新的语法特性汇总" class="headerlink" title="新的语法特性汇总"></a>新的语法特性汇总</h2><ul>
+<li>本地变量类型推断</li>
+<li>集成httpClient</li>
+<li>Collection功能增强</li>
+<li>stream功能增强</li>
+<li>Optional功能增强</li>
+<li>String功能增强</li>
+<li>InputStream功能增强<h3 id="本地变量类型推断"><a href="#本地变量类型推断" class="headerlink" title="本地变量类型推断"></a>本地变量类型推断</h3>java10以后新增了使用var定义的局部变量的写法，实际上被var定义的变量仍是静态类型，而且在编译过程中编译器会去试图推断便令类型<br>推荐使用的场景有:<br>简化泛型声明：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> varList=<span class="keyword">new</span> ArrayList&lt;Map&lt;String, List&lt;Integer&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> （<span class="keyword">var</span> varInList:varlist）&#123;</span><br><span class="line"><span class="comment">//其中varInList可以推断出对应的类型是Map&lt;String, List&lt;Integer&gt;&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+作为定义lambda表达式的参数：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;String&gt; predNotNull = (<span class="keyword">var</span> a) -&gt; a != <span class="keyword">null</span> &amp;&amp; a.trim().length() &gt; <span class="number">0</span>;</span><br><span class="line">        String strAfterFilter = Arrays.stream((<span class="keyword">new</span> String[]&#123;<span class="string">"a"</span>, <span class="string">""</span>, <span class="keyword">null</span>, <span class="string">"x"</span>&#125;))</span><br><span class="line">                .filter(predNotNull)</span><br><span class="line">                .collect(Collectors.joining(<span class="string">","</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="httpClient"><a href="#httpClient" class="headerlink" title="httpClient"></a>httpClient</h3>参考网址：<a href="http://openjdk.java.net/groups/net/httpclient/intro.html" target="_blank" rel="noopener">http://openjdk.java.net/groups/net/httpclient/intro.html</a><br>//todo<h3 id="Collection增强"><a href="#Collection增强" class="headerlink" title="Collection增强"></a>Collection增强</h3>11中对于三种集合增加了新的静态方法，以list举例：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> listImmutable = List.of(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>);</span><br><span class="line"><span class="keyword">var</span> listImmutableCopy = List.copyOf(listImmutable);</span><br></pre></td></tr></table></figure>
+要注意这两个方法生成的结果都是不可变的集合<h3 id="stream增强"><a href="#stream增强" class="headerlink" title="stream增强"></a>stream增强</h3>对8中引入的stream的功能进行了强化：</li>
 </ul>
-<ol start="6">
-<li>grouping,partitioningBy<br>grouping类似group by,将结果封装成一个Collector&lt;T, ?, Map&lt;K, List&gt;&gt;，其中T是传入的参数类型，K是groupingBy的键。<br>partitioningBy类似grouping,不过结果是返回的是Collector&lt;T, ?, Map&lt;Boolean, List&gt;&gt;，其中T是传入的参数类型。</li>
-<li>reduce<br>迭代binaryOperator传入两个参数，返回一个参数并持续迭代遍历整个流</li>
+<ol>
+<li>单个元素直接构造成stream对象(感觉没啥用)  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> size1 = Stream.ofNullable(<span class="keyword">null</span>).count();</span><br><span class="line">System.out.println(size1); <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">long</span> size2 = Stream.ofNullable(<span class="string">""</span>).count();</span><br><span class="line">System.out.println(size2); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure></li>
+<li>dropWhile与takeWhile<br>dropWhile，对于有序的stream，从头开始去掉满足条件的元素，一旦遇到不满足元素的就结束<br>takeWhile，相反<br>需要注意的是这两个操作都是配合有序流操作的，相当于迭代循环遇到元素跳出，而且是依赖流顺序进行执行的</li>
+<li>重载iterate方法用于限制无限流范围<br>8中的无限流使用中要在流内增加limit<br>而11中重载了这个方法：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; streamFromJava9 = Stream.iterate(<span class="number">1</span>, t -&gt; t &lt; <span class="number">1000</span>, t -&gt; <span class="number">2</span> * t + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Optional增强"><a href="#Optional增强" class="headerlink" title="Optional增强"></a>Optional增强</h3></li>
+<li>给Optional类增加了stream()方法<br>算是对于流式编程的增强吧<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Optional.of(<span class="string">"Hello openJDK11"</span>).stream()</span><br><span class="line">        .flatMap(s -&gt; Arrays.stream(s.split(<span class="string">" "</span>)))</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<h3 id="String增强’"><a href="#String增强’" class="headerlink" title="String增强’"></a>String增强’</h3>增加了。。。。一堆不是非常关键的糖类方法<h3 id="InputStream增强"><a href="#InputStream增强" class="headerlink" title="InputStream增强"></a>InputStream增强</h3>和string增强不同，增加了一个核心方法transferTo，直接将输入流传到输出流<h3 id="模块式开发，交互式编程，单文件源码的直接执行"><a href="#模块式开发，交互式编程，单文件源码的直接执行" class="headerlink" title="模块式开发，交互式编程，单文件源码的直接执行"></a>模块式开发，交互式编程，单文件源码的直接执行</h3>一句话理解这个，就是开始支持类似于python的脚本<h3 id="支持Unicode10"><a href="#支持Unicode10" class="headerlink" title="支持Unicode10"></a>支持Unicode10</h3>一句话理解：支持了更多的乱七八糟的字符，包括56个新的emoji<h3 id="新的加密算法"><a href="#新的加密算法" class="headerlink" title="新的加密算法"></a>新的加密算法</h3>RFC7539中指定的ChaCha20和Poly1305两种加密算法，代替RC4。<br>RFC7748定义的密钥协商方案更高效，更安全，JDK增加了两个新的接口XECPublicKey和XECPrivateKey。</li>
 </ol>
+<p>052924<br><a href="https://segmentfault.com/a/119000002265470" target="_blank" rel="noopener">https://segmentfault.com/a/119000002265470</a><br><a href="https://segmentfault.com/a/119000002265470" target="_blank" rel="noopener">https://segmentfault.com/a/119000002265470</a></p>
+<p>zip</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/13/volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/13/volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">volatile关键字使用总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-13 14:29:50" itemprop="dateCreated datePublished" datetime="2020-05-13T14:29:50+08:00">2020-05-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/" class="post-title-link" itemprop="url">ml开源项目实践</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-07 15:44:11 / 修改时间：15:44:14" itemprop="dateCreated datePublished" datetime="2020-05-07T15:44:11+08:00">2020-05-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/" class="post-title-link" itemprop="url">网络协议相关</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-22 09:18:57" itemprop="dateCreated datePublished" datetime="2020-04-22T09:18:57+08:00">2020-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-14 10:05:57" itemprop="dateModified" datetime="2021-01-14T10:05:57+08:00">2021-01-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
+<hr>
 
       
     </div>
@@ -995,7 +1011,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1061,20 +1077,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1101,7 +1117,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

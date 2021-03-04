@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/java8%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/" class="post-title-link" itemprop="url">别再问我什么是Hashmap</a>
+            <a href="/2020/04/14/java8%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">java8新特性</a>
         </h2>
 
         <div class="post-meta">
@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 16:42:19" itemprop="dateModified" datetime="2020-05-25T16:42:19+08:00">2020-05-25</time>
+                <time title="修改时间：2020-05-25 15:37:18" itemprop="dateModified" datetime="2020-05-25T15:37:18+08:00">2020-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,94 +209,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
-<h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
-<h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">开发环境搭建</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 15:40:21" itemprop="dateModified" datetime="2020-05-25T15:40:21+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">环境搭建</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h1><ol>
-<li>配置清单<ul>
-<li>idea(自带maven,java1.8)无授权建议安装2018版<br><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>java相关(如果没要求就Oracle java,有版权要求就Openjdk,反正都一样能用)<br><a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">下载链接</a></li>
-<li>mysql(客户端使用navicat/dbserver)<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">mysql下载链接</a></li>
-<li>python(建议anacond,管理环境或者其他操作比较方便，ide建议用Pycharm)<br><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python下载</a><br><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">anaconda下载</a><br><a href="https://www.jetbrains.com/pycharm/download/#section=windows" target="_blank" rel="noopener">pycharm下载</a></li>
-<li>oracle(超级麻烦，客户端使用plsql)</li>
-<li>neo4j(nosql的一种，图数据库)</li>
-<li>mangodb(分布式文件存储)</li>
-<li>redis(缓存)  </li>
+          <h3 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h3><h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><h4 id="流的特点"><a href="#流的特点" class="headerlink" title="流的特点"></a>流的特点</h4><ol>
+<li>流中不存储元素</li>
+<li>流操作不改变源，流的进行中尽管进行了转换操作，但实际源没有改变</li>
+<li>流操作是懒惰的，只有实际调用的时候才会执行，这里可能会在debug中用到<h4 id="流的工作流"><a href="#流的工作流" class="headerlink" title="流的工作流"></a>流的工作流</h4></li>
+<li>流的启动</li>
+<li>链式调用</li>
+<li>产生结果（终止流）<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i= ArrayList&lt;String&gt;().stream()</span><br><span class="line">                .filter(w -&gt; w.getColor() == RED)</span><br><span class="line">                .mapToInt(w -&gt; w.getWeight())</span><br><span class="line">                .sum();</span><br></pre></td></tr></table></figure>
+<h4 id="流的转换"><a href="#流的转换" class="headerlink" title="流的转换"></a>流的转换</h4></li>
+<li>filter()筛选<br>对流进行过滤，通常流中元素会减少，按照（）中的lambda筛选返回true的元素</li>
+<li>map()映射<br>对流中的每个对象执行lamdba,每个输入对应一个输出</li>
+<li>flatMap()平铺映射<br>每个输入对应一个flat输出</li>
+<li>distinc()去重</li>
+<li>sort 排序<br>sort()中可以传参Comparator.comparing()<br>####流的拓展和拼接</li>
+<li>limit<br>限制返回的个数</li>
+<li>skip<br>跳过前n个</li>
+<li>concat<br>拼接流  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list &#x3D; Arrays.asList(&quot;a&quot;, &quot;ab&quot;, &quot;ba&quot;, &quot;c&quot;);</span><br><span class="line">List&lt;String&gt; list1 &#x3D; Arrays.asList(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;);</span><br><span class="line">Stream.concat(list.stream(), list1.stream())</span><br><span class="line">        .skip(2).limit(2)</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<h4 id="关于流操作的结果收集"><a href="#关于流操作的结果收集" class="headerlink" title="关于流操作的结果收集"></a>关于流操作的结果收集</h4></li>
+<li>foreach()遍历流</li>
+<li>peek(x-&gt;method())对每一个x执行method并返回流</li>
+<li>toArray()<br>无参数的toArray() 返回Object[]<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strings = Arrays.asList(<span class="string">"a"</span>, <span class="string">"a"</span>, <span class="string">"ab"</span>, <span class="string">"ba"</span>, <span class="string">"c"</span>).stream()</span><br><span class="line">           .filter(x -&gt; x.length() &gt; <span class="number">1</span>)</span><br><span class="line">           .toArray(String[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure></li>
+<li>collect<br>collect(Collectors.toList()):list类型<br>collect(Collectors.toSet()):set类型<br>collect(Collectors.toCollection(TreeSet::new));TreeSet类型<br>collect(Collectors.joining())将stream中所有的string拼接成一条<br>collect(Collectors.joining(“,”))以,为分隔符拼接<br>IntSummaryStatistics collect(Collectors.summarizingInt(String::length)):将stream转为可计算的数字类型<br>可选方法：<br>getMax()<br>getAverage()<br>getCount()<br>getMin()<br>getSum()</li>
+<li>Match()<br>stream一共有三种match  </li>
+</ol>
+<ul>
+<li>allMatch()</li>
+<li>anyMatch()</li>
+<li>noneMatch()</li>
 </ul>
-</li>
-<li></li>
+<ol start="6">
+<li>grouping,partitioningBy<br>grouping类似group by,将结果封装成一个Collector&lt;T, ?, Map&lt;K, List&gt;&gt;，其中T是传入的参数类型，K是groupingBy的键。<br>partitioningBy类似grouping,不过结果是返回的是Collector&lt;T, ?, Map&lt;Boolean, List&gt;&gt;，其中T是传入的参数类型。</li>
+<li>reduce<br>迭代binaryOperator传入两个参数，返回一个参数并持续迭代遍历整个流</li>
 </ol>
 
       
@@ -317,7 +260,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/kafka%E5%8A%9F%E8%83%BD%E6%B8%85%E5%8D%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -331,7 +274,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">查询使用group by时规避5.7以上的全group配置</a>
+            <a href="/2020/04/14/kafka%E5%8A%9F%E8%83%BD%E6%B8%85%E5%8D%95/" class="post-title-link" itemprop="url">kafka功能清单</a>
         </h2>
 
         <div class="post-meta">
@@ -348,7 +291,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-01 11:30:02" itemprop="dateModified" datetime="2020-07-01T11:30:02+08:00">2020-07-01</time>
+                <time title="修改时间：2021-01-22 15:44:23" itemprop="dateModified" datetime="2021-01-22T15:44:23+08:00">2021-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -356,7 +299,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">中间件使用</span></a>
                 </span>
             </span>
 
@@ -371,8 +314,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> column_1,column_2,column_3 <span class="keyword">from</span> table_1,  </span><br><span class="line">(<span class="keyword">select</span> column_1,<span class="keyword">max</span>(column_2) <span class="keyword">as</span> maxcol2 <span class="keyword">from</span> table_1 <span class="keyword">group</span> <span class="keyword">by</span> column_1)<span class="keyword">as</span> t  </span><br><span class="line"><span class="keyword">where</span> table_1.column_1=t.column_1 <span class="keyword">and</span> table_1.column_2=t.maxcol2</span><br></pre></td></tr></table></figure>
-<p>mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据</p>
+          <table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>队列特性</td>
+<td>流式数据处理</td>
+<td>高吞吐延迟低</td>
+</tr>
+<tr>
+<td></td>
+<td>消息处理</td>
+<td>支持订阅和发布</td>
+</tr>
+<tr>
+<td></td>
+<td>消息存储</td>
+<td>提供一个复杂度为0的磁盘存储结构</td>
+</tr>
+<tr>
+<td>行3</td>
+<td>line3</td>
+<td>column 3</td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -392,7 +362,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/java%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -406,7 +376,163 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E5%BF%AB%E4%B9%90%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">快乐工具</a>
+            <a href="/2020/04/14/java%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">java基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-20 15:00:00" itemprop="dateModified" datetime="2020-08-20T15:00:00+08:00">2020-08-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="接口和抽象类之间的区别"><a href="#接口和抽象类之间的区别" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h3><h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>在JAVA编程语言中是一个抽象类型，主要是抽象方法的集合，接口中的变量定义必须为public static final类型。接口通常以interface来声明。</p>
+<h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><h4 id="抽象类-1"><a href="#抽象类-1" class="headerlink" title="抽象类"></a>抽象类</h4><p>如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就可以认为是抽象类。。抽象类除了不能实例化对象之外，类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。由于抽象类不能实例化对象，所以抽象类必须被继承，才能被使用。  </p>
+<h4 id="接口和抽象类之间的区别-1"><a href="#接口和抽象类之间的区别-1" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h4><ol>
+<li>类可以实现多个接口，但只能继承一个抽象类</li>
+<li>接口中主要包含的是静态成员变量以及接口方法，抽象类中可以定义普通的成员变量<h4 id="什么时候使用接口，什么时候使用抽象类"><a href="#什么时候使用接口，什么时候使用抽象类" class="headerlink" title="什么时候使用接口，什么时候使用抽象类"></a>什么时候使用接口，什么时候使用抽象类</h4>抽象类的核心用处在于实现面向对象编程的核心原则（ocp:Open-Close-principle）<br>java本身是单继承，多实现<br>单继承的优点在于，方便兼容，便于垃圾回收，便于使用（很多基础方法都包含在object类中）<h3 id="方法的重载与重写"><a href="#方法的重载与重写" class="headerlink" title="方法的重载与重写"></a>方法的重载与重写</h3>重载的核心在于同一个类中，传参不同，实现不同的逻辑<br>重写则是子类对于父类的方法的重新实现，传入传出不变，但核心逻辑重新实现</li>
+<li>传出参数在java7 以上可以类型不同，但需要时父类传出参数的子类参数</li>
+<li>被重写的方法必须是子类可修改并可访问的<h3 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h3>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。不管是否被transient修饰，均不能被序列化。  <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3></li>
+<li>继承thread类<br>必须重写run方法，本身thread类是继承runab</li>
+<li>实现runable接口</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="post-title-link" itemprop="url">jvm性能调优</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-08 14:33:46" itemprop="dateModified" datetime="2020-05-08T14:33:46+08:00">2020-05-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/metabase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/metabase/" class="post-title-link" itemprop="url">metabase</a>
         </h2>
 
         <div class="post-meta">
@@ -446,12 +572,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol>
-<li>everything<br>如何从几十万文件中你想要的那一份呢，就这个吧，它可比windows自带的二愣子查找快多了  </li>
-<li>ditto<br>绝大多数程序员都是标准的cv工程师，什么是cv工程师，就是ctrl+c/v，怎样让你的cv与众不同，就用这个小软件吧，它可以记录你的剪切板，甚至还贴心的提供了剪切板历史记录搜索</li>
-<li>postman<br>如何快捷方便的进行接口测试、调试，就用这个吧，首先它用起来非常方便，比soupui快捷多了，其次它也是个非常轻量级的js工具，你甚至可以通过js来编写测试用例</li>
-<li>teamview<br>每一个程序员都可能遇到全天候24小时战略性待命随时解决自己（别人）遗留的坑的状况，这时候你就需要一个快乐的远程工具，当然市面上这种工具数不胜数，甚至windows自己就集成了一个，但是他们都没有tv快乐，如果tv不收费就更快乐了</li>
-</ol>
+          <p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
 
       
     </div>
@@ -471,7 +592,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/lombok%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -485,7 +606,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Mybatis配置及使用</a>
+            <a href="/2020/04/14/lombok%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">lombok注解详解</a>
         </h2>
 
         <div class="post-meta">
@@ -502,7 +623,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-25 15:40:21" itemprop="dateModified" datetime="2020-05-25T15:40:21+08:00">2020-05-25</time>
+                <time title="修改时间：2021-02-18 17:13:12" itemprop="dateModified" datetime="2021-02-18T17:13:12+08:00">2021-02-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -510,7 +631,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mq/" itemprop="url" rel="index"><span itemprop="name">mq</span></a>
+                  <a href="/categories/java%E4%BB%A3%E7%A0%81%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">java代码知识</span></a>
                 </span>
             </span>
 
@@ -525,7 +646,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="如何消息去重"><a href="#如何消息去重" class="headerlink" title="如何消息去重"></a>如何消息去重</h3><p>一般在消费端对消息进行去重处理，通常每消费一条消息，就将消息的业务id存入第三方工具中，比如redis，当消费端新获取到一条消息时在redis中查找对应的id是否存在，最后根据业务需要定期清空</p>
+          <table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>队列特性</td>
+<td>流式数据处理</td>
+<td>高吞吐延迟低</td>
+</tr>
+<tr>
+<td></td>
+<td>消息处理</td>
+<td>支持订阅和发布</td>
+</tr>
+<tr>
+<td></td>
+<td>消息存储</td>
+<td>提供一个复杂度为0的磁盘存储结构</td>
+</tr>
+<tr>
+<td>行3</td>
+<td>line3</td>
+<td>column 3</td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -545,7 +694,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/java%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -559,75 +708,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/" class="post-title-link" itemprop="url">网络架构问题定位</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-04-14 14:31:35 / 修改时间：14:50:15" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%97%AE%E9%A2%98%E8%B0%83%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">问题调试</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.浏览器日志显示请求响应时间6s,后台日志记录显示3s<br>查看网络中间件日志，如tomcat/nginx等</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E5%9D%91/" class="post-title-link" itemprop="url">触发器的坑</a>
+            <a href="/2020/04/14/java%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">java字符串炒作</a>
         </h2>
 
         <div class="post-meta">
@@ -644,7 +725,252 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-19 14:12:08" itemprop="dateModified" datetime="2020-05-19T14:12:08+08:00">2020-05-19</time>
+                <time title="修改时间：2020-09-07 16:08:06" itemprop="dateModified" datetime="2020-09-07T16:08:06+08:00">2020-09-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="字符串获取不同的字符集其数量"><a href="#字符串获取不同的字符集其数量" class="headerlink" title="字符串获取不同的字符集其数量"></a>字符串获取不同的字符集其数量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printChatCount</span><span class="params">()</span></span>&#123;</span><br><span class="line">Map&lt;Character,Integer&gt; charsWithCountMap =<span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span>（<span class="keyword">char</span> c :input.toCharArray()&#123;</span><br><span class="line">charWithCountMap.merge(c,<span class="number">1</span>,Interger::sum);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串翻转"><a href="#字符串翻转" class="headerlink" title="字符串翻转"></a>字符串翻转</h3><p>StringBuolder/StringBuffer 快用你们无敌的reverse()想想办法啊<br>StringBuffer是方法加了synchronized关键字的，可以多线程使用</p>
+<h3 id="如何判断一个字符串是前后对称的"><a href="#如何判断一个字符串是前后对称的" class="headerlink" title="如何判断一个字符串是前后对称的"></a>如何判断一个字符串是前后对称的</h3><p>直接fori 然后按照i和length-I去判断就行了</p>
+<h3 id="删除指定字符"><a href="#删除指定字符" class="headerlink" title="删除指定字符"></a>删除指定字符</h3><p>replaceAll()</p>
+<h3 id="如何判断一个字符串中是否含有另一个字符串"><a href="#如何判断一个字符串中是否含有另一个字符串" class="headerlink" title="如何判断一个字符串中是否含有另一个字符串"></a>如何判断一个字符串中是否含有另一个字符串</h3><p>contains</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/redis%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/redis%E7%9B%B8%E5%85%B3/" class="post-title-link" itemprop="url">redis部署</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-21 13:55:59" itemprop="dateModified" datetime="2020-12-21T13:55:59+08:00">2020-12-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="redis-部署模式"><a href="#redis-部署模式" class="headerlink" title="redis 部署模式"></a>redis 部署模式</h3><ul>
+<li>单节点：<br>只有一个节点提供服务，读写均发生在该节点，节点宕机则数据全部丢失，直接影响业务  </li>
+<li>masetr-slave<br>两个节点组成主从，在master上写入，在slave上读取，读写分离提高性能，master宕机后，需要手动将slave升级成master</li>
+<li>master-slave-哨兵<br>增加一组哨兵节点，在master宕机后自动将slave升级成master<h3 id="高可用做法"><a href="#高可用做法" class="headerlink" title="高可用做法"></a>高可用做法</h3>redis原生提供的主从数据复制，保证了slave和master的数据一致，通过哨兵自动完成故障恢复<h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3>哨兵是redis实现的高可用的解决方案，本身是一个管理多个redis实例的服务工具，对redis实例进行监控，通知，故障转移<br>一般部署奇数个不同机器上的哨兵节点，这样多个节点互相交换监测信息，最终决策某个节点是否发生了问题<h3 id="哨兵工作原理"><a href="#哨兵工作原理" class="headerlink" title="哨兵工作原理"></a>哨兵工作原理</h3>哨兵的工作流程主要分为以下几个阶段：<br>1； 状态感知  c<br>哨兵启动后只指定master的地址，通过访问master获取对应slave节点的信息，除了向master发送info外，还会向每个Master的pubsub发送当前的状态，其他哨兵通过这个也可以感知到每个哨兵发送的信息<br>这么做的目的主要有：  </li>
+<li>哨兵节点能感知到的其他的哨兵的加入，进而方便多个哨兵之间通信  </li>
+<li>和其他哨兵节点交换master的状态信息，为后续判断master是否故障提供依据<br>2： 心跳检测<br>故障检测,每个哨兵节点定期向各个主从以及其他哨兵节点发送Ping命令，如果不能再指定时间内获得相应，那么该哨兵节点认为不能pIng通的节点主观下线<br>因为哨兵节点不能探测到对方的响应时，很有可能是本身两个节点之间的网络出现了故障，而节点本身是没有异常的，所以需要通过多个节点综合判断一个节点是否处于异常状态<br>3： 选举哨兵领导<br>在确认该节点真正存在故障后，就需要进入故障恢复阶段<br>首先选举一个哨兵领导来专门进行故障恢复操作，这个选举协商的过程一般使用共识算法<br>哨兵选举领导的过程类似于raft算法，简要流程如下：  <ul>
+<li>每个哨兵都设置一个随机超时时间，超时后向其他哨兵发送申请成为领导者的请求</li>
+<li>其他哨兵只能对收到的第一个请求进行回复确认  </li>
+<li>首先达到多数选票的哨兵节点成为领导者  </li>
+<li>如果失败了就进行重新选举<br>选出哨兵领导后，之后的故障恢复操作有这个领导来进行  </li>
+</ul>
+</li>
+</ul>
+<p>4： 选举新的master  </p>
+<ul>
+<li>选举新的master<br>哨兵领导者针对发生故障的master节点，需要在他的slave汇总选择一个节点来代替<br>选择新的节点的优先级：slave-priority配置》数据完整性》runid较小者  </li>
+<li>提升新的master<br>经过优先级选择，选择出了备选的master节点后，下一步就是进行真正的主从切换。<br>哨兵领导给备选的Master节点发送升级命令，然后哨兵领导会给所有的从节点发送指定新的master的命令，让所有的从节点开始从新的节点同步数据，最后将故障的节点降低为从节点并写入配置，当故障恢复后，自动升级到新主节点的从节点</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/springsession/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/springsession/" class="post-title-link" itemprop="url">spring session</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-10 13:43:58" itemprop="dateModified" datetime="2020-11-10T13:43:58+08:00">2020-11-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="spring-session-的意义"><a href="#spring-session-的意义" class="headerlink" title="spring session 的意义"></a>spring session 的意义</h3><p>传统单机应用中的session管理不适用于分布式集群</p>
+<h3 id="传统session和spring-session区别"><a href="#传统session和spring-session区别" class="headerlink" title="传统session和spring session区别"></a>传统session和spring session区别</h3><p>spring session 不在web容器内管理session ，而是单独由独立的存储服务器来管理</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/sql%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="猫饼">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你才有猫饼呢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/sql%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">sql整理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 14:31:35" itemprop="dateCreated datePublished" datetime="2020-04-14T14:31:35+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-24 15:05:13" itemprop="dateModified" datetime="2020-09-24T15:05:13+08:00">2020-09-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -667,86 +993,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>触发器语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create trigger triggerName </span><br><span class="line">after&#x2F;before insert&#x2F;update&#x2F;delete on 表名 </span><br><span class="line">for each row #这句话在mysql是固定的 </span><br><span class="line">begin </span><br><span class="line"> sql语句; </span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>mysql 有部分版本不支持begin/end这个字段</li>
-<li>声明触发器前需要声明终止符 DELIMITER $$</li>
-<li>有的时候我也不知道为啥创建不成功</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="猫饼">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你才有猫饼呢">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">MarkDown语法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-30 17:10:19" itemprop="dateCreated datePublished" datetime="2020-03-30T17:10:19+08:00">2020-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-14 14:09:20" itemprop="dateModified" datetime="2020-04-14T14:09:20+08:00">2020-04-14</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
-<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
-<p>-–或***</p>
-<hr>
-<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
+          <h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line">_teconclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
+<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> columhsi <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="string">``</span><span class="string">`c </span></span><br><span class="line"><span class="string">### 判断字段非空或不是空字符串</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">sql</span></span><br><span class="line"><span class="keyword">ISNULL</span>(<span class="keyword">column</span>) =<span class="number">1</span> 是空的</span><br><span class="line"><span class="keyword">length</span>(<span class="keyword">Trim</span>(<span class="keyword">column</span> )) 字段长度</span><br></pre></td></tr></table></figure>
+<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><p>```sql<br>update table set column =<br>case<br>   when   then<br>    1 else 0<br>end<br> where<br>mysq</p>
 
       
     </div>
@@ -765,7 +1015,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -831,20 +1081,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -871,7 +1121,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

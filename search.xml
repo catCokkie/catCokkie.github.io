@@ -6,23 +6,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>Linux常用命令</title>
-    <url>/2020/04/14/Eureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</url>
-    <content><![CDATA[<p>###什么是Eureka<br>Eureka是一个基于rest服务的，服务注册与发现的组件，用来管理为服务的各个组件<br>###Eureka的两个重要组成部件<br>####Eureka Server：注册中心服务端<br>注册中心服务端主要对外提供了三个功能：<br>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>提供注册表<br>服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<br>同步状态<br>Eureka Client 通过注册、心跳机制和 Eureka Server 同步当前客户端的状态。<br>Eureka Client：注册中心客户端<br>Eureka Client 是一个 Java 客户端，用于简化与 Eureka Server 的交互。Eureka Client 会拉取、更新和缓存 Eureka Server 中的信息。因此当所有的 Eureka Server 节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者，但是当服务有更改的时候会出现信息不一致。<br>Register: 服务注册<br>服务的提供者，将自身注册到注册中心，服务提供者也是一个 Eureka Client。当 Eureka Client 向 Eureka Server 注册时，它提供自身的元数据，比如 IP 地址、端口，运行状况指示符 URL，主页等。<br>Renew: 服务续约<br>Eureka Client 会每隔 30 秒发送一次心跳来续约。 通过续约来告知 Eureka Server 该 Eureka Client 运行正常，没有出现问题。 默认情况下，如果 Eureka Server 在 90 秒内没有收到 Eureka Client 的续约，Server 端会将实例从其注册表中删除，此时间可配置，一般情况不建议更改。<br>Eviction: 服务注销<br>当client不在有心跳时，server会自动将服务实例从服务注册列表中删除<br>cancle： 服务下线<br>client在关闭时向server发送请求，发送请求后，server中将服务从服务列表中删除，这里是一个需要调用接口的操作  </p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DiscoveryManager.getInstance().shutdownComponent()；</span><br></pre></td></tr></table></figure>
-<p>getregisty:获取注册表信息<br>####注册中心的缓存机制<br>eureka使用一个Map来保存所有的服务以及相关的映射  </p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt; registry</span><br><span class="line">            = <span class="keyword">new</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure>
-<p>服务注册时，会将服务的相关信息写入到registry中<br>服务从治理中心拉取服务列表信息时，不会从registry中直接获取，而是从responseCache中拉取，这样的设计结构能够从一定程度上支持高并发<br>而cache本身也分成两部分，一个是ReadWriteMap,一个是ReadOnlyMap,这里实现了一个二级缓存的结构，读写map是和registry实时同步，但readonly表是通过定时任务做同步的<br>####服务注册的细节</p>
-<ol>
-<li>客户端做了啥<br>服务启动后，会启动一个线程来执行注册信息，当服务信息变更时，也会将变更后的信息重新注册，同时发起一个定时任务来定期注册</li>
-<li>服务端做了啥<br>首先会将进行注册以及相应的二级缓存，其次会将这个注册信息添加到一个最近变更序列中<br>之所以要额外维护一个最近变更序列，是为了方便服务增量的更新服务列表的信息<br>然后会把注册的信息同步到其他的eureka节点<br>####服务续约的细节<br>前面说到服务启动之后会有一个定时任务生成，这里就相当于一个心跳线程，定时去续约任务<br>####服务注销的细节<br>服务手动停止时会向服务治理中心发送一个服务取消的请求<br>服务中心收到这个请求后会：<br>从registry中删除对应的服务信息<br>使readwritemap中对应的缓存信息失效<br>将服务取消的信息加入到最近变更序列中    </li>
-</ol>
-]]></content>
-      <categories>
-        <category>中间件使用</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Hadoop简介</title>
     <url>/2020/04/15/Hadoop%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<hr>
@@ -33,6 +16,68 @@
 <li>HDFS:<br>分布式文件系统，高容错，高吞吐的情况下仍能维持低成本<br>m/s结构，一个集群由一个namenode和多个datanode组成<br>hdfs为海量数据提供了存储</li>
 <li>MapReduce<br>mapreduce是一个计算框架 为海量数据计算提供了支撑</li>
 </ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mybatis - plus 常用注解</title>
+    <url>/2020/04/14/Mybatis%20-%20plus%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="TableId注解（id）"><a href="#TableId注解（id）" class="headerlink" title="TableId注解（id）"></a>TableId注解（id）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@KeySequence</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">entity</span></span>&#123;</span><br><span class="line">    <span class="meta">@TableId</span>(value=<span class="string">"id"</span> type=<span class="string">"IdType.AUTO"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　type 属性：<br>　　　　AUTO：自增（这里的自增设置在mysql数据库中也要同步设置主键为自增，否则会报错）<br>　　　　NONE：该类型为未设置主键类型<br>　　　　INPUT：手动录入<br>　　　　ID_WORKER：默认主键类型，全局唯一ID，Long类型的主键<br>　　　　UUID：自动生成uuid 插入<br>　　　　ID_WORKER_STR：字符串全局唯一ID  </p>
+<h3 id="TableField注解（自动填充）"><a href="#TableField注解（自动填充）" class="headerlink" title="TableField注解（自动填充）"></a>TableField注解（自动填充）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT)</span><br><span class="line"><span class="keyword">private</span> Date createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT_UPDATE)</span><br><span class="line"><span class="keyword">private</span> Date updateTime;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2020/04/14/Eureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</url>
+    <content><![CDATA[<h3 id="什么是Eureka"><a href="#什么是Eureka" class="headerlink" title="什么是Eureka"></a>什么是Eureka</h3><p>Eureka是一个基于rest服务的，服务注册与发现的组件，用来管理为服务的各个组件  </p>
+<h3 id="Eureka的两个重要组成部件"><a href="#Eureka的两个重要组成部件" class="headerlink" title="Eureka的两个重要组成部件"></a>Eureka的两个重要组成部件</h3><h4 id="Eureka-Server：注册中心服务端"><a href="#Eureka-Server：注册中心服务端" class="headerlink" title="Eureka Server：注册中心服务端"></a>Eureka Server：注册中心服务端</h4><p>注册中心服务端主要对外提供了三个功能：<br>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表<br>提供注册表<br>服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<br>同步状态<br>Eureka Client 通过注册、心跳机制和 Eureka Server 同步当前客户端的状态。<br>Eureka Client：注册中心客户端<br>Eureka Client 是一个 Java 客户端，用于简化与 Eureka Server 的交互。Eureka Client 会拉取、更新和缓存 Eureka Server 中的信息。因此当所有的 Eureka Server 节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者，但是当服务有更改的时候会出现信息不一致。<br>Register: 服务注册<br>服务的提供者，将自身注册到注册中心，服务提供者也是一个 Eureka Client。当 Eureka Client 向 Eureka Server 注册时，它提供自身的元数据，比如 IP 地址、端口，运行状况指示符 URL，主页等。<br>Renew: 服务续约<br>Eureka Client 会每隔 30 秒发送一次心跳来续约。 通过续约来告知 Eureka Server 该 Eureka Client 运行正常，没有出现问题。 默认情况下，如果 Eureka Server 在 90 秒内没有收到 Eureka Client 的续约，Server 端会将实例从其注册表中删除，此时间可配置，一般情况不建议更改。<br>Eviction: 服务注销<br>当client不在有心跳时，server会自动将服务实例从服务注册列表中删除<br>cancle： 服务下线<br>client在关闭时向server发送请求，发送请求后，server中将服务从服务列表中删除，这里是一个需要调用接口的操作  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DiscoveryManager.getInstance().shutdownComponent()；</span><br></pre></td></tr></table></figure>
+<p>getregisty:获取注册表信息  </p>
+<h4 id="注册中心的缓存机制"><a href="#注册中心的缓存机制" class="headerlink" title="注册中心的缓存机制"></a>注册中心的缓存机制</h4><p>eureka使用一个Map来保存所有的服务以及相关的映射  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt; registry</span><br><span class="line">            = <span class="keyword">new</span> ConcurrentHashMap&lt;String, Map&lt;String, Lease&lt;InstanceInfo&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>服务注册时，会将服务的相关信息写入到registry中<br>服务从治理中心拉取服务列表信息时，不会从registry中直接获取，而是从responseCache中拉取，这样的设计结构能够从一定程度上支持高并发<br>而cache本身也分成两部分，一个是ReadWriteMap,一个是ReadOnlyMap,这里实现了一个二级缓存的结构，读写map是和registry实时同步，但readonly表是通过定时任务做同步的  </p>
+<h4 id="服务注册的细节"><a href="#服务注册的细节" class="headerlink" title="服务注册的细节"></a>服务注册的细节</h4><ol>
+<li>客户端做了啥<br>服务启动后，会启动一个线程来执行注册信息，当服务信息变更时，也会将变更后的信息重新注册，同时发起一个定时任务来定期注册</li>
+<li>服务端做了啥<br>首先会将进行注册以及相应的二级缓存，其次会将这个注册信息添加到一个最近变更序列中<br>之所以要额外维护一个最近变更序列，是为了方便服务增量的更新服务列表的信息<br>然后会把注册的信息同步到其他的eureka节点  <h4 id="服务续约的细节"><a href="#服务续约的细节" class="headerlink" title="服务续约的细节"></a>服务续约的细节</h4>前面说到服务启动之后会有一个定时任务生成，这里就相当于一个心跳线程，定时去续约任务<h4 id="服务注销的细节"><a href="#服务注销的细节" class="headerlink" title="服务注销的细节"></a>服务注销的细节</h4>服务手动停止时会向服务治理中心发送一个服务取消的请求<br>服务中心收到这个请求后会：<br>从registry中删除对应的服务信息<br>使readwritemap中对应的缓存信息失效<br>将服务取消的信息加入到最近变更序列中    </li>
+</ol>
+]]></content>
+      <categories>
+        <category>中间件使用</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ArrayList到底和LinkedList有什么区别</title>
+    <url>/2020/04/14/ArrayList%E5%88%B0%E5%BA%95%E5%92%8CLinkedList%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>1：arraylist 基于数组实现，linKedlist基于双向链表实现的<br>2：arrylist新增删除时涉及数组的复制，效率低，但是遍历效率高</p>
+<h3 id="arraylist源码分析-idea"><a href="#arraylist源码分析-idea" class="headerlink" title="arraylist源码分析   idea"></a>arraylist源码分析   idea</h3><p>简单来说，arraylist，实现了list接口，继承了abstraclisst抽象类，底层是基于数组实现的，并且实现了动态扩容</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.AbstractList;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Arraylist</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span> <span class="title">implemetnts</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;，<span class="title">RandomAccess</span>,</span></span><br><span class="line"><span class="class"><span class="title">Cloneable</span>,<span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializeable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT.CAPACITY=<span class="number">10</span>;</span><br><span class="line">    <span class="keyword">transient</span> Object[] elementData;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>arraylist 实现了动态扩容，一单添加元素满了的时候，会按照原有的长度的1.5倍扩容，扩容后把原数组复制到新的内存地址上<br>为了处理动态扩容后对于内存空间占用的问题，arrayList提供了两个私有方法writeObject/readObject来配合序列化和反序列化</p>
+<h3 id="LinkedList是如何实现的"><a href="#LinkedList是如何实现的" class="headerlink" title="LinkedList是如何实现的"></a>LinkedList是如何实现的</h3><p>likedList 是一个继承自AbstractSequentiaList的双向链表，因此可以当做堆栈，队列，或者双端队列进行操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.Serializable;<span class="keyword">import</span> java.util.AbstractSequentialList;<span class="keyword">import</span> java.util.Deque;<span class="keyword">import</span> java.util.List;<span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">e</span>&gt; ,<span class="title">Deque</span>&lt;<span class="title">E</span>&gt;,<span class="title">Cloneable</span>,<span class="title">Serializable</span></span>&#123;</span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size =<span class="number">0</span>;</span><br><span class="line"><span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line"><span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LinkedList 内部定义饿了Node，非常标准的双向node,item prev next;</p>
+<h3 id="新增元素效率分析"><a href="#新增元素效率分析" class="headerlink" title="新增元素效率分析"></a>新增元素效率分析</h3><p>头部新增linkedList快，arraylist需要重新复制<br>中间新增不一定<br>尾部新增arraylist更快，因为数组是连续的内存空间</p>
+<h3 id="arraylist-和-linkedeList删除元素"><a href="#arraylist-和-linkedeList删除元素" class="headerlink" title="arraylist 和　linkedeList删除元素"></a>arraylist 和　linkedeList删除元素</h3><p>和新增一样</p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>fori遍历时arrayList远小于linkedList<br>迭代器遍历时差不多<br>2</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MarkDown语法</title>
+    <url>/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
+<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
+<p>-–或***</p>
+<hr>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
 ]]></content>
   </entry>
   <entry>
@@ -66,48 +111,6 @@
       <categories>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>MarkDown语法</title>
-    <url>/2020/03/30/MarkDown%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="MarkDown语法"><a href="#MarkDown语法" class="headerlink" title="MarkDown语法"></a>MarkDown语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>#(*12345) 一二三四五级标题 </p>
-<h2 id="字体设"><a href="#字体设" class="headerlink" title="字体设"></a>字体设</h2><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
-<p>-–或***</p>
-<hr>
-<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="页面内跳转"><a href="#页面内跳转" class="headerlink" title="页面内跳转"></a>页面内跳转</h2><h3 id="注脚1"><a href="#注脚1" class="headerlink" title="注脚1"></a>注脚<a href="注脚">1</a></h3><p>a </p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Mybatis - plus 常用注解</title>
-    <url>/2020/04/14/Mybatis%20-%20plus%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="TableId注解（id）"><a href="#TableId注解（id）" class="headerlink" title="TableId注解（id）"></a>TableId注解（id）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@KeySequence</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">entity</span></span>&#123;</span><br><span class="line">    <span class="meta">@TableId</span>(value=<span class="string">"id"</span> type=<span class="string">"IdType.AUTO"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>　type 属性：<br>　　　　AUTO：自增（这里的自增设置在mysql数据库中也要同步设置主键为自增，否则会报错）<br>　　　　NONE：该类型为未设置主键类型<br>　　　　INPUT：手动录入<br>　　　　ID_WORKER：默认主键类型，全局唯一ID，Long类型的主键<br>　　　　UUID：自动生成uuid 插入<br>　　　　ID_WORKER_STR：字符串全局唯一ID  </p>
-<h3 id="TableField注解（自动填充）"><a href="#TableField注解（自动填充）" class="headerlink" title="TableField注解（自动填充）"></a>TableField注解（自动填充）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT)</span><br><span class="line"><span class="keyword">private</span> Date createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField</span>(filel=Field.INSERT_UPDATE)</span><br><span class="line"><span class="keyword">private</span> Date updateTime;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Mybatis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Mybatis配置及使用</title>
-    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
-<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
-<ol>
-<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
-<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Mybatis</category>
-      </categories>
-      <tags>
-        <tag>Mybatis,Hibernate</tag>
-      </tags>
   </entry>
   <entry>
     <title>Mybatis与Hibernate对比</title>
@@ -144,6 +147,26 @@
       </tags>
   </entry>
   <entry>
+    <title>redis详解</title>
+    <url>/2020/12/14/Redis%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="什么是redis"><a href="#什么是redis" class="headerlink" title="什么是redis"></a>什么是redis</h3><p>键值对内存数据库<br>nosql<br>有以下的特点：</p>
+<ol>
+<li>性能优秀，内存<br>数据库么，读写非常快，可以支持10w</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>final关键字</title>
+    <url>/2021/01/27/final%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<hr>
+<p> title: final关键字<br> date: 2021-01-27 14:31:35<br> tags:<br> categories: java</p>
+<hr>
+<h3 id="finale修饰类成员变量"><a href="#finale修饰类成员变量" class="headerlink" title="finale修饰类成员变量"></a>finale修饰类成员变量</h3><pre><code>reset                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          s                                                                                                                                               </code></pre>]]></content>
+  </entry>
+  <entry>
     <title>excel相关</title>
     <url>/2020/04/14/excel%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<p>1： csv文件被excel打开并编辑后可能会分隔符改变，最骚的是excel读取不到自己改了啥</p>
@@ -162,6 +185,81 @@
 ]]></content>
       <categories>
         <category>git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Websocket原理</title>
+    <url>/2020/07/20/Websocket%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>###WebSocket<br>WebSocket协议最大的特点是，服务器可以主动向客户段推送消息，客户端也可以主动向服务器发送信息，是真正的双向平等会话<br>###WebSocket特点</p>
+<ul>
+<li>建立在TCP协议之上，服务器端实现简单</li>
+<li>与http协议有良好的兼容性，默认端口是80、443，握手阶段也爱用的http协议，握手不容易被屏蔽，并能通过多种代理服务器</li>
+<li>数据格式轻量，通信高效，性能好</li>
+<li>可以发送文本，一直吃二进制</li>
+<li>没有同源限制，客户段可以和人衣服武器通信<br>###WebSocket是什么样的协议，具体有什么样的优点<br>WebSocket是持久化的协议，与http1.0的非持久化和http1.1的伪持久化不同</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ML_lab</title>
+    <url>/2020/04/14/git%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>计划搞一个</p>
+]]></content>
+      <categories>
+        <category>ML_lab</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Zuul介绍</title>
+    <url>/2020/07/23/Zuul%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<hr>
+<p>title: Zuul介绍<br>date: 2020-04-14 14:31:35<br>tags:<br>categories: 微服务</p>
+<hr>
+<h3 id="啥是zuul"><a href="#啥是zuul" class="headerlink" title="啥是zuul"></a>啥是zuul</h3><p>zuul是spring cloud 中的微服务网关<br>网关：就是门户么，不过一般也有网络网关比如Kong，api网关等之类的说法<br>Zuul是一个微服务网关，本身也是一个微服务，注册到注册中心来进行发现和管理<br>一般在微服务数量较多，对服务管理有额外的要求，对微服务权限有要求的时候来使用  </p>
+<h3 id="zuul的作用"><a href="#zuul的作用" class="headerlink" title="zuul的作用()"></a>zuul的作用()</h3><p>网关通常来讲会有以下的作用：  </p>
+<ul>
+<li>统一入口：为服务提供一个统一入口，起到内外隔离的作用，保障后台服务的安全性</li>
+<li>鉴权校验：识别每个服务的权限，拒绝不符合要求的请求</li>
+<li>动态路由：动态将请求进行策略分发</li>
+<li>减少客户段和服务端之间的耦合，服务可以独立发展，通过网关来做映射<h3 id="zuul网关的应用"><a href="#zuul网关的应用" class="headerlink" title="zuul网关的应用"></a>zuul网关的应用</h3></li>
+</ul>
+<ol>
+<li>网关访问方式<br>通过zuul访问服务，url地址默认格式为：<a href="http://zuulHostIP:port/服务名称/url">http://zuulHostIP:port/服务名称/url</a></li>
+<li>网关的依赖注入<br>maven依赖就好了</li>
+<li>网关启动器<br>服务启动类上增加@EbableZuulProxy</li>
+<li>配置总结<br>网关的配置方式有多重，默认，URL,服务名称，排除，忽略，前缀<br>网关配置没有优劣好坏，应选择比较合适的方案<br>zuul网关的底层是使用ribbon来实现请求的路由，并内置hystrix,</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>java代码优化</title>
+    <url>/2020/05/21/java%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<p>###　尽量指定类、方法的ｆｉｎａｌ修饰符<br>带有final的类是不可派生的，java编译器会寻找内联所有的final犯法，内联对于java运行效率有很大的提升  </p>
+<h3 id="尽量重用对象"><a href="#尽量重用对象" class="headerlink" title="尽量重用对象"></a>尽量重用对象</h3><p>String对象的使用，出现字符串拼接的操作时应该使用StringBuilder、StringBUffer代替，使用原生string，虚拟机需要额外的开心来生成回收对象</p>
+<h3 id="尽可能使用局部变量"><a href="#尽可能使用局部变量" class="headerlink" title="尽可能使用局部变量"></a>尽可能使用局部变量</h3><p>调用方法时传递的参数以及调用中创建的临时变量都保存在栈中，速度较快，其他变量，如静态变量，实例变量等，都在堆中创建爱你，速度较慢，另外，栈中创建的对象随着方法的运行结束就自动销毁了，不需要额外的垃圾回收</p>
+<h3 id="及时关闭流"><a href="#及时关闭流" class="headerlink" title="及时关闭流"></a>及时关闭流</h3><p>java编程中对于各种连接和流操作应务必小心，这些大对象操作占用的系统开销比较大，稍有不慎就会有严重的问题</p>
+<h3 id="尽量减少对变量的重复计算"><a href="#尽量减少对变量的重复计算" class="headerlink" title="尽量减少对变量的重复计算"></a>尽量减少对变量的重复计算</h3><p>对方法的调用也是有开销的***<br>比如</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;list.size();i++)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>建议替换成</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; <span class="keyword">int</span> length = list.size();i&lt;length;i++)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在list的size比较大的时候就可以减少list.size调用的开销</p>
+<h3 id="尽量使用懒加载的策略"><a href="#尽量使用懒加载的策略" class="headerlink" title="尽量使用懒加载的策略"></a>尽量使用懒加载的策略</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span>(i==<span class="number">1</span>)&#123;</span><br><span class="line">list.add(str);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>建议修改为</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span>(i==<span class="number">1</span>)&#123;</span><br><span class="line">String str = <span class="string">''</span>;</span><br><span class="line">list.add(str);  </span><br><span class="line">&#125;         </span><br><span class="line">```   </span><br><span class="line">### 慎用异常</span><br><span class="line">异常对性能不利，抛出异常首先要创建一个新的对象，Throwable接口的构造函数调用了fillInStackTrace的本地同步方法  </span><br><span class="line">这个方法需要检查堆栈，收集调用跟跟踪信息，当异常抛出时，java虚拟机就必须调成调用堆栈，来在处理过程中创建一个新的对象，异常只能用于处理错误，不应利用错误来控制程序流程</span><br><span class="line">### 不要再循环中使用try-catch,应该把放在循环的最外面</span><br><span class="line">除非迫不得已，否则在循环中<span class="keyword">try</span>-<span class="keyword">catch</span>非常的印度</span><br><span class="line">### 如果能估计到待添加的内容长度，在底层以数组来实现的集合，工具类等应制定出示长度  </span><br><span class="line">比如ArrayList、LinkedList、StringBuilder、StringBuffer、HashMap、HashSet</span><br><span class="line">任何一个底层以数组实现的类都在达到最大容量的时候会扩容，扩容的时候需要全量执行复制</span><br><span class="line">### 复制大量数据的时候用System.arraycopy</span><br><span class="line">### 乘除能使用位操作时能尽量使用位操作</span><br><span class="line">### 循环内不要不断的创建爱你对象引用  </span><br><span class="line">```java</span><br><span class="line">fori&#123;</span><br><span class="line">Object j =<span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个循环中有i个新对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object j = <span class="keyword">null</span>;</span><br><span class="line">fori&#123;</span><br><span class="line">j =<span class="keyword">new</span> Object;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基于效率和类型检查的考虑，应间可能使用array-无法确定数组大小时才使用arrayList"><a href="#基于效率和类型检查的考虑，应间可能使用array-无法确定数组大小时才使用arrayList" class="headerlink" title="基于效率和类型检查的考虑，应间可能使用array,无法确定数组大小时才使用arrayList"></a>基于效率和类型检查的考虑，应间可能使用array,无法确定数组大小时才使用arrayList</h3><h3 id="不需要考虑线程同步的情况下-应尽量使用HashMap-ArrayList-StringBuilder"><a href="#不需要考虑线程同步的情况下-应尽量使用HashMap-ArrayList-StringBuilder" class="headerlink" title="不需要考虑线程同步的情况下 应尽量使用HashMap,ArrayList,StringBuilder"></a>不需要考虑线程同步的情况下 应尽量使用HashMap,ArrayList,StringBuilder</h3><h3 id="不要将数组声明成public-static-final"><a href="#不要将数组声明成public-static-final" class="headerlink" title="不要将数组声明成public static final"></a>不要将数组声明成public static final</h3><p>因为这毫无意义，而且还导致了数组可能被外部程序改变   </p>
+<h3 id="尽量在合适的地方使用单例"><a href="#尽量在合适的地方使用单例" class="headerlink" title="尽量在合适的地方使用单例"></a>尽量在合适的地方使用单例</h3><p>主要适用于以下三个方面：<br>（1）控制资源的使用，通过线程同步来控制资源的并发访问<br>（2） 控制实例的产生，减少系统的资源开销<br>（3）控制数据的共享，在不直接关联的情况下，让多个不相关的实例进行通信</p>
+<h3 id="及时清理不再需要的会话"><a href="#及时清理不再需要的会话" class="headerlink" title="及时清理不再需要的会话"></a>及时清理不再需要的会话</h3><p>为了清除不在活动的会话，许多应用服务器都有默认的会话超时时间，服务器序列化过多的会话到磁盘的开销很大，所以要及时清理不需要的会话</p>
+<h3 id="实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach"><a href="#实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach" class="headerlink" title="实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach"></a>实现了RandomAccess接口的集合，比如ArrayList，应当使用最简单的for循环。而不是foreach</h3><h3 id="使用同步块代替同步方法"><a href="#使用同步块代替同步方法" class="headerlink" title="使用同步块代替同步方法"></a>使用同步块代替同步方法</h3><h3 id="尽量避免随意使用静态变量"><a href="#尽量避免随意使用静态变量" class="headerlink" title="尽量避免随意使用静态变量"></a>尽量避免随意使用静态变量</h3><p>静态变量通常不会被gc回收</p>
+<h3 id="不要创建一些不使用的对象，不要导入一些不使用的类"><a href="#不要创建一些不使用的对象，不要导入一些不使用的类" class="headerlink" title="不要创建一些不使用的对象，不要导入一些不使用的类"></a>不要创建一些不使用的对象，不要导入一些不使用的类</h3><h3 id="虽然反射非常的好用，但是为了效率应尽量避免使用"><a href="#虽然反射非常的好用，但是为了效率应尽量避免使用" class="headerlink" title="虽然反射非常的好用，但是为了效率应尽量避免使用"></a>虽然反射非常的好用，但是为了效率应尽量避免使用</h3><p>如果一定要使用的话，可以在将需要反射加载的类在项目启动的时候通过反射实例化一个对象放入内存</p>
+<h3 id="使用带缓冲的输入输出流进行IO操作"><a href="#使用带缓冲的输入输出流进行IO操作" class="headerlink" title="使用带缓冲的输入输出流进行IO操作"></a>使用带缓冲的输入输出流进行IO操作</h3><p>带缓冲的输入输出流，即BufferedReader，BufferedWriter,BUfferedInputStream,BufferedOutputStream,等可以极大的提升IO效率</p>
+<h3 id="顺序插入和随机访问比较多的场景使用ArrayList-元素删除和中间插入比较多的场景使用LinkedList"><a href="#顺序插入和随机访问比较多的场景使用ArrayList-元素删除和中间插入比较多的场景使用LinkedList" class="headerlink" title="顺序插入和随机访问比较多的场景使用ArrayList,元素删除和中间插入比较多的场景使用LinkedList"></a>顺序插入和随机访问比较多的场景使用ArrayList,元素删除和中间插入比较多的场景使用LinkedList</h3><h3 id="public方法中尽量不要有太多的形参"><a href="#public方法中尽量不要有太多的形参" class="headerlink" title="public方法中尽量不要有太多的形参"></a>public方法中尽量不要有太多的形参</h3><h3 id="把一个基本类型转为字符串，-toString是最快的，String-valueOf次之，数据-“”最慢"><a href="#把一个基本类型转为字符串，-toString是最快的，String-valueOf次之，数据-“”最慢" class="headerlink" title="把一个基本类型转为字符串，.toString是最快的，String.valueOf次之，数据+“”最慢"></a>把一个基本类型转为字符串，.toString是最快的，String.valueOf次之，数据+“”最慢</h3>]]></content>
+      <categories>
+        <category>java</category>
       </categories>
   </entry>
   <entry>
@@ -185,21 +283,21 @@
 <li>重载iterate方法用于限制无限流范围<br>8中的无限流使用中要在流内增加limit<br>而11中重载了这个方法：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; streamFromJava9 = Stream.iterate(<span class="number">1</span>, t -&gt; t &lt; <span class="number">1000</span>, t -&gt; <span class="number">2</span> * t + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 <h3 id="Optional增强"><a href="#Optional增强" class="headerlink" title="Optional增强"></a>Optional增强</h3></li>
 <li>给Optional类增加了stream()方法<br>算是对于流式编程的增强吧<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional.of(<span class="string">"Hello openJDK11"</span>).stream()</span><br><span class="line">        .flatMap(s -&gt; Arrays.stream(s.split(<span class="string">" "</span>)))</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-<h3 id="String增强"><a href="#String增强" class="headerlink" title="String增强"></a>String增强</h3>增加了。。。。一堆不是非常关键的糖类方法<h3 id="InputStream增强"><a href="#InputStream增强" class="headerlink" title="InputStream增强"></a>InputStream增强</h3>和string增强不同，增加了一个核心方法transferTo，直接将输入流传到输出流<h3 id="模块式开发，交互式编程，单文件源码的直接执行"><a href="#模块式开发，交互式编程，单文件源码的直接执行" class="headerlink" title="模块式开发，交互式编程，单文件源码的直接执行"></a>模块式开发，交互式编程，单文件源码的直接执行</h3>一句话理解这个，就是开始支持类似于python的脚本<h3 id="支持Unicode10"><a href="#支持Unicode10" class="headerlink" title="支持Unicode10"></a>支持Unicode10</h3>一句话理解：支持了更多的乱七八糟的字符，包括56个新的emoji<h3 id="新的加密算法"><a href="#新的加密算法" class="headerlink" title="新的加密算法"></a>新的加密算法</h3>RFC7539中指定的ChaCha20和Poly1305两种加密算法，代替RC4。<br>RFC7748定义的密钥协商方案更高效，更安全，JDK增加了两个新的接口XECPublicKey和XECPrivateKey。</li>
+<h3 id="String增强’"><a href="#String增强’" class="headerlink" title="String增强’"></a>String增强’</h3>增加了。。。。一堆不是非常关键的糖类方法<h3 id="InputStream增强"><a href="#InputStream增强" class="headerlink" title="InputStream增强"></a>InputStream增强</h3>和string增强不同，增加了一个核心方法transferTo，直接将输入流传到输出流<h3 id="模块式开发，交互式编程，单文件源码的直接执行"><a href="#模块式开发，交互式编程，单文件源码的直接执行" class="headerlink" title="模块式开发，交互式编程，单文件源码的直接执行"></a>模块式开发，交互式编程，单文件源码的直接执行</h3>一句话理解这个，就是开始支持类似于python的脚本<h3 id="支持Unicode10"><a href="#支持Unicode10" class="headerlink" title="支持Unicode10"></a>支持Unicode10</h3>一句话理解：支持了更多的乱七八糟的字符，包括56个新的emoji<h3 id="新的加密算法"><a href="#新的加密算法" class="headerlink" title="新的加密算法"></a>新的加密算法</h3>RFC7539中指定的ChaCha20和Poly1305两种加密算法，代替RC4。<br>RFC7748定义的密钥协商方案更高效，更安全，JDK增加了两个新的接口XECPublicKey和XECPrivateKey。</li>
 </ol>
-<p>参考链接：<br><a href="https://segmentfault.com/a/1190000022654702" target="_blank" rel="noopener">https://segmentfault.com/a/1190000022654702</a></p>
+<p>052924<br><a href="https://segmentfault.com/a/119000002265470" target="_blank" rel="noopener">https://segmentfault.com/a/119000002265470</a><br><a href="https://segmentfault.com/a/119000002265470" target="_blank" rel="noopener">https://segmentfault.com/a/119000002265470</a></p>
+<p>zip</p>
 ]]></content>
       <categories>
         <category>java</category>
       </categories>
   </entry>
   <entry>
-    <title>ML_lab</title>
-    <url>/2020/04/14/git%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<p>计划搞一个</p>
-]]></content>
+    <title>java(8)内存管理</title>
+    <url>/2020/05/22/java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>ML_lab</category>
+        <category>java</category>
       </categories>
   </entry>
   <entry>
@@ -243,58 +341,32 @@
       </categories>
   </entry>
   <entry>
-    <title>java(8)内存管理</title>
-    <url>/2020/05/22/java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>java11相对于java8的新特性</title>
-    <url>/2020/05/22/java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
-    <content><![CDATA[<h2 id="java垃圾回收"><a href="#java垃圾回收" class="headerlink" title="java垃圾回收"></a>java垃圾回收</h2><h3 id="什么是垃圾"><a href="#什么是垃圾" class="headerlink" title="什么是垃圾"></a>什么是垃圾</h3>]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>jvm性能调优</title>
-    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>java基础</title>
-    <url>/2020/04/14/java%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h3 id="接口和抽象类之间的区别"><a href="#接口和抽象类之间的区别" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h3><h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>在JAVA编程语言中是一个抽象类型，主要是抽象方法的集合，接口中的变量定义必须为public static final类型。接口通常以interface来声明。</p>
-<h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><p>如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就可以认为是抽象类。。抽象类除了不能实例化对象之外，类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。由于抽象类不能实例化对象，所以抽象类必须被继承，才能被使用。  </p>
-<h4 id="接口和抽象类之间的区别-1"><a href="#接口和抽象类之间的区别-1" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h4><ol>
-<li>类可以实现多个接口，但只能继承一个抽象类</li>
-<li>接口中主要包含的是静态成员变量以及接口方法，抽象类中可以定义普通的成员变量<h4 id="什么时候使用接口，什么时候使用抽象类"><a href="#什么时候使用接口，什么时候使用抽象类" class="headerlink" title="什么时候使用接口，什么时候使用抽象类"></a>什么时候使用接口，什么时候使用抽象类</h4>抽象类的核心用处在于实现面向对象编程的核心原则（ocp:Open-Close-principle）<br>java本身是单继承，多实现<br>单继承的优点在于，方便兼容，便于垃圾回收，便于使用（很多基础方法都包含在object类中）<h3 id="方法的重载与重写"><a href="#方法的重载与重写" class="headerlink" title="方法的重载与重写"></a>方法的重载与重写</h3>重载的核心在于同一个类中，传参不同，实现不同的逻辑<br>重写则是子类对于父类的方法的重新实现，传入传出不变，但核心逻辑重新实现</li>
-<li>传出参数在java7 以上可以类型不同，但需要时父类传出参数的子类参数</li>
-<li>被重写的方法必须是子类可修改并可访问的<h3 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h3>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。不管是否被transient修饰，均不能被序列化。  <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3></li>
-<li>继承thread类<br>必须重写run方法，本身thread类是继承runab</li>
-<li>实现runable接口</li>
+    <title>java的stream</title>
+    <url>/2021/02/20/java%E7%9A%84stream/</url>
+    <content><![CDATA[<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><p>对流的操作大致分为两种     </p>
+<ol>
+<li>中间操作，每次返回一个新的流，也可以返回多个  </li>
+<li>终端操作，终端操作后流无法再使用  </li>
+</ol>
+<p>还有这么几个特性  </p>
+<ol>
+<li>stream本身是不存储数据的，而是对于数据进行计算输出  </li>
+<li>stream不会改变数据源</li>
+<li>stream有延迟执行的特性，只有终端操作调用的时候，中间操作才会执行<h3 id="Stream的创建"><a href="#Stream的创建" class="headerlink" title="Stream的创建"></a>Stream的创建</h3></li>
+<li>通过java.util.Collection.stream()创建集合流  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(<span class="string">"a"</span>);</span><br><span class="line">Stream&lt;String&gt; stream =list.stream();</span><br><span class="line">Stream&lt;String&gt; parallelStream=list.parallelStream(); </span><br><span class="line">```  </span><br><span class="line"><span class="number">2</span>. 使用java.util.Arrays.stream(T[] array)用数组创建</span><br><span class="line">```java</span><br><span class="line"><span class="keyword">int</span>[] a=&#123;<span class="number">1</span>&#125;;</span><br><span class="line">IntStream s=Arrays.stream(a);</span><br></pre></td></tr></table></figure></li>
+<li>使用Stream的静态方法：of(),iterate(),generate()  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Interger&gt; stream = Stream.of(<span class="number">1</span>);</span><br><span class="line">Stream&lt;Interger&gt; s2=Stream.iterate(<span class="number">0</span>,(x)-&gt;x+<span class="number">3</span>).limit(<span class="number">4</span>);</span><br><span class="line">Stream&lt;Double&gt; sm3 =Stream.generate(Math::random).limit(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="stream-和-parallelStream的区别"><a href="#stream-和-parallelStream的区别" class="headerlink" title="stream 和 parallelStream的区别"></a>stream 和 parallelStream的区别</h3>stream是顺序刘，parallelStream是并行刘，内部处理的数据是并行操作的<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h4>optional类是一个可以为Null的容器对象，如果值存在isPresent()方法则返回true,调用get可以获取对象  </li>
 </ol>
 ]]></content>
       <categories>
         <category>java</category>
       </categories>
+      <tags>
+        <tag>stream</tag>
+      </tags>
   </entry>
   <entry>
-    <title>metabase</title>
-    <url>/2020/04/14/metabase/</url>
-    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
-]]></content>
-      <categories>
-        <category>开原项目及其他小工具</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux常用命令</title>
+    <title>kafka功能清单</title>
     <url>/2020/04/14/kafka%E5%8A%9F%E8%83%BD%E6%B8%85%E5%8D%95/</url>
     <content><![CDATA[<table>
 <thead>
@@ -331,27 +403,133 @@
       </categories>
   </entry>
   <entry>
+    <title>java基础</title>
+    <url>/2020/04/14/java%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h3 id="接口和抽象类之间的区别"><a href="#接口和抽象类之间的区别" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h3><h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>在JAVA编程语言中是一个抽象类型，主要是抽象方法的集合，接口中的变量定义必须为public static final类型。接口通常以interface来声明。</p>
+<h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><h4 id="抽象类-1"><a href="#抽象类-1" class="headerlink" title="抽象类"></a>抽象类</h4><p>如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就可以认为是抽象类。。抽象类除了不能实例化对象之外，类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。由于抽象类不能实例化对象，所以抽象类必须被继承，才能被使用。  </p>
+<h4 id="接口和抽象类之间的区别-1"><a href="#接口和抽象类之间的区别-1" class="headerlink" title="接口和抽象类之间的区别"></a>接口和抽象类之间的区别</h4><ol>
+<li>类可以实现多个接口，但只能继承一个抽象类</li>
+<li>接口中主要包含的是静态成员变量以及接口方法，抽象类中可以定义普通的成员变量<h4 id="什么时候使用接口，什么时候使用抽象类"><a href="#什么时候使用接口，什么时候使用抽象类" class="headerlink" title="什么时候使用接口，什么时候使用抽象类"></a>什么时候使用接口，什么时候使用抽象类</h4>抽象类的核心用处在于实现面向对象编程的核心原则（ocp:Open-Close-principle）<br>java本身是单继承，多实现<br>单继承的优点在于，方便兼容，便于垃圾回收，便于使用（很多基础方法都包含在object类中）<h3 id="方法的重载与重写"><a href="#方法的重载与重写" class="headerlink" title="方法的重载与重写"></a>方法的重载与重写</h3>重载的核心在于同一个类中，传参不同，实现不同的逻辑<br>重写则是子类对于父类的方法的重新实现，传入传出不变，但核心逻辑重新实现</li>
+<li>传出参数在java7 以上可以类型不同，但需要时父类传出参数的子类参数</li>
+<li>被重写的方法必须是子类可修改并可访问的<h3 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h3>只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。关于此关键字需注意下面三点：<br>一旦变量被transient修饰，变量将不再是对象持久化的一部分，该变量内容在序列化后无法获得访问。<br>transient关键字只能修饰变量，而不能修饰方法和类。不管是否被transient修饰，均不能被序列化。  <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3></li>
+<li>继承thread类<br>必须重写run方法，本身thread类是继承runab</li>
+<li>实现runable接口</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>jvm性能调优</title>
+    <url>/2020/04/14/jvm%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>metabase</title>
+    <url>/2020/04/14/metabase/</url>
+    <content><![CDATA[<p>metabase是一个java开源的数据库可视化项目<br>优点：<br>可以可视化的操作自动生成拼接sql给数据库进行数据的可视化展示<br>可以生成定时任务定制看板<br>就算不懂sql也能轻易操作<br>比较完整的支持了sql操作，同时兼容了部分的项目、看板管理<br>缺点：<br>查询效率由数据库的数据结构决定<br>看板前端渲染功能比较简单，如果想要比较高端的效果需要额外的操作</p>
+]]></content>
+      <categories>
+        <category>开原项目及其他小工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>lombok注解详解</title>
+    <url>/2020/04/14/lombok%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>队列特性</td>
+<td>流式数据处理</td>
+<td>高吞吐延迟低</td>
+</tr>
+<tr>
+<td></td>
+<td>消息处理</td>
+<td>支持订阅和发布</td>
+</tr>
+<tr>
+<td></td>
+<td>消息存储</td>
+<td>提供一个复杂度为0的磁盘存储结构</td>
+</tr>
+<tr>
+<td>行3</td>
+<td>line3</td>
+<td>column 3</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>java代码知识</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>java字符串炒作</title>
+    <url>/2020/04/14/java%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h3 id="字符串获取不同的字符集其数量"><a href="#字符串获取不同的字符集其数量" class="headerlink" title="字符串获取不同的字符集其数量"></a>字符串获取不同的字符集其数量</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printChatCount</span><span class="params">()</span></span>&#123;</span><br><span class="line">Map&lt;Character,Integer&gt; charsWithCountMap =<span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span>（<span class="keyword">char</span> c :input.toCharArray()&#123;</span><br><span class="line">charWithCountMap.merge(c,<span class="number">1</span>,Interger::sum);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串翻转"><a href="#字符串翻转" class="headerlink" title="字符串翻转"></a>字符串翻转</h3><p>StringBuolder/StringBuffer 快用你们无敌的reverse()想想办法啊<br>StringBuffer是方法加了synchronized关键字的，可以多线程使用</p>
+<h3 id="如何判断一个字符串是前后对称的"><a href="#如何判断一个字符串是前后对称的" class="headerlink" title="如何判断一个字符串是前后对称的"></a>如何判断一个字符串是前后对称的</h3><p>直接fori 然后按照i和length-I去判断就行了</p>
+<h3 id="删除指定字符"><a href="#删除指定字符" class="headerlink" title="删除指定字符"></a>删除指定字符</h3><p>replaceAll()</p>
+<h3 id="如何判断一个字符串中是否含有另一个字符串"><a href="#如何判断一个字符串中是否含有另一个字符串" class="headerlink" title="如何判断一个字符串中是否含有另一个字符串"></a>如何判断一个字符串中是否含有另一个字符串</h3><p>contains</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>mysql避免插入重复数据方法</title>
+    <url>/2020/09/02/mysql%E9%81%BF%E5%85%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<hr>
+<p> title: mysql避免插入重复数据方法<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: mysql</p>
+<hr>
+<h3 id="insert-ignore-into"><a href="#insert-ignore-into" class="headerlink" title="insert ignore into"></a>insert ignore into</h3><p> 注意插入数据字段应为主键或唯一索引</p>
+<h3 id="on-duplicate-key-update"><a href="#on-duplicate-key-update" class="headerlink" title="on duplicate key update"></a>on duplicate key update</h3><p> 如插入存在数据则更新，插入数据字段同样应有索引或唯一主键</p>
+<h3 id="replace-into"><a href="#replace-into" class="headerlink" title="replace into"></a>replace into</h3><p> 插入式，如果数据存在，则删除后新增，条件同上</p>
+<h3 id="insert-if-not-existsshia"><a href="#insert-if-not-existsshia" class="headerlink" title="insert if not existsshia"></a>insert if not existsshia</h3><p> insert into … select … where not exist<br> 插入数据没有设置主键或者唯一索引时，插入时首先判断相同条目是否存在</p>
+]]></content>
+  </entry>
+  <entry>
     <title>ml开源项目实践</title>
     <url>/2020/05/07/ml%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/</url>
     <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O-iK3PxBehk3N7fwjrGJeQ</a></p>
 ]]></content>
   </entry>
   <entry>
-    <title>mysql性能调优</title>
-    <url>/2020/04/14/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<h2 id="mysql性能优化思路及方法"><a href="#mysql性能优化思路及方法" class="headerlink" title="mysql性能优化思路及方法"></a>mysql性能优化思路及方法</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
-<li>选择合适的引擎  </li>
-<li>正确的配置数据库</li>
-<li>SQL 语句优化</li>
-<li>表结构优化</li>
-<li>索引使用及优化</li>
-<li>排序优化</li>
-<li>读写事务分离</li>
-<li>硬件升级，分布式或者提升配置</li>
-</ol>
+    <title>redis部署</title>
+    <url>/2020/04/14/redis%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h3 id="redis-部署模式"><a href="#redis-部署模式" class="headerlink" title="redis 部署模式"></a>redis 部署模式</h3><ul>
+<li>单节点：<br>只有一个节点提供服务，读写均发生在该节点，节点宕机则数据全部丢失，直接影响业务  </li>
+<li>masetr-slave<br>两个节点组成主从，在master上写入，在slave上读取，读写分离提高性能，master宕机后，需要手动将slave升级成master</li>
+<li>master-slave-哨兵<br>增加一组哨兵节点，在master宕机后自动将slave升级成master<h3 id="高可用做法"><a href="#高可用做法" class="headerlink" title="高可用做法"></a>高可用做法</h3>redis原生提供的主从数据复制，保证了slave和master的数据一致，通过哨兵自动完成故障恢复<h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3>哨兵是redis实现的高可用的解决方案，本身是一个管理多个redis实例的服务工具，对redis实例进行监控，通知，故障转移<br>一般部署奇数个不同机器上的哨兵节点，这样多个节点互相交换监测信息，最终决策某个节点是否发生了问题<h3 id="哨兵工作原理"><a href="#哨兵工作原理" class="headerlink" title="哨兵工作原理"></a>哨兵工作原理</h3>哨兵的工作流程主要分为以下几个阶段：<br>1； 状态感知  c<br>哨兵启动后只指定master的地址，通过访问master获取对应slave节点的信息，除了向master发送info外，还会向每个Master的pubsub发送当前的状态，其他哨兵通过这个也可以感知到每个哨兵发送的信息<br>这么做的目的主要有：  </li>
+<li>哨兵节点能感知到的其他的哨兵的加入，进而方便多个哨兵之间通信  </li>
+<li>和其他哨兵节点交换master的状态信息，为后续判断master是否故障提供依据<br>2： 心跳检测<br>故障检测,每个哨兵节点定期向各个主从以及其他哨兵节点发送Ping命令，如果不能再指定时间内获得相应，那么该哨兵节点认为不能pIng通的节点主观下线<br>因为哨兵节点不能探测到对方的响应时，很有可能是本身两个节点之间的网络出现了故障，而节点本身是没有异常的，所以需要通过多个节点综合判断一个节点是否处于异常状态<br>3： 选举哨兵领导<br>在确认该节点真正存在故障后，就需要进入故障恢复阶段<br>首先选举一个哨兵领导来专门进行故障恢复操作，这个选举协商的过程一般使用共识算法<br>哨兵选举领导的过程类似于raft算法，简要流程如下：  <ul>
+<li>每个哨兵都设置一个随机超时时间，超时后向其他哨兵发送申请成为领导者的请求</li>
+<li>其他哨兵只能对收到的第一个请求进行回复确认  </li>
+<li>首先达到多数选票的哨兵节点成为领导者  </li>
+<li>如果失败了就进行重新选举<br>选出哨兵领导后，之后的故障恢复操作有这个领导来进行  </li>
+</ul>
+</li>
+</ul>
+<p>4： 选举新的master  </p>
+<ul>
+<li>选举新的master<br>哨兵领导者针对发生故障的master节点，需要在他的slave汇总选择一个节点来代替<br>选择新的节点的优先级：slave-priority配置》数据完整性》runid较小者  </li>
+<li>提升新的master<br>经过优先级选择，选择出了备选的master节点后，下一步就是进行真正的主从切换。<br>哨兵领导给备选的Master节点发送升级命令，然后哨兵领导会给所有的从节点发送指定新的master的命令，让所有的从节点开始从新的节点同步数据，最后将故障的节点降低为从节点并写入配置，当故障恢复后，自动升级到新主节点的从节点</li>
+</ul>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>redis</category>
       </categories>
   </entry>
   <entry>
@@ -382,6 +560,31 @@
       <categories>
         <category>mysql</category>
       </categories>
+  </entry>
+  <entry>
+    <title>spring session</title>
+    <url>/2020/04/14/springsession/</url>
+    <content><![CDATA[<h3 id="spring-session-的意义"><a href="#spring-session-的意义" class="headerlink" title="spring session 的意义"></a>spring session 的意义</h3><p>传统单机应用中的session管理不适用于分布式集群</p>
+<h3 id="传统session和spring-session区别"><a href="#传统session和spring-session区别" class="headerlink" title="传统session和spring session区别"></a>传统session和spring session区别</h3><p>spring session 不在web容器内管理session ，而是单独由独立的存储服务器来管理</p>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>sql整理</title>
+    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line">_teconclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
+<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> columhsi <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="string">``</span><span class="string">`c </span></span><br><span class="line"><span class="string">### 判断字段非空或不是空字符串</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">sql</span></span><br><span class="line"><span class="keyword">ISNULL</span>(<span class="keyword">column</span>) =<span class="number">1</span> 是空的</span><br><span class="line"><span class="keyword">length</span>(<span class="keyword">Trim</span>(<span class="keyword">column</span> )) 字段长度</span><br></pre></td></tr></table></figure>
+<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><p>```sql<br>update table set column =<br>case<br>   when   then<br>    1 else 0<br>end<br> where<br>mysq</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>nginx</title>
@@ -416,20 +619,13 @@
       </tags>
   </entry>
   <entry>
-    <title>sql整理</title>
-    <url>/2020/04/14/sql%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h3 id="mysql插入时存在则更新，不存在则新增"><a href="#mysql插入时存在则更新，不存在则新增" class="headerlink" title="mysql插入时存在则更新，不存在则新增"></a>mysql插入时存在则更新，不存在则新增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> **_TABLE_** ()  </span><br><span class="line"><span class="keyword">values</span>()  </span><br><span class="line"><span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> </span><br><span class="line">conclume=<span class="keyword">values</span>(conclume)</span><br></pre></td></tr></table></figure>
-<h3 id="max的另一种写法"><a href="#max的另一种写法" class="headerlink" title="max的另一种写法"></a>max的另一种写法</h3><p>当然最后的limit可以按照需求去修改</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">column</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h3 id="判断字段非空或不是空字符串"><a href="#判断字段非空或不是空字符串" class="headerlink" title="判断字段非空或不是空字符串"></a>判断字段非空或不是空字符串</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ISNULL(column) =1 是空的</span><br><span class="line">length(Trim(column )) 字段长度</span><br></pre></td></tr></table></figure>
-<h3 id="根据条件不同更新字段成不同的值"><a href="#根据条件不同更新字段成不同的值" class="headerlink" title="根据条件不同更新字段成不同的值"></a>根据条件不同更新字段成不同的值</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">column</span> =</span><br><span class="line"><span class="keyword">case</span></span><br><span class="line">   <span class="keyword">when</span>   <span class="keyword">then</span></span><br><span class="line">    <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"> <span class="keyword">where</span></span><br></pre></td></tr></table></figure>
+    <title>sql填坑</title>
+    <url>/2020/04/14/sql%E5%A1%AB%E5%9D%91/</url>
+    <content><![CDATA[<h3 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h3><p>limit 100000,10这种情况的时候  </p>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>sql</category>
       </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
   </entry>
   <entry>
     <title>spring相关问题</title>
@@ -444,6 +640,27 @@
       <tags>
         <tag>mysql</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>别再问我什么是Hashmap</title>
+    <url>/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/</url>
+    <content><![CDATA[<h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
+<h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
+<h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>前后盾跨域介绍</title>
+    <url>/2020/07/22/%E5%89%8D%E5%90%8E%E7%9B%BE%E8%B7%A8%E5%9F%9F%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<hr>
+<p>title: 前后盾跨域介绍<br>date: 2020-04-14 14:31:35<br>tags:<br>categories: web</p>
+<hr>
+<h3 id="前后端分离的场景下的请求流程"><a href="#前后端分离的场景下的请求流程" class="headerlink" title="前后端分离的场景下的请求流程"></a>前后端分离的场景下的请求流程</h3><ol>
+<li>浏览器发起请求，访问前端开发服务器</li>
+</ol>
+]]></content>
   </entry>
   <entry>
     <title>token,cookie,session,jwt区别</title>
@@ -462,48 +679,19 @@
       </categories>
   </entry>
   <entry>
-    <title>web项目登录验证</title>
-    <url>/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
-<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
-<li>体积小</li>
-</ol>
-]]></content>
-      <categories>
-        <category>web知识</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>定时任务</title>
-    <url>/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <title>压力测试估算</title>
+    <url>/2020/08/14/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E4%BC%B0%E7%AE%97/</url>
     <content><![CDATA[<hr>
-<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<p>title: 压力测试估算<br>date: 2020-04-14 14:31:35<br>tags:<br>categories: 测试</p>
 <hr>
-<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
-<p>3: spring提供的注解</p>
-<p>{秒} {分} {时} {日期} {月} {星期}</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4：quartz框架<br>maven依赖：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>别再问我什么是Hashmap</title>
-    <url>/2020/04/14/%E5%88%AB%E5%86%8D%E9%97%AE%E6%88%91%E4%BB%80%E4%B9%88%E6%98%AFHashmap/</url>
-    <content><![CDATA[<h3 id="Hashmap的结构"><a href="#Hashmap的结构" class="headerlink" title="Hashmap的结构"></a>Hashmap的结构</h3><p>jdK 1.8之前是数组+链表，之后是达到一定阈值之后改为数组+红黑树，红黑树么，自平衡的二叉搜索树，就搜索的效率提升到logn</p>
-<h3 id="hasHmap的定位"><a href="#hasHmap的定位" class="headerlink" title="hasHmap的定位"></a>hasHmap的定位</h3><p>put一个元素时，先计算元素的Hashcode，然后根据hashcode与hashmap中的数组长度-1做与运算，从而得出插入数据应该塞入的位置</p>
-<h3 id="resize的倍数始终-2"><a href="#resize的倍数始终-2" class="headerlink" title="resize的倍数始终*2"></a>resize的倍数始终*2</h3><h3 id="重写key的hashcode或者echo方法时需要额外注意"><a href="#重写key的hashcode或者echo方法时需要额外注意" class="headerlink" title="重写key的hashcode或者echo方法时需要额外注意"></a>重写key的hashcode或者echo方法时需要额外注意</h3>]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近项目组新项目上线，然而没有测试，只好开发人员亲自上马进行性能测试，所以看了看现有csdn,知乎，以及stackoverflow等烂七八咋的网站的相关性能测试的内容<br>虽然这个东西从理论到技术都是很多年前就已经成熟了的，但是看到大家很多人都写的似懂非懂，生搬硬套，所以决定自己也来汇总一下学习的经验  </p>
+<h3 id="性能测试的目的"><a href="#性能测试的目的" class="headerlink" title="性能测试的目的"></a>性能测试的目的</h3><p>做一件事情首先要搞懂为什么要做，看到了很多文章写的感觉不是非常对路，就很多都是为了压测而压测，为了给压力而给压力，这样显然是事倍功半的<br>压测的核心目的：  </p>
+<ol>
+<li>首先是便于开发人员了解系统能否满足业务场景的使用要求，当然这里首先就要业务方弄清楚自己的业务到底是有什么样的场景，对于业务的使用人数，日活量，使用场景，是否有极端峰值等，有一些基本的了解  </li>
+<li>另一方面是便于开发人员定位到系统不健壮不完善的接口，避免有些业务，有些场景不健壮导致系统当机引发连锁反应</li>
+<li>运维人员也可以根据压测得到的数据然后指定部署方案和运维策略，比如针对高峰期动态的增加实例 </li>
+</ol>
+<h3 id="思路和方法"><a href="#思路和方法" class="headerlink" title="思路和方法"></a>思路和方法</h3><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3>]]></content>
   </entry>
   <entry>
     <title>开发环境搭建</title>
@@ -525,6 +713,32 @@
 ]]></content>
       <categories>
         <category>环境搭建</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>方法应用</title>
+    <url>/2020/07/20/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="啥子方法引用"><a href="#啥子方法引用" class="headerlink" title="啥子方法引用"></a>啥子方法引用</h3><p>方法引用通过一对::标示，函数式接口的一种书写方式  </p>
+<ul>
+<li>静态方法应用 Interger::parseInt  </li>
+<li>实例方法引用 “asdf”::substring</li>
+<li>构造方法引用 User::new<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>web项目登录验证</title>
+    <url>/2020/04/14/web%E9%A1%B9%E7%9B%AE%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<h3 id="web登录"><a href="#web登录" class="headerlink" title="web登录"></a>web登录</h3><h4 id="于jwt的登录模式"><a href="#于jwt的登录模式" class="headerlink" title="于jwt的登录模式"></a>于jwt的登录模式</h4><h5 id="啥是jwt"><a href="#啥是jwt" class="headerlink" title="啥是jwt"></a>啥是jwt</h5><p>JSON Web Token（JWT）是一个开放式标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间以JSON对象安全传输信息。这些信息可以通过数字签名进行验证和信任。可以使用秘密（使用HMAC算法）或使用RSA的公钥/私钥对对JWT进行签名。<br>或者干脆就理解成Json格式的token</p>
+<h5 id="jwt的优点"><a href="#jwt的优点" class="headerlink" title="jwt的优点"></a>jwt的优点</h5><ol>
+<li>体积小</li>
+</ol>
+]]></content>
+      <categories>
+        <category>web知识</category>
       </categories>
   </entry>
   <entry>
@@ -632,17 +846,89 @@
       </categories>
   </entry>
   <entry>
-    <title>查询使用group by时规避5.7以上的全group配置</title>
-    <url>/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> column_1,column_2,column_3 <span class="keyword">from</span> table_1,  </span><br><span class="line">(<span class="keyword">select</span> column_1,<span class="keyword">max</span>(column_2) <span class="keyword">as</span> maxcol2 <span class="keyword">from</span> table_1 <span class="keyword">group</span> <span class="keyword">by</span> column_1)<span class="keyword">as</span> t  </span><br><span class="line"><span class="keyword">where</span> table_1.column_1=t.column_1 <span class="keyword">and</span> table_1.column_2=t.maxcol2</span><br></pre></td></tr></table></figure>
-<p>mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据</p>
+    <title>定时任务</title>
+    <url>/2020/04/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<hr>
+<p> title: java定时任务<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: java</p>
+<hr>
+<p>java实现定时任务的方法比较多（虽然常用的基本就是quatz或者springtask<br>1: Timer</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Timer(<span class="string">"timer"</span>).schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"一个定时任务，延迟一秒启动，每两秒执行一次"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">1000</span>,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Date date = dateFormat.parse(<span class="string">"2018-07-11 12:00:00.000"</span>);</span><br><span class="line">	<span class="keyword">new</span> Timer(<span class="string">"timer"</span>).scheduleAtFixedRate(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"一个定时任务，date指定的时间开始执行，每两秒执行一次"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, date,<span class="number">2000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2: ScheduledExecutorService<br>个人感觉不好用啊不说了</p>
+<p>3: spring提供的注解</p>
+<p>{秒} {分} {时} {日期} {月} {星期}</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringTask</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(SpringTask<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"5 * * * * *"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>,fixedRate = <span class="number">1</span>*<span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">"springtask 定时任务！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4：quartz框架<br>maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- quartz --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.quartz-scheduler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调度器核心包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：<a href="https://www.cnblogs.com/zhangbin1989/p/9294114.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangbin1989/p/9294114.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mybatis配置及使用</title>
+    <url>/2020/04/14/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h3 id="如何消息去重"><a href="#如何消息去重" class="headerlink" title="如何消息去重"></a>如何消息去重</h3><p>一般在消费端对消息进行去重处理，通常每消费一条消息，就将消息的业务id存入第三方工具中，比如redis，当消费端新获取到一条消息时在redis中查找对应的id是否存在，最后根据业务需要定期清空</p>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>mq</category>
       </categories>
-      <tags>
-        <tag>Mybatis;Hibernate</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>网关开发</title>
+    <url>/2021/02/19/%E7%BD%91%E5%85%B3%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<hr>
+<p>title: 网关开发<br>date: 2020-04-14 14:31:35<br>tags:<br>categories: 微服务 网关</p>
+<hr>
+<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>网关是整个服务的入库么，所以要求能处理很高的吞吐量<br>一般有两种方案： </p>
+<ul>
+<li>tomcat/jetty+Nio+servlet3<br>srevlet3已经支持异步，这种方案使用的挺多的，比如zuul </li>
+<li>netty+nio<br>netty的高并发处理比tomcat更好，但是netty需要自己处理http协议<br>而spring webflux基于Netty实现后，不用太关心底层http协议的处理<br>网关的第二特点是需要具备可拓展性，这里可以基于责任链来处理<h3 id="需求清单"><a href="#需求清单" class="headerlink" title="需求清单"></a>需求清单</h3></li>
+<li>跨语言<br>http 协议天生跨语言  </li>
+<li>高性能<br>netty本身是一款支持高并发的通信框架，同事可以<h3 id=""><a href="#" class="headerlink" title=""></a></h3>网关通常来讲会有以下的作用：  </li>
+<li>统一入口：为服务提供一个统一入口，起到内外隔离的作用，保障后台服务的安全性</li>
+<li>鉴权校验：识别每个服务的权限，拒绝不符合要求的请求</li>
+<li>动态路由：动态将请求进行策略分发</li>
+<li>减少客户段和服务端之间的耦合，服务可以独立<br>发展，通过网关来做映射<h3 id="zuul网关的应用"><a href="#zuul网关的应用" class="headerlink" title="zuul网关的应用"></a>zuul网关的应用</h3></li>
+</ul>
+<ol>
+<li>网关访问方式<br>通过zuul访问服务，url地址默认格式为：<a href="http://zuulHostIP:port/服务名称/url">http://zuulHostIP:port/服务名称/url</a></li>
+<li>网关的依赖注入<br>maven依赖就好了</li>
+<li>网关启动器<br>服务启动类上增加@EbableZuulProxy</li>
+<li>配置总结<br>网关的配置方式有多重，默认，URL,服务名称，排除，忽略，前缀<br>网关配置没有优劣好坏，应选择比较合适的方案<br>zuul网关的底层是使用ribbon来实现请求的路由，并内置hystrix,</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>接口的幂等性</title>
+    <url>/2020/07/20/%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/</url>
+    <content><![CDATA[<p>###什么是幂等性<br>当用户对同一个操作请求了一次或者多次，最终的结果影视一致的，并不会因为多次请求而产生副作用</p>
+<ul>
+<li>查询和删除<br>查询具有天然的幂等性，在数据不变的情况下，相同查询条件的返回本身是一样的，删除同样是天然幂等的，删除一次和删除多次的逻辑结果通常来讲都是一样的，并不会因为删除多次或者查询多次而有数据上的改变</li>
+<li>新增和修改<br>如果不进行幂等性的处理，新增和修改通常来讲可能会出现问题，执行多次新增可能会产生多条重复数据，执行多次修改，如果是原基础上数值的迭代计算，就会出现例如重复扣费等问题<br>###保证幂等性的解决方案</li>
+<li>唯一索引 使用不是很多 对数据库不拆分有绑定需求<br>使用唯一索引，可以有效的防止新增脏数据，不过无法应用在分库分表的场景</li>
+<li>悲观锁 使用要额外注意<br>获取数据的时候使用锁，但是要注意where条件中的字段必须是主键或者有索引，否则会导致锁全表<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">form</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">col</span>=<span class="string">"xxx"</span><span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure></li>
+<li>分布式锁 使用比较多<br>在业务执行插入或者更新时，首先要获取锁，同一时间只能有一个线程获得锁</li>
+<li>全局唯一id 使用比较多<br>每次请求都生成一个全局唯一id,接口调用的时候携带这个id,而接口调用的时候携带这个id,而业务操作方在执行前先校验这个id是否在本地已存在，如果不存在则执行后记录，存在则不再执行<br>许多分布式架构中，生成全局唯一的id都会作为一个基础服务，当然这个微服务的可靠性要求非常高，也可以设计一个全局唯一的id生成算法</li>
+<li>数据版本号 比较常用<br>版本号，本质上算是乐观锁的一种，数据修改时根据版本号判断数据是否发生过修改</li>
+<li>业务状态<br>业务进行流转时通过业务状态来辅助校验修改的数据</li>
+<li>去重表<br>如果业务有唯一标示的情况下，也可以通过数据库维护标示来防止重复操作</li>
+<li>没有同源限制，客户段可以和人衣服武器通信<br>###WebSocket是什么样的协议，具体有什么样的优点<br>WebSocket是持久化的协议，与http1.0的非持久化和http1.1的伪持久化不同</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>网络协议相关</title>
+    <url>/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<hr>
+<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
+<hr>
+]]></content>
   </entry>
   <entry>
     <title>快乐工具</title>
@@ -659,24 +945,17 @@
       </categories>
   </entry>
   <entry>
-    <title>Mybatis配置及使用</title>
-    <url>/2020/04/14/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h3 id="如何消息去重"><a href="#如何消息去重" class="headerlink" title="如何消息去重"></a>如何消息去重</h3><p>一般在消费端对消息进行去重处理，通常每消费一条消息，就将消息的业务id存入第三方工具中，比如redis，当消费端新获取到一条消息时在redis中查找对应的id是否存在，最后根据业务需要定期清空</p>
+    <title>查询使用group by时规避5.7以上的全group配置</title>
+    <url>/2020/04/14/%E6%9F%A5%E8%AF%A2%E4%BD%BF%E7%94%A8group%20by%E6%97%B6%E8%A7%84%E9%81%BF5.7%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%85%A8group%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> column_1,column_2,column_3 <span class="keyword">from</span> table_1,  </span><br><span class="line">(<span class="keyword">select</span> column_1,<span class="keyword">max</span>(column_2) <span class="keyword">as</span> maxcol2 <span class="keyword">from</span> table_1 <span class="keyword">group</span> <span class="keyword">by</span> column_1)<span class="keyword">as</span> t  </span><br><span class="line"><span class="keyword">where</span> table_1.column_1=t.column_1 <span class="keyword">and</span> table_1.column_2=t.maxcol2</span><br></pre></td></tr></table></figure>
+<p>mysql5.7以上数据库默认配置中有一项group by相关的（默认sql使用group by的时候必须select的字段和group by的字段必须统一），当然是可以用管理员权限的用户去掉这个配置，不过这样就违背了数据库设计的初衷，所以可以通过这样的查询结构来行使查询指定分组的数据</p>
 ]]></content>
       <categories>
-        <category>mq</category>
+        <category>mysql</category>
       </categories>
-  </entry>
-  <entry>
-    <title>红黑树，b树，b+树等</title>
-    <url>/2020/05/22/%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8Cb%E6%A0%91%EF%BC%8Cb+%E6%A0%91%E7%AD%89/</url>
-    <content><![CDATA[<hr>
-<p> title: 红黑树，b树，b+树等<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 算法与数据结构</p>
-<hr>
-<p> 1: 平衡二叉树<br> 树高差只有1的二叉树，插入删除导致不满足平衡的时候就会触发旋转，所以不适用插入删除非常频繁的场景</p>
-<p> 2: 红黑树<br> 近似平衡的二叉树，通过对任何一条从根到叶子的简单路径上各个节点的颜色进行约束，确保没有一条路径会比其他路径长2倍，<br> 因而是近似平衡的。所以相对于严格要求平衡的AVL树来说，它的旋转保持平衡次数较少。<br> 所以对于增删频次比较高的情况下红黑树表现比二叉树好。查找复杂度log2n<br> （现在部分场景使用跳表来替换红黑树）<br> (跳表就是多层链表，底层数据，其余层做索引，查找，时间复杂度logn，空间复杂度2n)</p>
-<p> 3: b(+树)<br> 多路查找树，b+树的区别在于b+树的数据都是保存在叶子节点的，查找时间复杂度logn</p>
-]]></content>
+      <tags>
+        <tag>Mybatis;Hibernate</tag>
+      </tags>
   </entry>
   <entry>
     <title>网络架构问题定位</title>
@@ -686,14 +965,6 @@
       <categories>
         <category>问题调试</category>
       </categories>
-  </entry>
-  <entry>
-    <title>网络协议相关</title>
-    <url>/2020/04/22/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<hr>
-<p> title: 网络协议相关<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 网络协议</p>
-<hr>
-]]></content>
   </entry>
   <entry>
     <title>触发器的坑</title>
@@ -709,5 +980,33 @@
       <categories>
         <category>mysql</category>
       </categories>
+  </entry>
+  <entry>
+    <title>红黑树，b树，b+树等</title>
+    <url>/2020/05/22/%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8Cb%E6%A0%91%EF%BC%8Cb+%E6%A0%91%E7%AD%89/</url>
+    <content><![CDATA[<hr>
+<p> title: 红黑树，b树，b+树等<br> date: 2020-04-14 14:31:35<br> tags:<br> categories: 算法与数据结构</p>
+<hr>
+<p> 1: 平衡二叉树<br> 树高差只有1的二叉树，插入删除导致不满足平衡的时候就会触发旋转，所以不适用插入删除非常频繁的场景</p>
+<p> 2: 红黑树<br> 近似平衡的二叉树，通过对任何一条从根到叶子的简单路径上各个节点的颜色进行约束，确保没有一条路径会比其他路径长2倍，<br> 因而是近似平衡的。所以相对于严格要求平衡的AVL树来说，它的旋转保持平衡次数较少。<br> 所以对于增删频次比较高的情况下红黑树表现比二叉树好。查找复杂度log2n<br> （现在部分场景使用跳表来替换红黑树）<br> (跳表就是多层链表，底层数据，其余层做索引，查找，时间复杂度logn，空间复杂度2n)</p>
+<p> 3: b(+树)<br> 多路查找树，b+树的区别在于b+树的数据都是保存在叶子节点的，查找时间复杂度logn</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mybatis配置及使用</title>
+    <url>/2020/04/14/Mybatis%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>###mybatis的特点（和hibernate对比）</p>
+<p>###基础工程构建及配置文件<br>暂略<br>###基础使用<br>####根据数据库反工程化代码<br>使用mybatis-generator-core可以比较方便的根据数据库以及配置文件自动生成model-dao-mapper的代码，非常方便<br>###多级关联查询附带子对象、子列表<br>####使用resultMap</p>
+<ol>
+<li>sql的拼装和正常sql一致，注意select字段时区分一下数据库字段的查询返回列名，和resultmap中相对应</li>
+<li>根据resultmap中配置的属性（association collection ），mybatis会自动将查询返回的结果封装成对象</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Mybatis</category>
+      </categories>
+      <tags>
+        <tag>Mybatis,Hibernate</tag>
+      </tags>
   </entry>
 </search>
